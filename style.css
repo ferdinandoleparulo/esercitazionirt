@@ -1,3 +1,6 @@
+/* ============================
+   VARIABILI GLOBALI
+   ============================ */
 :root {
   --bg: #0f1115;
   --card: #1b1f27;
@@ -11,23 +14,32 @@
   --radius: 14px;
 }
 
+/* ============================
+   RESET E BASE
+   ============================ */
 * { box-sizing: border-box; }
 
-html, body {
+html {
+  font-size: 17px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
   margin: 0;
   padding: 0;
   background: var(--bg);
   color: var(--text);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-}
-
-body {
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
            env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
-/* HEADER */
+/* ============================
+   HEADER
+   ============================ */
 .app-header {
   padding: 20px 18px 16px;
   background: linear-gradient(180deg, #0b3d2e 0%, #0f1115 100%);
@@ -43,14 +55,14 @@ body {
 }
 
 .badge {
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: .5px;
   text-transform: uppercase;
   color: var(--muted);
 }
 
 .status {
-  font-size: 12px;
+  font-size: 13px;
   padding: 4px 10px;
   border-radius: 999px;
   font-weight: 600;
@@ -62,29 +74,33 @@ body {
 
 h1 {
   margin: 0 0 6px;
-  font-size: 22px;
+  font-size: 26px;
   line-height: 1.2;
 }
 
 .subtitle {
   margin: 0;
   color: var(--muted);
-  font-size: 15px;
+  font-size: 17px;
 }
 
 .date {
   margin: 4px 0 0;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--accent);
   font-weight: 600;
 }
 
-/* MAIN */
+/* ============================
+   MAIN
+   ============================ */
 .app-main {
   padding: 16px 14px 24px;
 }
 
-/* CARD PRINCIPALE */
+/* ============================
+   CARD PRINCIPALE (HOME)
+   ============================ */
 .card--primary {
   display: block;
   background: linear-gradient(135deg, #14532d, #0b3d2e);
@@ -100,19 +116,21 @@ h1 {
 
 .card--primary .card-title {
   display: block;
-  font-size: 19px;
+  font-size: 21px;
   font-weight: 700;
   margin-top: 6px;
 }
 
 .card--primary .card-sub {
   display: block;
-  font-size: 14px;
+  font-size: 15px;
   color: #b9f6d0;
   margin-top: 2px;
 }
 
-/* GRIGLIA */
+/* ============================
+   GRIGLIA (HOME)
+   ============================ */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -141,12 +159,14 @@ h1 {
 .card-icon { font-size: 22px; }
 
 .card-title {
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 600;
   line-height: 1.25;
 }
 
-/* AVVISO */
+/* ============================
+   AVVISO
+   ============================ */
 .alert {
   margin-top: 18px;
   background: #2a1f00;
@@ -154,28 +174,30 @@ h1 {
   color: #ffe9a8;
   padding: 12px 14px;
   border-radius: 10px;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.4;
 }
 
-/* FOOTER */
+/* ============================
+   FOOTER
+   ============================ */
 .app-footer {
   text-align: center;
   padding: 18px 12px 28px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .app-footer .version { margin-top: 4px; opacity: .7; }
+
 /* ============================
    PAGINA PROGRAMMA
    ============================ */
-
 .back-link {
   display: inline-block;
   color: #9ecbff;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 15px;
   margin-bottom: 10px;
 }
 
@@ -183,7 +205,6 @@ h1 {
   opacity: 0.6;
 }
 
-/* TIMELINE */
 .timeline {
   list-style: none;
   margin: 0;
@@ -223,13 +244,12 @@ h1 {
   box-shadow: 0 0 0 1px #3f4756;
 }
 
-/* Colori per tipologia */
-.slot--formativo::before { background: #2ecc71; box-shadow: 0 0 0 1px #2ecc71; }
-.slot--pausa::before     { background: #f1c40f; box-shadow: 0 0 0 1px #f1c40f; }
-.slot--istituzionale::before { background: #9ecbff; box-shadow: 0 0 0 1px #9ecbff; }
+.slot--formativo::before      { background: #2ecc71; box-shadow: 0 0 0 1px #2ecc71; }
+.slot--pausa::before          { background: #f1c40f; box-shadow: 0 0 0 1px #f1c40f; }
+.slot--istituzionale::before  { background: #9ecbff; box-shadow: 0 0 0 1px #9ecbff; }
 
 .slot-time {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--accent);
   letter-spacing: 0.5px;
@@ -237,27 +257,80 @@ h1 {
 }
 
 .slot-title {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   line-height: 1.25;
 }
 
 .slot-sub {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--muted);
   margin-top: 2px;
 }
 
-/* Slot in corso */
 .slot--now {
   background: #14532d;
   border-color: #2ecc71;
 }
 
 .slot--now .slot-time { color: #b9f6d0; }
-.slot--now::before { background: #2ecc71; box-shadow: 0 0 0 1px #2ecc71; }
+.slot--now::before    { background: #2ecc71; box-shadow: 0 0 0 1px #2ecc71; }
 
-/* Slot passati */
 .slot--past {
   opacity: 0.45;
+}
+
+/* ============================
+   PAGINA ISOLE FORMATIVE
+   ============================ */
+.isole-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.isola {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px;
+  background: var(--card);
+  border: 1px solid #262c38;
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+}
+
+.isola-num {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #14532d, #0b3d2e);
+  border: 1px solid #1f6f4a;
+  color: #b9f6d0;
+  font-weight: 700;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.isola-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.isola-title {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+.isola-desc {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--muted);
 }
