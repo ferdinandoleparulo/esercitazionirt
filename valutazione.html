@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b3d2e">
+  <title>Valutazione – Esercitazione PC 2027</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <a href="index.html" class="back-link">← Home</a>
+    <h1>Valutazione dell'esercitazione</h1>
+    <p class="subtitle">Questionario anonimo</p>
+    <p class="date">I tuoi feedback ci aiutano a migliorare</p>
+  </header>
+
+  <main class="app-main">
+
+    <form id="surveyForm" novalidate>
+
+      <!-- SEZIONE 0: PROFILO -->
+      <section class="form-section">
+        <h2 class="form-section-title">1. Profilo</h2>
+        <p class="form-question">Chi sei? <span class="required">*</span></p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="profilo" value="Volontario" required> Volontario</label>
+          <label class="radio-option"><input type="radio" name="profilo" value="Dipendente Direzione Difesa del Suolo" required> Dipendente Direzione Difesa del Suolo</label>
+          <label class="radio-option"><input type="radio" name="profilo" value="Dipendente Genio Civile" required> Dipendente Genio Civile</label>
+          <label class="radio-option"><input type="radio" name="profilo" value="Dipendente Settore Protezione Civile" required> Dipendente Settore Protezione Civile</label>
+          <label class="radio-option"><input type="radio" name="profilo" value="Osservatore" required> Osservatore</label>
+        </div>
+      </section>
+
+      <!-- SEZIONE 1: ISOLE VISITATE -->
+      <section class="form-section">
+        <h2 class="form-section-title">2. Isole visitate</h2>
+        <p class="form-question">Quali isole hai visitato? <span class="required">*</span></p>
+        <p class="form-hint">Seleziona tutte le isole in cui sei stato/a. Le domande successive si adatteranno alla tua selezione.</p>
+        <div class="checkbox-group" id="isoleGroup">
+          <!-- popolato da JS -->
+        </div>
+      </section>
+
+      <!-- SEZIONI DINAMICHE ISOLE -->
+      <div id="isoleDettagli"></div>
+
+      <!-- SEZIONE 3: SEGRETERIA -->
+      <section class="form-section">
+        <h2 class="form-section-title">Segreteria organizzativa</h2>
+
+        <p class="form-question">Eri già censito sul SOUP-RT o hai dovuto fornire i tuoi dati per la prima registrazione? <span class="required">*</span></p>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="segreteria_censimento" value="Ero già censito" required> Ero già censito</label>
+          <label class="radio-option"><input type="radio" name="segreteria_censimento" value="Ho dovuto fornire i dati per la prima volta" required> Ho dovuto fornire i dati per la prima volta</label>
+        </div>
+
+        <p class="form-question">Come valuti la rapidità e l'efficienza dell'accreditamento? <span class="required">*</span></p>
+        <div class="scale-group" data-name="segreteria_accreditamento" data-required="true"></div>
+      </section>
+
+      <!-- SEZIONE 4: RISTORAZIONE -->
+      <section class="form-section">
+        <h2 class="form-section-title">Servizio ristorazione</h2>
+
+        <p class="form-question">Come valuti la qualità e la varietà del pranzo al sacco? <span class="required">*</span></p>
+        <div class="scale-group" data-name="ristorazione_qualita" data-required="true"></div>
+
+        <p class="form-question">Quanto è stata adeguata la quantità rispetto alle esigenze della giornata? <span class="required">*</span></p>
+        <div class="scale-group" data-name="ristorazione_quantita" data-required="true"></div>
+
+        <p class="form-question">Come valuti l'organizzazione della distribuzione dei pasti? <span class="required">*</span></p>
+        <div class="scale-group" data-name="ristorazione_distribuzione" data-required="true"></div>
+      </section>
+
+      <!-- SEZIONE 5: ORGANIZZAZIONE GENERALE -->
+      <section class="form-section">
+        <h2 class="form-section-title">Organizzazione generale</h2>
+
+        <p class="form-question">Come valuti l'organizzazione complessiva dell'esercitazione? <span class="required">*</span></p>
+        <div class="scale-group" data-name="organizzazione_generale" data-required="true"></div>
+      </section>
+
+      <!-- SEZIONE 6: COMMENTI FINALI -->
+      <section class="form-section">
+        <h2 class="form-section-title">Commenti finali (facoltativo)</h2>
+
+        <p class="form-question">Cosa ha funzionato meglio in questa esercitazione?</p>
+        <textarea name="punti_forza" maxlength="250" rows="3" placeholder="Massimo 250 caratteri"></textarea>
+
+        <p class="form-question">Cosa miglioreresti per la prossima edizione?</p>
+        <textarea name="miglioramenti" maxlength="250" rows="3" placeholder="Massimo 250 caratteri"></textarea>
+      </section>
+
+      <!-- BOTTONE -->
+      <button type="submit" class="submit-btn" id="submitBtn">Invia valutazione</button>
+      <p class="form-note">Il questionario è anonimo. Nessun dato personale viene raccolto.</p>
+
+    </form>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>Regione Toscana · Protezione Civile</p>
+    <p class="version">v1.0 · 2027</p>
+  </footer>
+
+  <script>
+    // ============================================
+    // CONFIGURAZIONE
+    // ============================================
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbypeo2MjFlR-heO7GRA9tC1gHleuay_1nUYMR83ldF6RVzOKWMuPHws8A1Mb2fmAXBtGA/exec";
+
+    const ISOLE = [
+      "A - Ronda 1",
+      "B - Telone 1",
+      "C - CFR",
+      "D - Sicurezza Mise",
+      "E - Sacchini 1",
+      "F - Ronda 2",
+      "G - Opera 1 (Cateratta Bisenzio)",
+      "H - Segnalazioni",
+      "I - Telone 2 (Bisenzio)",
+      "L - Sacchini 2",
+      "M - Sicurezza CRI",
+      "N - SOUPRT",
+      "O - Ronda 3",
+      "P - Insacchettatrice",
+      "Q - Opera 2 (Cassa Renai)",
+      "R - Comunicazione"
+    ];
+
+    // ============================================
+    // RENDER CHECKBOX ISOLE
+    // ============================================
+    const isoleGroup = document.getElementById("isoleGroup");
+    ISOLE.forEach(isola => {
+      const id = "isola_" + isola.replace(/[^a-zA-Z0-9]/g, "_");
+      const label = document.createElement("label");
+      label.className = "checkbox-option";
+      label.innerHTML = '<input type="checkbox" name="isole_visitate" value="' + isola + '" data-isola="' + isola + '"> ' + isola;
+      isoleGroup.appendChild(label);
+    });
+
+    // ============================================
+    // RENDER SCALE LIKERT 1-5
+    // ============================================
+    document.querySelectorAll(".scale-group").forEach(group => {
+      const name = group.dataset.name;
+      const required = group.dataset.required === "true";
+
+      for (let i = 1; i <= 5; i++) {
+        const label = document.createElement("label");
+        label.className = "scale-option";
+        label.innerHTML = '<input type="radio" name="' + name + '" value="' + i + '"' + (required ? ' required' : '') + '> <span>' + i + '</span>';
+        group.appendChild(label);
+      }
+    });
+
+    // ============================================
+    // MOSTRA/NASCONDI SEZIONI ISOLE IN BASE ALLA SELEZIONE
+    // ============================================
+    const isoleDettagli = document.getElementById("isoleDettagli");
+
+    function renderIsoleDettagli() {
+      const selezionate = Array.from(document.querySelectorAll('input[name="isole_visitate"]:checked'))
+        .map(cb => cb.value);
+
+      isoleDettagli.innerHTML = "";
+
+      selezionate.forEach(isola => {
+        const safeId = isola.replace(/[^a-zA-Z0-9]/g, "_");
+        const section = document.createElement("section");
+        section.className = "form-section";
+        section.innerHTML =
+          '<h2 class="form-section-title">Isola: ' + isola + '</h2>' +
+          '<p class="form-question">Come valuti l\'organizzazione logistica e la gestione dei tempi di questa isola? <span class="required">*</span></p>' +
+          '<div class="scale-group" data-name="isola_' + safeId + '_organizzazione" data-required="true"></div>' +
+          '<p class="form-question">Quanto ritieni efficace il contenuto formativo/dimostrativo di questa isola? <span class="required">*</span></p>' +
+          '<div class="scale-group" data-name="isola_' + safeId + '_efficacia" data-required="true"></div>' +
+          '<p class="form-question">Le istruzioni ricevute sono state chiare e applicabili nel contesto reale del servizio di piena? <span class="required">*</span></p>' +
+          '<div class="scale-group" data-name="isola_' + safeId + '_chiarezza" data-required="true"></div>';
+
+        isoleDettagli.appendChild(section);
+      });
+
+      // Rigenera le scale per le nuove sezioni
+      isoleDettagli.querySelectorAll(".scale-group").forEach(group => {
+        const name = group.dataset.name;
+        for (let i = 1; i <= 5; i++) {
+          const label = document.createElement("label");
+          label.className = "scale-option";
+          label.innerHTML = '<input type="radio" name="' + name + '" value="' + i + '" required> <span>' + i + '</span>';
+          group.appendChild(label);
+        }
+      });
+    }
+
+    document.querySelectorAll('input[name="isole_visitate"]').forEach(cb => {
+      cb.addEventListener("change", renderIsoleDettagli);
+    });
+
+    // ============================================
+    // INVIO
+    // ============================================
+    document.getElementById("surveyForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const form = e.target;
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const submitBtn = document.getElementById("submitBtn");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Invio in corso...";
+
+      // Costruisci l'oggetto dati
+      const formData = new FormData(form);
+      const data = {
+        profilo: formData.get("profilo"),
+        isole: {},
+        segreteria_censimento: formData.get("segreteria_censimento"),
+        segreteria_accreditamento: formData.get("segreteria_accreditamento"),
+        ristorazione_qualita: formData.get("ristorazione_qualita"),
+        ristorazione_quantita: formData.get("ristorazione_quantita"),
+        ristorazione_distribuzione: formData.get("ristorazione_distribuzione"),
+        organizzazione_generale: formData.get("organizzazione_generale"),
+        punti_forza: formData.get("punti_forza") || "",
+        miglioramenti: formData.get("miglioramenti") || ""
+      };
+
+      // Raccogli i dati delle isole selezionate
+      Array.from(document.querySelectorAll('input[name="isole_visitate"]:checked')).forEach(cb => {
+        const isola = cb.value;
+        const safeId = isola.replace(/[^a-zA-Z0-9]/g, "_");
+        data.isole[safeId] = {
+          organizzazione: formData.get("isola_" + safeId + "_organizzazione"),
+          efficacia: formData.get("isola_" + safeId + "_efficacia"),
+          chiarezza: formData.get("isola_" + safeId + "_chiarezza")
+        };
+      });
+
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        window.location.href = "grazie.html";
+      } catch (err) {
+        alert("Errore nell'invio. Riprova.");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Invia valutazione";
+      }
+    });
+  </script>
+
+</body>
+</html>
