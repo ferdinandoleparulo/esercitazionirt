@@ -797,3 +797,56 @@ select:focus {
   color: #ffe9a8;
   font-style: italic;
 }
+/* ============================
+   PAGINA FOTO
+   ============================ */
+.foto-intro {
+  background: var(--card);
+  border: 1px solid #262c38;
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 16px;
+}
+
+.foto-intro p {
+  margin: 0 0 10px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.foto-intro p:last-child {
+  margin-bottom: 0;
+}
+
+.foto-istruzioni {
+  background: var(--card);
+  border: 1px solid #262c38;
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.foto-istruzioni-title {
+  margin: 0 0 12px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.foto-istruzioni-list {
+  margin: 0;
+  padding-left: 22px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.foto-istruzioni-list li {
+  margin-bottom: 8px;
+}
+
+.foto-istruzioni-list strong {
+  color: var(--text);
+}
