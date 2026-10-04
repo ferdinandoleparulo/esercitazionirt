@@ -28,7 +28,7 @@
       <h2 class="form-section-title">Regole per il ritiro</h2>
       <ul class="regole-list">
         <li>Compilare il modulo <strong>prima</strong> di ritirare la radio.</li>
-        <li>Si consegna <strong>una sola radio per squadra</strong> o per singolo operatore (osservatori, formatori, istruttori).</li>
+        <li>Si consegna <strong>una sola radio per squadra</strong> o per singolo operatore (formatori, osservatori, altro).</li>
         <li>La radio va riconsegnata alla segreteria <strong>a fine giornata</strong>.</li>
         <li>In caso di malfunzionamento, avvisare subito la segreteria.</li>
       </ul>
@@ -57,7 +57,7 @@
           </label>
           <label class="radio-option">
             <input type="radio" name="tipo" value="individuale" required onchange="aggiornaTipo()">
-            Osservatore / Formatore / Istruttore
+            Formatore / Osservatore / Altro
           </label>
         </div>
 
@@ -70,7 +70,17 @@
         <!-- Campo ruolo (visibile solo se "individuale" selezionato) -->
         <div id="campoRuolo" style="display:none;">
           <p class="form-question">Specifica il ruolo <span class="required">*</span></p>
-          <input type="text" name="ruolo" id="inputRuolo" maxlength="50" placeholder="Es. Osservatore, Formatore, Istruttore...">
+          <select name="ruolo" id="inputRuolo" required onchange="aggiornaRuolo()">
+            <option value="">-- Seleziona --</option>
+            <option value="Formatore">Formatore</option>
+            <option value="Osservatore">Osservatore</option>
+            <option value="Altro">Altro (specificare sotto)</option>
+          </select>
+
+          <div id="campoRuoloAltro" style="display:none; margin-top:10px;">
+            <p class="form-question">Specifica il ruolo <span class="required">*</span></p>
+            <input type="text" name="ruolo_altro" id="inputRuoloAltro" maxlength="50" placeholder="Es. Referente radio, Coordinatore...">
+          </div>
         </div>
 
         <p class="form-question">Numero di telefono <span class="required">*</span></p>
@@ -114,12 +124,32 @@
         inputSquadra.required = true;
         inputRuolo.required = false;
         inputRuolo.value = "";
+        document.getElementById("campoRuoloAltro").style.display = "none";
+        document.getElementById("inputRuoloAltro").required = false;
       } else {
         campoSquadra.style.display = "none";
         campoRuolo.style.display = "block";
         inputSquadra.required = false;
         inputRuolo.required = true;
         inputSquadra.value = "";
+      }
+    }
+
+    // ============================================
+    // MOSTRA CAMPO "ALTRO" SE SELEZIONATO
+    // ============================================
+    function aggiornaRuolo() {
+      const ruolo = document.getElementById("inputRuolo").value;
+      const campoAltro = document.getElementById("campoRuoloAltro");
+      const inputAltro = document.getElementById("inputRuoloAltro");
+
+      if (ruolo === "Altro") {
+        campoAltro.style.display = "block";
+        inputAltro.required = true;
+      } else {
+        campoAltro.style.display = "none";
+        inputAltro.required = false;
+        inputAltro.value = "";
       }
     }
 
@@ -147,7 +177,12 @@
       if (tipo === "squadra") {
         squadra = formData.get("squadra");
       } else {
-        squadra = formData.get("ruolo");
+        const ruolo = formData.get("ruolo");
+        if (ruolo === "Altro") {
+          squadra = formData.get("ruolo_altro").trim();
+        } else {
+          squadra = ruolo;
+        }
       }
 
       const data = {
