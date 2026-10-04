@@ -659,7 +659,58 @@ textarea:focus {
   font-size: 15px;
   line-height: 1.5;
 }
+/* ============================
+   PAGINA RADIO
+   ============================ */
+.regole-list {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
 
+.regole-list li {
+  margin-bottom: 6px;
+}
+
+.regole-list strong {
+  color: var(--text);
+}
+
+/* Input di testo */
+input[type="text"],
+input[type="tel"],
+input[type="number"] {
+  width: 100%;
+  background: #232936;
+  border: 1px solid #2e3543;
+  border-radius: 10px;
+  padding: 14px;
+  color: var(--text);
+  font-size: 16px;
+  font-family: inherit;
+  margin-top: 6px;
+  -webkit-appearance: none;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* Pagina grazie radio */
+.grazie-nota {
+  font-size: 14px !important;
+  color: var(--warn) !important;
+  margin-top: 14px !important;
+  padding: 10px 14px;
+  background: #2a1f00;
+  border-radius: 10px;
+  border-left: 3px solid var(--warn);
+}
 .alert--accreditamento strong {
   color: #ffd45e;
   display: block;
