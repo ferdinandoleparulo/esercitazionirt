@@ -28,7 +28,7 @@
       <h2 class="form-section-title">Regole per il ritiro</h2>
       <ul class="regole-list">
         <li>Compilare il modulo <strong>prima</strong> di ritirare la radio.</li>
-        <li>Si consegna <strong>una sola radio per squadra</strong>.</li>
+        <li>Si consegna <strong>una sola radio per squadra</strong> o per singolo operatore (osservatori, formatori, istruttori).</li>
         <li>La radio va riconsegnata alla segreteria <strong>a fine giornata</strong>.</li>
         <li>In caso di malfunzionamento, avvisare subito la segreteria.</li>
       </ul>
@@ -49,8 +49,29 @@
         <p class="form-question">Organizzazione (OdV o Ente) <span class="required">*</span></p>
         <input type="text" name="organizzazione" required maxlength="80" placeholder="Es. ANPAS, Misericordie, CRI, Genio Civile...">
 
-        <p class="form-question">Numero squadra (001 – 100) <span class="required">*</span></p>
-        <input type="number" name="squadra" required min="1" max="100" inputmode="numeric" placeholder="Es. 12">
+        <p class="form-question">A che titolo ritiri la radio? <span class="required">*</span></p>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="tipo" value="squadra" required onchange="aggiornaTipo()">
+            Membro di una squadra
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="tipo" value="individuale" required onchange="aggiornaTipo()">
+            Osservatore / Formatore / Istruttore
+          </label>
+        </div>
+
+        <!-- Campo squadra (visibile solo se "squadra" selezionato) -->
+        <div id="campoSquadra" style="display:none;">
+          <p class="form-question">Numero squadra (001 – 100) <span class="required">*</span></p>
+          <input type="number" name="squadra" id="inputSquadra" min="1" max="100" inputmode="numeric" placeholder="Es. 12">
+        </div>
+
+        <!-- Campo ruolo (visibile solo se "individuale" selezionato) -->
+        <div id="campoRuolo" style="display:none;">
+          <p class="form-question">Specifica il ruolo <span class="required">*</span></p>
+          <input type="text" name="ruolo" id="inputRuolo" maxlength="50" placeholder="Es. Osservatore, Formatore, Istruttore...">
+        </div>
 
         <p class="form-question">Numero di telefono <span class="required">*</span></p>
         <input type="tel" name="telefono" required inputmode="tel" maxlength="20" placeholder="Es. 333 1234567">
@@ -76,6 +97,33 @@
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx4-SLysd6uaBixE2vK402cfNjm0q5lJ791y530dsZd9Nm3LUfsOhl3gh-9VYZJViEcHQ/exec";
 
     // ============================================
+    // MOSTRA CAMPO IN BASE AL TIPO
+    // ============================================
+    function aggiornaTipo() {
+      const tipo = document.querySelector('input[name="tipo"]:checked');
+      if (!tipo) return;
+
+      const campoSquadra = document.getElementById("campoSquadra");
+      const campoRuolo = document.getElementById("campoRuolo");
+      const inputSquadra = document.getElementById("inputSquadra");
+      const inputRuolo = document.getElementById("inputRuolo");
+
+      if (tipo.value === "squadra") {
+        campoSquadra.style.display = "block";
+        campoRuolo.style.display = "none";
+        inputSquadra.required = true;
+        inputRuolo.required = false;
+        inputRuolo.value = "";
+      } else {
+        campoSquadra.style.display = "none";
+        campoRuolo.style.display = "block";
+        inputSquadra.required = false;
+        inputRuolo.required = true;
+        inputSquadra.value = "";
+      }
+    }
+
+    // ============================================
     // INVIO
     // ============================================
     document.getElementById("radioForm").addEventListener("submit", async function(e) {
@@ -92,11 +140,21 @@
       submitBtn.textContent = "Invio in corso...";
 
       const formData = new FormData(form);
+      const tipo = formData.get("tipo");
+
+      // Prepara il valore da mettere nella colonna "Squadra" del foglio
+      let squadra = "";
+      if (tipo === "squadra") {
+        squadra = formData.get("squadra");
+      } else {
+        squadra = formData.get("ruolo");
+      }
+
       const data = {
         nome: formData.get("nome").trim(),
         cognome: formData.get("cognome").trim(),
         organizzazione: formData.get("organizzazione").trim(),
-        squadra: formData.get("squadra"),
+        squadra: squadra,
         telefono: formData.get("telefono").trim()
       };
 
