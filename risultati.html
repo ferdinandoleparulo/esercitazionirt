@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b3d2e">
+  <title>Risultati – Esercitazione PC 2027</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <header class="app-header">
+    <a href="index.html" class="back-link">← Home</a>
+    <h1>Risultati</h1>
+    <p class="subtitle">Valutazioni dei partecipanti</p>
+    <p class="date" id="lastUpdate">Caricamento...</p>
+  </header>
+
+  <main class="app-main">
+
+    <!-- MEDIA COMPLESSIVA -->
+    <section class="media-box" id="mediaBox" style="display:none;">
+      <div class="media-label">Media complessiva</div>
+      <div class="media-value" id="mediaValue">–</div>
+      <div class="media-sub" id="mediaSub">su 5</div>
+    </section>
+
+    <!-- PROFILI -->
+    <section class="chart-section">
+      <h2 class="chart-title">Distribuzione dei profili</h2>
+      <div class="chart-wrap chart-wrap--pie">
+        <canvas id="chartProfili"></canvas>
+      </div>
+    </section>
+
+    <!-- MEDIA PER ISOLA -->
+    <section class="chart-section">
+      <h2 class="chart-title">Media per isola</h2>
+      <p class="chart-sub">Ordinata dalla peggiore alla migliore</p>
+      <div class="chart-wrap chart-wrap--tall">
+        <canvas id="chartIsole"></canvas>
+      </div>
+    </section>
+
+    <!-- SERVIZI TRASVERSALI -->
+    <section class="chart-section">
+      <h2 class="chart-title">Segreteria, Ristorazione, Organizzazione</h2>
+      <div class="chart-wrap chart-wrap--tall">
+        <canvas id="chartServizi"></canvas>
+      </div>
+    </section>
+
+    <p class="chart-note">
+      Dati aggiornati in tempo reale dal foglio delle risposte. I grafici si aggiornano automaticamente.
+    </p>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>Regione Toscana · Protezione Civile</p>
+    <p class="version">v1.0 · 2027</p>
+  </footer>
+
+  <script>
+    // ============================================
+    // CONFIGURAZIONE
+    // ============================================
+    const CSV_URL = "IL_TUO_CSV_URL_QUI";
+
+    const ISOLE = [
+      "A - Ronda 1", "B - Telone 1", "C - CFR", "D - Sicurezza Mise",
+      "E - Sacchini 1", "F - Ronda 2", "G - Opera 1 (Cateratta Bisenzio)",
+      "H - Segnalazioni", "I - Telone 2 (Bisenzio)", "L - Sacchini 2",
+      "M - Sicurezza CRI", "N - SOUPRT", "O - Ronda 3",
+      "P - Insacchettatrice", "Q - Opera 2 (Cassa Renai)", "R - Comunicazione"
+    ];
+
+    const COLORI = {
+      verde: "#2ecc71",
+      verdeScuro: "#14532d",
+      giallo: "#f1c40f",
+      azzurro: "#9ecbff",
+      rosso: "#e74c3c",
+      viola: "#a78bfa",
+      arancio: "#fb923c",
+      rosa: "#f472b6",
+      grigio: "#9aa4b2"
+    };
+
+    // ============================================
+    // PARSER CSV (gestisce anche virgolette e newline)
+    // ============================================
+    function parseCSV(text) {
+      const rows = [];
+      let cur = [];
+      let field = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        const next = text[i + 1];
+
+        if (inQuotes) {
+          if (c === '"' && next === '"') { field += '"'; i++; }
+          else if (c === '"') { inQuotes = false; }
+          else { field += c; }
+        } else {
+          if (c === '"') { inQuotes = true; }
+          else if (c === ',') { cur.push(field); field = ""; }
+          else if (c === '\n') { cur.push(field); rows.push(cur); cur = []; field = ""; }
+          else if (c === '\r') { /* skip */ }
+          else { field += c; }
+        }
+      }
+      if (field.length > 0 || cur.length > 0) { cur.push(field); rows.push(cur); }
+      return rows;
+    }
+
+    // ============================================
+    // CARICA CSV
+    // ============================================
+    async function loadData() {
+      const res = await fetch(CSV_URL);
+      const text = await res.text();
+      const rows = parseCSV(text);
+
+      if (rows.length < 2) {
+        document.getElementById("lastUpdate").textContent = "Nessuna risposta ancora.";
+        return null;
+      }
+
+      const headers = rows[0];
+      const data = rows.slice(1).filter(r => r.length > 1 && r[1]);
+
+      return { headers, data };
+    }
+
+    // ============================================
+    // CALCOLI
+    // ============================================
+    function toNumber(v) {
+      const n = parseFloat(v);
+      return isNaN(n) ? null : n;
+    }
+
+    function media(values) {
+      const valid = values.map(toNumber).filter(v => v !== null);
+      if (valid.length === 0) return null;
+      return valid.reduce((a, b) => a + b, 0) / valid.length;
+    }
+
+    function calcolaProfili(data, headers) {
+      const idx = headers.indexOf("Profilo");
+      if (idx === -1) return {};
+
+      const counts = {};
+      data.forEach(row => {
+        const p = row[idx] || "Non specificato";
+        counts[p] = (counts[p] || 0) + 1;
+      });
+      return counts;
+    }
+
+    function calcolaMediaIsole(data, headers) {
+      const results = {};
+
+      ISOLE.forEach(isola => {
+        const colOrg = headers.indexOf(isola + " - Organizzazione");
+        const colEff = headers.indexOf(isola + " - Efficacia");
+        const colChi = headers.indexOf(isola + " - Chiarezza");
+
+        if (colOrg === -1) return;
+
+        const orgVals = data.map(r => r[colOrg]);
+        const effVals = data.map(r => r[colEff]);
+        const chiVals = data.map(r => r[colChi]);
+
+        const all = [...orgVals, ...effVals, ...chiVals];
+        const m = media(all);
+
+        if (m !== null) {
+          results[isola] = m;
+        }
+      });
+
+      return results;
+    }
+
+    function calcolaMediaServizi(data, headers) {
+      const items = [
+        { label: "Segreteria – Accreditamento", col: "Segreteria - Accreditamento" },
+        { label: "Ristorazione – Qualità", col: "Ristorazione - Qualità" },
+        { label: "Ristorazione – Quantità", col: "Ristorazione - Quantità" },
+        { label: "Ristorazione – Distribuzione", col: "Ristorazione - Distribuzione" },
+        { label: "Organizzazione generale", col: "Organizzazione generale" }
+      ];
+
+      const results = [];
+      items.forEach(item => {
+        const idx = headers.indexOf(item.col);
+        if (idx === -1) return;
+        const m = media(data.map(r => r[idx]));
+        if (m !== null) results.push({ label: item.label, value: m });
+      });
+      return results;
+    }
+
+    function calcolaMediaComplessiva(data, headers) {
+      // Media di TUTTE le colonne numeriche (scale 1-5)
+      const colonneNumeriche = headers.filter(h =>
+        h.includes("Organizzazione") ||
+        h.includes("Efficacia") ||
+        h.includes("Chiarezza") ||
+        h.includes("Accreditamento") ||
+        h.includes("Qualità") ||
+        h.includes("Quantità") ||
+        h.includes("Distribuzione") ||
+        h.includes("generale")
+      );
+
+      const indici = colonneNumeriche.map(c => headers.indexOf(c)).filter(i => i !== -1);
+      const allValues = [];
+      data.forEach(row => {
+        indici.forEach(i => {
+          const v = toNumber(row[i]);
+          if (v !== null) allValues.push(v);
+        });
+      });
+
+      if (allValues.length === 0) return null;
+      return allValues.reduce((a, b) => a + b, 0) / allValues.length;
+    }
+
+    // ============================================
+    // DISEGNO GRAFICI
+    // ============================================
+    let chartProfili, chartIsole, chartServizi;
+
+    function drawProfili(profili) {
+      const labels = Object.keys(profili);
+      const values = Object.values(profili);
+
+      const palette = [
+        COLORI.verde, COLORI.azzurro, COLORI.giallo,
+        COLORI.viola, COLORI.arancio, COLORI.rosa, COLORI.rosso
+      ];
+
+      chartProfili = new Chart(document.getElementById("chartProfili"), {
+        type: "doughnut",
+        data: {
+          labels: labels,
+          datasets: [{
+            data: values,
+            backgroundColor: palette.slice(0, labels.length),
+            borderColor: "#0f1115",
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: {
+                color: "#f2f4f8",
+                font: { size: 13 },
+                padding: 10
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function drawIsole(medie) {
+      // Ordina dalla peggiore alla migliore
+      const sorted = Object.entries(medie).sort((a, b) => a[1] - b[1]);
+      const labels = sorted.map(e => e[0]);
+      const values = sorted.map(e => e[1]);
+
+      chartIsole = new Chart(document.getElementById("chartIsole"), {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [{
+            label: "Media (1-5)",
+            data: values,
+            backgroundColor: values.map(v => v < 3 ? COLORI.rosso : v < 4 ? COLORI.giallo : COLORI.verde),
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: "y",
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              min: 0, max: 5,
+              ticks: { color: "#9aa4b2", font: { size: 12 } },
+              grid: { color: "#262c38" }
+            },
+            y: {
+              ticks: { color: "#f2f4f8", font: { size: 12 } },
+              grid: { display: false }
+            }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: ctx => "Media: " + ctx.raw.toFixed(2)
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function drawServizi(servizi) {
+      const labels = servizi.map(s => s.label);
+      const values = servizi.map(s => s.value);
+
+      chartServizi = new Chart(document.getElementById("chartServizi"), {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [{
+            label: "Media (1-5)",
+            data: values,
+            backgroundColor: values.map(v => v < 3 ? COLORI.rosso : v < 4 ? COLORI.giallo : COLORI.verde),
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: "y",
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              min: 0, max: 5,
+              ticks: { color: "#9aa4b2", font: { size: 12 } },
+              grid: { color: "#262c38" }
+            },
+            y: {
+              ticks: { color: "#f2f4f8", font: { size: 12 } },
+              grid: { display: false }
+            }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: ctx => "Media: " + ctx.raw.toFixed(2)
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function drawMediaComplessiva(value, numeroRisposte) {
+      document.getElementById("mediaBox").style.display = "block";
+      document.getElementById("mediaValue").textContent = value.toFixed(2);
+      document.getElementById("mediaSub").textContent = "su 5 · " + numeroRisposte + " risposte";
+    }
+
+    // ============================================
+    // INIZIALIZZAZIONE
+    // ============================================
+    async function init() {
+      try {
+        const result = await loadData();
+        if (!result) return;
+
+        const { headers, data } = result;
+
+        document.getElementById("lastUpdate").textContent =
+          data.length + " risposte ricevute";
+
+        // Profili
+        const profili = calcolaProfili(data, headers);
+        drawProfili(profili);
+
+        // Media per isola
+        const medieIsole = calcolaMediaIsole(data, headers);
+        drawIsole(medieIsole);
+
+        // Servizi trasversali
+        const servizi = calcolaMediaServizi(data, headers);
+        drawServizi(servizi);
+
+        // Media complessiva
+        const mediaTot = calcolaMediaComplessiva(data, headers);
+        if (mediaTot !== null) {
+          drawMediaComplessiva(mediaTot, data.length);
+        }
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById("lastUpdate").textContent = "Errore nel caricamento dei dati.";
+      }
+    }
+
+    init();
+  </script>
+
+</body>
+</html>
