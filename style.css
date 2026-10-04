@@ -758,3 +758,42 @@ select:focus {
   margin-top: 6px;
   display: block;
 }
+/* ============================
+   ORGANIZZATORE (HOME)
+   ============================ */
+.organizzatore {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* ============================
+   AVVISO DPI (HOME)
+   ============================ */
+.alert--dpi {
+  margin-top: 0;
+  margin-bottom: 18px;
+  background: #2a1f00;
+  border-left: 4px solid var(--warn);
+  color: #ffe9a8;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.alert--dpi p {
+  margin: 0;
+}
+
+.alert--dpi strong {
+  color: #ffd45e;
+  font-size: 16px;
+}
+
+.alert--dpi em {
+  color: #ffe9a8;
+  font-style: italic;
+}
