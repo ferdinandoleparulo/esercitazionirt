@@ -334,6 +334,7 @@ h1 {
   line-height: 1.45;
   color: var(--muted);
 }
+
 /* ============================
    FORM DI VALUTAZIONE
    ============================ */
@@ -371,7 +372,6 @@ h1 {
 
 .required { color: var(--danger); }
 
-/* Radio e checkbox */
 .radio-group,
 .checkbox-group {
   display: flex;
@@ -406,7 +406,6 @@ h1 {
   flex: 0 0 20px;
 }
 
-/* Scala Likert 1-5 */
 .scale-group {
   display: flex;
   gap: 6px;
@@ -448,7 +447,6 @@ h1 {
   background: #2a3242;
 }
 
-/* Textarea */
 textarea {
   width: 100%;
   background: #232936;
@@ -468,7 +466,6 @@ textarea:focus {
   outline-offset: 1px;
 }
 
-/* Bottone submit */
 .submit-btn {
   display: block;
   width: 100%;
@@ -502,7 +499,6 @@ textarea:focus {
   text-align: center;
 }
 
-/* Grazie */
 .grazie-box {
   background: var(--card);
   border: 1px solid #262c38;
@@ -517,6 +513,7 @@ textarea:focus {
   color: var(--text);
   margin: 0 0 20px;
 }
+
 /* ============================
    PAGINA RISULTATI
    ============================ */
@@ -591,6 +588,7 @@ textarea:focus {
   text-align: center;
   line-height: 1.4;
 }
+
 /* ============================
    PAGINA MAPPA
    ============================ */
@@ -645,6 +643,7 @@ textarea:focus {
   font-size: 18px;
   line-height: 1;
 }
+
 /* ============================
    AVVISO ACCREDITAMENTO (HOME)
    ============================ */
@@ -659,6 +658,14 @@ textarea:focus {
   font-size: 15px;
   line-height: 1.5;
 }
+
+.alert--accreditamento strong {
+  color: #ffd45e;
+  display: block;
+  margin-bottom: 4px;
+  font-size: 16px;
+}
+
 /* ============================
    PAGINA RADIO
    ============================ */
@@ -701,6 +708,32 @@ input[type="number"]:focus {
   outline-offset: 1px;
 }
 
+/* Menu a tendina (select) */
+select {
+  width: 100%;
+  background: #232936;
+  border: 1px solid #2e3543;
+  border-radius: 10px;
+  padding: 14px;
+  color: var(--text);
+  font-size: 16px;
+  font-family: inherit;
+  margin-top: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa4b2' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 20px;
+  padding-right: 44px;
+  box-sizing: border-box;
+}
+
+select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
 /* Pagina grazie radio */
 .grazie-nota {
   font-size: 14px !important;
@@ -710,10 +743,4 @@ input[type="number"]:focus {
   background: #2a1f00;
   border-radius: 10px;
   border-left: 3px solid var(--warn);
-}
-.alert--accreditamento strong {
-  color: #ffd45e;
-  display: block;
-  margin-bottom: 4px;
-  font-size: 16px;
 }
