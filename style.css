@@ -334,3 +334,186 @@ h1 {
   line-height: 1.45;
   color: var(--muted);
 }
+/* ============================
+   FORM DI VALUTAZIONE
+   ============================ */
+.form-section {
+  background: var(--card);
+  border: 1px solid #262c38;
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.form-section-title {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.form-question {
+  margin: 14px 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.form-question:first-of-type {
+  margin-top: 0;
+}
+
+.form-hint {
+  margin: 0 0 10px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.required { color: var(--danger); }
+
+/* Radio e checkbox */
+.radio-group,
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-option,
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #232936;
+  border: 1px solid #2e3543;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  min-height: 48px;
+}
+
+.radio-option:active,
+.checkbox-option:active {
+  background: #2a3242;
+}
+
+.radio-option input,
+.checkbox-option input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent);
+  flex: 0 0 20px;
+}
+
+/* Scala Likert 1-5 */
+.scale-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap;
+  margin-top: 6px;
+}
+
+.scale-option {
+  flex: 1;
+  text-align: center;
+  cursor: pointer;
+}
+
+.scale-option input {
+  display: none;
+}
+
+.scale-option span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  background: #232936;
+  border: 1px solid #2e3543;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  transition: all .15s ease;
+}
+
+.scale-option input:checked + span {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0b3d2e;
+}
+
+.scale-option:active span {
+  background: #2a3242;
+}
+
+/* Textarea */
+textarea {
+  width: 100%;
+  background: #232936;
+  border: 1px solid #2e3543;
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-size: 15px;
+  font-family: inherit;
+  line-height: 1.4;
+  resize: vertical;
+  margin-top: 6px;
+}
+
+textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* Bottone submit */
+.submit-btn {
+  display: block;
+  width: 100%;
+  padding: 18px;
+  margin-top: 20px;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  color: #0b3d2e;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.submit-btn:active {
+  background: #27b862;
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.form-note {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* Grazie */
+.grazie-box {
+  background: var(--card);
+  border: 1px solid #262c38;
+  border-radius: var(--radius);
+  padding: 24px 18px;
+  text-align: center;
+}
+
+.grazie-box p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text);
+  margin: 0 0 20px;
+}
