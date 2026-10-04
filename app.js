@@ -1,5 +1,5 @@
 // Data dell'evento (formato ISO)
-const EVENT_DATE = "2027-10-10T07:00:00";
+const EVENT_DATE = "2026-10-10T07:00:00";
 
 function updateStatus() {
   const el = document.querySelector(".status");
