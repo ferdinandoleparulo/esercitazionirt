@@ -591,3 +591,57 @@ textarea:focus {
   text-align: center;
   line-height: 1.4;
 }
+/* ============================
+   PAGINA MAPPA
+   ============================ */
+.mappa-wrap {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid #262c38;
+  margin-bottom: 16px;
+}
+
+.mappa-wrap iframe {
+  display: block;
+  width: 100%;
+  height: 600px;
+}
+
+.mappa-legenda {
+  background: var(--card);
+  border: 1px solid #262c38;
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.mappa-legenda-title {
+  margin: 0 0 12px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.mappa-legenda-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mappa-legenda-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.legenda-punto {
+  flex: 0 0 22px;
+  font-size: 18px;
+  line-height: 1;
+}
