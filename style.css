@@ -517,3 +517,77 @@ textarea:focus {
   color: var(--text);
   margin: 0 0 20px;
 }
+/* ============================
+   PAGINA RISULTATI
+   ============================ */
+.media-box {
+  background: linear-gradient(135deg, #14532d, #0b3d2e);
+  border: 1px solid #1f6f4a;
+  border-radius: var(--radius);
+  padding: 24px 18px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.media-label {
+  font-size: 14px;
+  color: #b9f6d0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.media-value {
+  font-size: 56px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.media-sub {
+  font-size: 14px;
+  color: #b9f6d0;
+  margin-top: 6px;
+}
+
+.chart-section {
+  background: var(--card);
+  border: 1px solid #262c38;
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.chart-title {
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.chart-sub {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.chart-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.chart-wrap--pie {
+  height: 280px;
+}
+
+.chart-wrap--tall {
+  height: 420px;
+}
+
+.chart-note {
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.4;
+}
