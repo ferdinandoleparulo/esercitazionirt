@@ -744,3 +744,17 @@ select:focus {
   border-radius: 10px;
   border-left: 3px solid var(--warn);
 }
+/* Contenitori dei campi dinamici (squadra, ruolo) */
+#campoSquadra,
+#campoRuolo {
+  margin: 0;
+  padding: 0;
+}
+
+/* Il select e l'input dentro i campi dinamici devono allinearsi
+   agli altri campi del form */
+#campoRuolo select,
+#campoSquadra input {
+  margin-top: 6px;
+  display: block;
+}
