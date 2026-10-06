@@ -356,7 +356,15 @@
         `;
       });
 
-      html += `</ul></div>`;
+           html += `
+        <ul class="timeline" style="margin-top: 18px;">
+          <li class="slot slot--istituzionale" data-start="16:00" data-end="17:00">
+            <div class="slot-time">16:00 – 17:00</div>
+            <div class="slot-title">🏁 Debriefing e smontaggio</div>
+            <div class="slot-sub">Compilazione del formulario di valutazione</div>
+          </li>
+        </ul>
+      </div>`;
       container.innerHTML = html;
 
       // Chiedi ad app.js di riapplicare l'evidenziazione slot in corso
