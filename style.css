@@ -846,7 +846,65 @@ select:focus {
 .foto-istruzioni-list li {
   margin-bottom: 8px;
 }
+/* ============================================
+   MODULO UAS - Stili specifici
+   ============================================ */
 
+/* Lista attività operative (a, b, c, d, e) */
+.activities-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0;
+}
+.activities-list li {
+  background: #f8fafc;
+  border-left: 4px solid #2c5a7a;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  color: #2c3e50;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.activities-list li .letter {
+  background: #ffcc00;
+  color: #1a3a5c;
+  font-weight: bold;
+  min-width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+/* Box diretta streaming */
+.live-badge {
+  background: #ffebee;
+  border-left: 4px solid #e53935;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin-top: 20px;
+}
+.live-badge strong {
+  color: #c62828;
+}
+
+/* Box evidenza giallo */
+.highlight-box {
+  background: #f0f7ff;
+  border-left: 5px solid #ffcc00;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 20px 0;
+}
+.highlight-box p {
+  margin-bottom: 0;
+}
 .foto-istruzioni-list strong {
   color: var(--text);
 }
