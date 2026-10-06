@@ -847,64 +847,88 @@ select:focus {
   margin-bottom: 8px;
 }
 /* ============================================
-   MODULO UAS - Stili specifici
+   MODULO UAS
    ============================================ */
 
 /* Lista attività operative (a, b, c, d, e) */
-.activities-list {
+.uas-activities {
   list-style: none;
   padding: 0;
-  margin: 16px 0;
+  margin: 0 0 8px;
 }
-.activities-list li {
-  background: #f8fafc;
-  border-left: 4px solid #2c5a7a;
-  border-radius: 12px;
-  padding: 14px 16px;
-  margin-bottom: 12px;
-  font-size: 0.9rem;
-  color: #2c3e50;
+
+.uas-activities li {
   display: flex;
-  gap: 12px;
   align-items: flex-start;
+  gap: 14px;
+  padding: 14px;
+  background: var(--card);
+  border: 1px solid #262c38;
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text);
 }
-.activities-list li .letter {
-  background: #ffcc00;
-  color: #1a3a5c;
-  font-weight: bold;
-  min-width: 28px;
-  height: 28px;
+
+.uas-activities .letter {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
+  background: linear-gradient(135deg, #14532d, #0b3d2e);
+  border: 1px solid #1f6f4a;
+  color: #b9f6d0;
+  font-weight: 700;
+  font-size: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
-  flex-shrink: 0;
+  text-transform: uppercase;
 }
 
-/* Box diretta streaming */
-.live-badge {
-  background: #ffebee;
-  border-left: 4px solid #e53935;
-  border-radius: 16px;
-  padding: 16px 20px;
-  margin-top: 20px;
-}
-.live-badge strong {
-  color: #c62828;
+/* Box streaming / evidenza */
+.uas-streaming {
+  margin-top: 18px;
+  background: #2a1f00;
+  border-left: 4px solid var(--warn);
+  color: #ffe9a8;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.5;
 }
 
-/* Box evidenza giallo */
-.highlight-box {
-  background: #f0f7ff;
-  border-left: 5px solid #ffcc00;
-  border-radius: 16px;
-  padding: 16px 20px;
-  margin: 20px 0;
+.uas-streaming strong {
+  color: #ffd45e;
 }
-.highlight-box p {
-  margin-bottom: 0;
+
+/* Capacità (badge verdi) */
+.uas-caps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
 }
-.foto-istruzioni-list strong {
+
+.uas-cap {
+  background: #14532d;
+  border: 1px solid #1f6f4a;
+  color: #b9f6d0;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Paragrafi descrittivi */
+.uas-text {
+  font-size: 16px;
+  line-height: 1.55;
   color: var(--text);
+  margin: 0 0 14px;
+}
+
+.uas-text:last-child {
+  margin-bottom: 0;
 }
