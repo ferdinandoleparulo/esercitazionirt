@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b3d2e">
+  <title>Cronoprogramma Squadre – RENAI 2026</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ============================================
+       Selettore squadra
+       ============================================ */
+    .team-selector {
+      background: var(--card);
+      border: 1px solid #262c38;
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+    .team-selector label {
+      display: block;
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .team-selector select {
+      width: 100%;
+      background: #232936;
+      border: 1px solid #2e3543;
+      border-radius: 10px;
+      padding: 14px;
+      color: var(--text);
+      font-size: 16px;
+      font-family: inherit;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa4b2' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 20px;
+      padding-right: 44px;
+    }
+    .team-selector select:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+
+    /* ============================================
+       Stato vuoto
+       ============================================ */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       Intestazione risultato
+       ============================================ */
+    .team-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--accent);
+      margin: 0 0 4px;
+      letter-spacing: 0.3px;
+    }
+    .team-sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0 0 16px;
+    }
+
+    /* ============================================
+       Badge isola dentro gli slot
+       ============================================ */
+    .badge-isola {
+      display: inline-block;
+      background: #14532d;
+      border: 1px solid #1f6f4a;
+      color: #b9f6d0;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="app-header">
+    <a href="index.html" class="back-link">← Home</a>
+    <h1>Cronoprogramma Squadre</h1>
+    <p class="subtitle">Seleziona la tua squadra</p>
+    <p class="date">Sabato 10 ottobre 2026 · 07:00 – 17:00</p>
+  </header>
+
+  <main class="app-main">
+
+    <div class="team-selector">
+      <label for="teamSelect">🔽 Seleziona la tua Squadra</label>
+      <select id="teamSelect">
+        <option value="">— Scegli una squadra —</option>
+      </select>
+    </div>
+
+    <div id="scheduleContainer">
+      <div class="empty-state">
+        Seleziona la tua squadra per visualizzare il cronoprogramma della giornata.
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>Regione Toscana · Direzione Difesa del Suolo e Protezione Civile</p>
+    <p class="version">RENAI - 2026 · v1.0</p>
+  </footer>
+
+  <script>
+    // ============================================
+    // CRONOPROGRAMMA SQUADRE - RENAI 2026
+    // ============================================
+
+    const schedules = {};
+
+    // --------------------------------------------
+    // Nomi delle isole
+    // --------------------------------------------
+    const ISLAND_NAMES = {
+      A: "Ronda A",
+      B: "Opere B",
+      C: "Rete Monitoraggio",
+      D: "Insacchettatrice",
+      E: "Sacchini E",
+      F: "Ronda F",
+      G: "Opere G",
+      H: "Segnalazioni",
+      I: "Telone I",
+      L: "Sacchini L",
+      M: "Sicurezza",
+      N: "Soup-RT",
+      O: "Ronda O",
+      P: "Telone P",
+      Q: "Opere Q",
+      R: "TLC - Comunicazioni"
+    };
+
+    const ISLAND_ORDER = ["A","B","C","D","E","F","G","H","I","L","M","N","O","P","Q","R"];
+
+    // --------------------------------------------
+    // Blocchi volontari 1-80 (rotazione di 5 isole)
+    // --------------------------------------------
+    const GROUPS = [
+      { from: 1,  to: 5,  start: 0,  pranzo: 2 },
+      { from: 6,  to: 10, start: 1,  pranzo: 2 },
+      { from: 11, to: 15, start: 2,  pranzo: 2 },
+      { from: 16, to: 20, start: 3,  pranzo: 2 },
+      { from: 21, to: 25, start: 4,  pranzo: 2 },
+      { from: 26, to: 30, start: 5,  pranzo: 1 },
+      { from: 31, to: 35, start: 6,  pranzo: 1 },
+      { from: 36, to: 40, start: 7,  pranzo: 1 },
+      { from: 41, to: 45, start: 8,  pranzo: 1 },
+      { from: 46, to: 50, start: 9,  pranzo: 1 },
+      { from: 51, to: 55, start: 10, pranzo: 1 },
+      { from: 56, to: 60, start: 11, pranzo: 1 },
+      { from: 61, to: 65, start: 12, pranzo: 1 },
+      { from: 66, to: 70, start: 13, pranzo: 2 },
+      { from: 71, to: 75, start: 14, pranzo: 2 },
+      { from: 76, to: 80, start: 15, pranzo: 2 }
+    ];
+
+    GROUPS.forEach(g => {
+      const i1 = ISLAND_ORDER[g.start % 16];
+      const i2 = ISLAND_ORDER[(g.start + 1) % 16];
+      const i3 = ISLAND_ORDER[(g.start + 2) % 16];
+      const i4 = ISLAND_ORDER[(g.start + 3) % 16];
+      const i5 = ISLAND_ORDER[(g.start + 4) % 16];
+
+      const slots = [
+        { time: "8:45 – 9:45",  isola: i1, activity: ISLAND_NAMES[i1], type: "formativo" },
+        { time: "9:45 – 10:45", isola: i2, activity: ISLAND_NAMES[i2], type: "formativo" },
+        { time: "10:45 – 11:15",           activity: "Pausa Caffè",    type: "pausa" },
+        { time: "11:15 – 12:15", isola: i3, activity: ISLAND_NAMES[i3], type: "formativo" }
+      ];
+
+      if (g.pranzo === 2) {
+        slots.push({ time: "12:15 – 13:15", isola: i4, activity: ISLAND_NAMES[i4], type: "formativo" });
+        slots.push({ time: "13:15 – 14:00",           activity: "Pranzo (Fascia 2)",  type: "pausa" });
+      } else {
+        slots.push({ time: "12:15 – 13:15",           activity: "Pranzo (Fascia 1)",  type: "pausa" });
+        slots.push({ time: "13:15 – 14:15", isola: i4, activity: ISLAND_NAMES[i4], type: "formativo" });
+      }
+
+      slots.push({ time: "14:15 – 14:30", activity: "Saluti Istituzionali", type: "istituzionale" });
+      slots.push({ time: "14:30 – 15:30", isola: i5, activity: ISLAND_NAMES[i5], type: "formativo" });
+
+      for (let id = g.from; id <= g.to; id++) {
+        schedules[String(id)] = slots;
+      }
+    });
+
+    // --------------------------------------------
+    // Squadre Istituzionali A-T
+    // --------------------------------------------
+
+    // A, B, C
+    const istABC = [
+      { time: "8:45 – 9:45",  isola: "C", activity: "Rete Monitoraggio", type: "formativo" },
+      { time: "9:45 – 10:45", isola: "D", activity: "Insacchettatrice",   type: "formativo" },
+      { time: "10:45 – 11:15",           activity: "Pausa Caffè",        type: "pausa" },
+      { time: "11:15 – 12:15", isola: "H", activity: "Segnalazioni",     type: "formativo" },
+      { time: "12:15 – 13:15",           activity: "Pranzo (Fascia 1)",  type: "pausa" },
+      { time: "13:15 – 14:00",           activity: "Termine Formazione (Attesa)", type: "istituzionale" },
+      { time: "14:15 – 14:30",           activity: "Saluti Istituzionali", type: "istituzionale" },
+      { time: "14:30 – 15:30",           activity: "Termine Attività",   type: "istituzionale" }
+    ];
+    ["A","B","C"].forEach(id => schedules[id] = istABC);
+
+    // D, E, F
+    const istDEF = [
+      { time: "8:45 – 9:45",  isola: "D", activity: "Insacchettatrice", type: "formativo" },
+      { time: "9:45 – 10:45", isola: "H", activity: "Segnalazioni",     type: "formativo" },
+      { time: "10:45 – 11:15",           activity: "Pausa Caffè",      type: "pausa" },
+      { time: "11:15 – 12:15", isola: "M", activity: "Sicurezza",       type: "formativo" },
+      { time: "12:15 – 13:15",           activity: "Pranzo (Fascia 1)", type: "pausa" },
+      { time: "13:15 – 14:00",           activity: "Termine Formazione (Attesa)", type: "istituzionale" },
+      { time: "14:15 – 14:30",           activity: "Saluti Istituzionali", type: "istituzionale" },
+      { time: "14:30 – 15:30",           activity: "Termine Attività",  type: "istituzionale" }
+    ];
+    ["D","E","F"].forEach(id => schedules[id] = istDEF);
+
+    // G, H, I
+    const istGHI = [
+      { time: "8:45 – 9:45",  isola: "H", activity: "Segnalazioni", type: "formativo" },
+      { time: "9:45 – 10:45", isola: "M", activity: "Sicurezza",    type: "formativo" },
+      { time: "10:45 – 11:15",           activity: "Pausa Caffè",   type: "pausa" },
+      { time: "11:15 – 12:15", isola: "Q", activity: "Opere Q",     type: "formativo" },
+      { time: "12:15 – 13:15",           activity: "Pranzo (Fascia 1)", type: "pausa" },
+      { time: "13:15 – 14:00",           activity: "Termine Formazione (Attesa)", type: "istituzionale" },
+      { time: "14:15 – 14:30",           activity: "Saluti Istituzionali", type: "istituzionale" },
+      { time: "14:30 – 15:30",           activity: "Termine Attività", type: "istituzionale" }
+    ];
+    ["G","H","I"].forEach(id => schedules[id] = istGHI);
+
+    // L, M, N
+    const istLMN = [
+      { time: "8:45 – 9:45",  isola: "M", activity: "Sicurezza",           type: "formativo" },
+      { time: "9:45 – 10:45", isola: "Q", activity: "Opere Q",              type: "formativo" },
+      { time: "10:45 – 11:15",           activity: "Pausa Caffè",          type: "pausa" },
+      { time: "11:15 – 12:15", isola: "R", activity: "TLC - Comunicazioni", type: "formativo" },
+      { time: "12:15 – 13:15",           activity: "Termine Formazione (Attesa)", type: "istituzionale" },
+      { time: "13:15 – 14:00",           activity: "Pranzo (Fascia 2)",    type: "pausa" },
+      { time: "14:15 – 14:30",           activity: "Saluti Istituzionali", type: "istituzionale" },
+      { time: "14:30 – 15:30",           activity: "Termine Attività",     type: "istituzionale" }
+    ];
+    ["L","M","N"].forEach(id => schedules[id] = istLMN);
+
+    // O, P, Q
+    const istOPQ = [
+      { time: "8:45 – 9:45",  isola: "Q", activity: "Opere Q",             type: "formativo" },
+      { time: "9:45 – 10:45", isola: "R", activity: "TLC - Comunicazioni", type: "formativo" },
+      { time: "10:45 – 11:15",           activity: "Pausa Caffè",          type: "pausa" },
+      { time: "11:15 – 12:15", isola: "C", activity: "Rete Monitoraggio",  type: "formativo" },
+      { time: "12:15 – 13:15",           activity: "Termine Formazione (Attesa)", type: "istituzionale" },
+      { time: "13:15 – 14:00",           activity: "Pranzo (Fascia 2)",    type: "pausa" },
+      { time: "14:15 – 14:30",           activity: "Saluti Istituzionali", type: "istituzionale" },
+      { time: "14:30 – 15:30",           activity: "Termine Attività",     type: "istituzionale" }
+    ];
+    ["O","P","Q"].forEach(id => schedules[id] = istOPQ);
+
+    // R, S, T
+    const istRST = [
+      { time: "8:45 – 9:45",  isola: "R", activity: "TLC - Comunicazioni", type: "formativo" },
+      { time: "9:45 – 10:45", isola: "C", activity: "Rete Monitoraggio",   type: "formativo" },
+      { time: "10:45 – 11:15",           activity: "Pausa Caffè",          type: "pausa" },
+      { time: "11:15 – 12:15", isola: "D", activity: "Insacchettatrice",   type: "formativo" },
+      { time: "12:15 – 13:15",           activity: "Termine Formazione (Attesa)", type: "istituzionale" },
+      { time: "13:15 – 14:00",           activity: "Pranzo (Fascia 2)",    type: "pausa" },
+      { time: "14:15 – 14:30",           activity: "Saluti Istituzionali", type: "istituzionale" },
+      { time: "14:30 – 15:30",           activity: "Termine Attività",     type: "istituzionale" }
+    ];
+    ["R","S","T"].forEach(id => schedules[id] = istRST);
+
+    // --------------------------------------------
+    // Popola la tendina
+    // --------------------------------------------
+    const select = document.getElementById("teamSelect");
+
+    // Volontari 1-80
+    for (let i = 1; i <= 80; i++) {
+      const opt = document.createElement("option");
+      opt.value = String(i);
+      opt.textContent = "Squadra " + i;
+      select.appendChild(opt);
+    }
+    // Istituzionali A-T (senza J, K)
+    ["A","B","C","D","E","F","G","H","I","L","M","N","O","P","Q","R","S","T"].forEach(l => {
+      const opt = document.createElement("option");
+      opt.value = l;
+      opt.textContent = "Squadra " + l;
+      select.appendChild(opt);
+    });
+
+    // --------------------------------------------
+    // Render del cronoprogramma
+    // --------------------------------------------
+    const container = document.getElementById("scheduleContainer");
+    const emptyHTML = `<div class="empty-state">Seleziona la tua squadra per visualizzare il cronoprogramma della giornata.</div>`;
+
+    function render(teamId) {
+      const slots = schedules[teamId];
+      if (!slots) {
+        container.innerHTML = `<div class="empty-state">Programma non trovato per la squadra <strong>${teamId}</strong>.</div>`;
+        return;
+      }
+
+      let html = `
+        <div class="chart-section">
+          <h2 class="team-name">Squadra ${teamId}</h2>
+          <p class="team-sub">Cronoprogramma della giornata · Sabato 10 ottobre 2026</p>
+          <ul class="timeline">
+      `;
+
+      slots.forEach(s => {
+        const isolaTag = s.isola ? `<span class="badge-isola">Isola ${s.isola}</span>` : "";
+        html += `
+            <li class="slot slot--${s.type}">
+              <div class="slot-time">${s.time}</div>
+              <div class="slot-title">${isolaTag}${s.activity}</div>
+            </li>
+        `;
+      });
+
+      html += `</ul></div>`;
+      container.innerHTML = html;
+    }
+
+    select.addEventListener("change", function() {
+      if (this.value) render(this.value);
+      else container.innerHTML = emptyHTML;
+    });
+  </script>
+
+</body>
+</html>
