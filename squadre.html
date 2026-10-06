@@ -328,8 +328,14 @@
 
       slots.forEach(s => {
         const isolaTag = s.isola ? `<span class="badge-isola">Isola ${s.isola}</span>` : "";
+
+        // Splitta "8:45 – 9:45" in "8:45" e "9:45"
+        const parts = s.time.split("–").map(p => p.trim());
+        const start = parts[0] || "";
+        const end   = parts[1] || "";
+
         html += `
-            <li class="slot slot--${s.type}">
+            <li class="slot slot--${s.type}" data-start="${start}" data-end="${end}">
               <div class="slot-time">${s.time}</div>
               <div class="slot-title">${isolaTag}${s.activity}</div>
             </li>
@@ -338,6 +344,11 @@
 
       html += `</ul></div>`;
       container.innerHTML = html;
+
+      // Chiedi ad app.js di riapplicare l'evidenziazione slot in corso
+      if (typeof window.highlightCurrentSlot === "function") {
+        window.highlightCurrentSlot();
+      }
     }
 
     select.addEventListener("change", function() {
@@ -345,6 +356,9 @@
       else container.innerHTML = emptyHTML;
     });
   </script>
+
+  <!-- Script comune: stato evento + evidenziazione slot in corso -->
+  <script src="app.js"></script>
 
 </body>
 </html>
