@@ -20,15 +20,13 @@
 
     <form id="surveyForm" novalidate>
 
-      <!-- SEZIONE 0: PROFILO -->
+    <!-- SEZIONE 0: PROFILO -->
       <section class="form-section">
         <h2 class="form-section-title">1. Profilo</h2>
         <p class="form-question">Chi sei? <span class="required">*</span></p>
         <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="profilo" value="Dipendente Regione Toscana" required> Dipendente Regione Toscana</label>
           <label class="radio-option"><input type="radio" name="profilo" value="Volontario" required> Volontario</label>
-          <label class="radio-option"><input type="radio" name="profilo" value="Dipendente Direzione Difesa del Suolo" required> Dipendente Direzione Difesa del Suolo</label>
-          <label class="radio-option"><input type="radio" name="profilo" value="Dipendente Genio Civile" required> Dipendente Genio Civile</label>
-          <label class="radio-option"><input type="radio" name="profilo" value="Dipendente Settore Protezione Civile" required> Dipendente Settore Protezione Civile</label>
           <label class="radio-option"><input type="radio" name="profilo" value="Osservatore" required> Osservatore</label>
         </div>
       </section>
@@ -112,23 +110,23 @@
     // ============================================
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbypeo2MjFlR-heO7GRA9tC1gHleuay_1nUYMR83ldF6RVzOKWMuPHws8A1Mb2fmAXBtGA/exec";
 
-    const ISOLE = [
-      "A - Ronda 1",
-      "B - Telone 1",
-      "C - CFR",
-      "D - Sicurezza Mise",
-      "E - Sacchini 1",
-      "F - Ronda 2",
-      "G - Opera 1 (Cateratta Bisenzio)",
+     const ISOLE = [
+      "A - Ronda A",
+      "B - Opere B",
+      "C - Rete Monitoraggio",
+      "D - Insacchettatrice",
+      "E - Sacchini E",
+      "F - Ronda F",
+      "G - Opere G",
       "H - Segnalazioni",
-      "I - Telone 2 (Bisenzio)",
-      "L - Sacchini 2",
-      "M - Sicurezza CRI",
+      "I - Telone I",
+      "L - Sacchini L",
+      "M - Sicurezza",
       "N - SOUPRT",
-      "O - Ronda 3",
-      "P - Insacchettatrice",
-      "Q - Opera 2 (Cassa Renai)",
-      "R - Comunicazione"
+      "O - Ronda O",
+      "P - Telone P",
+      "Q - Opere Q",
+      "R - TLC - Comunicazioni"
     ];
 
     // ============================================
