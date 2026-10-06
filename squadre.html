@@ -100,12 +100,14 @@
   </header>
 
   <main class="app-main">
+
     <!-- REGISTRAZIONE -->
     <div class="slot slot--istituzionale" style="margin-bottom: 18px;">
       <div class="slot-time">07:00 – 08:45</div>
-      <div class="slot-title">Registrazione in segreteria operativa</div>
+      <div class="slot-title">📝 Registrazione in segreteria operativa</div>
       <div class="slot-sub">e installazione area esercitativa</div>
     </div>
+
     <div class="team-selector">
       <label for="teamSelect">🔽 Seleziona la tua Squadra</label>
       <select id="teamSelect">
@@ -334,6 +336,13 @@
       slots.forEach(s => {
         const isolaTag = s.isola ? `<span class="badge-isola">Isola ${s.isola}</span>` : "";
 
+        // Icona automatica per pause e pranzi
+        let icona = "";
+        if (s.activity === "Pausa Caffè")         icona = "☕ ";
+        else if (s.activity.startsWith("Pranzo")) icona = "🍽️ ";
+        else if (s.activity === "Saluti Istituzionali") icona = "🎤 ";
+        else if (s.activity.startsWith("Termine")) icona = "🏁 ";
+
         // Splitta "8:45 – 9:45" in "8:45" e "9:45"
         const parts = s.time.split("–").map(p => p.trim());
         const start = parts[0] || "";
@@ -342,7 +351,7 @@
         html += `
             <li class="slot slot--${s.type}" data-start="${start}" data-end="${end}">
               <div class="slot-time">${s.time}</div>
-              <div class="slot-title">${isolaTag}${s.activity}</div>
+              <div class="slot-title">${isolaTag}${icona}${s.activity}</div>
             </li>
         `;
       });
