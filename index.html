@@ -154,5 +154,50 @@
   </footer>
 
   <script src="app.js"></script>
+<script>
+  // ============================================
+  // AVVISI COMPATTI - RENAI 2026
+  // Prima dell'08:45 del 10/10/2026 → banner aperti
+  // Dopo → chip piccoli, cliccabili per aprire
+  // ============================================
+
+  const CUTOFF = new Date("2026-10-10T08:45:00");
+  const now = new Date();
+  const avvisiBox = document.getElementById("avvisiBox");
+
+  // Se è dopo il cutoff, mostra in modalità "compressa"
+  if (now > CUTOFF) {
+    avvisiBox.classList.add("avvisi-box--compact");
+  }
+
+  // Click sull'header → toggle apertura
+  document.querySelectorAll(".avviso").forEach(avv => {
+    avv.querySelector(".avviso-head").addEventListener("click", function(e) {
+      if (e.target.closest(".avviso-close")) return;
+      avv.classList.toggle("avviso--open");
+    });
+  });
+
+  // Chiudi singolo avviso (ricordato in localStorage)
+  function closeAvviso(tipo) {
+    const avv = document.getElementById(
+      tipo === "accreditamento" ? "avvisoAccreditamento" : "avvisoDpi"
+    );
+    avv.style.display = "none";
+    try { localStorage.setItem("avviso_" + tipo + "_chiuso", "1"); } catch(e) {}
+  }
+
+  // Ripristina stato chiuso
+  ["accreditamento", "dpi"].forEach(tipo => {
+    try {
+      if (localStorage.getItem("avviso_" + tipo + "_chiuso") === "1") {
+        const id = tipo === "accreditamento" ? "avvisoAccreditamento" : "avvisoDpi";
+        const el = document.getElementById(id);
+        if (el) el.style.display = "none";
+      }
+    } catch(e) {}
+  });
+</script>
+
 </body>
 </html>
