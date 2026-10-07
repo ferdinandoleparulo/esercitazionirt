@@ -24,19 +24,32 @@
   <!-- MAIN -->
   <main class="app-main">
 
-    <!-- AVVISO ACCREDITAMENTO -->
-    <div class="alert alert--accreditamento">
-      <strong>Obbligo di accreditamento:</strong> prima di iniziare qualsiasi attività, tutto il personale partecipante — volontari, dipendenti e osservatori — deve registrarsi presso la segreteria operativa.
-    </div>
+       <!-- AVVISI COMPATTI -->
+    <div id="avvisiBox">
 
-    <!-- AVVISO DPI -->
-    <div class="alert alert--dpi">
-      <p><strong>⚠️ DPI OBBLIGATORI PER TUTTI</strong> (standard di sicurezza):</p>
-      <p>Indumenti ad alta visibilità, guanti, stivali antinfortunistici, caschetto.</p>
+      <div class="avviso" id="avvisoAccreditamento" data-tipo="accreditamento">
+        <button class="avviso-close" onclick="closeAvviso('accreditamento')" aria-label="Chiudi">✕</button>
+        <div class="avviso-head">
+          <strong>📝 Obbligo di accreditamento</strong>
+          <span class="avviso-hint">tocca per aprire</span>
+        </div>
+        <div class="avviso-body">
+          Prima di iniziare qualsiasi attività, tutto il personale partecipante — volontari, dipendenti e osservatori — deve registrarsi presso la segreteria operativa.
+        </div>
+      </div>
 
-      <p style="margin-top:14px;"><strong>➕ DPI SPECIFICI</strong> (solo per chi li ha nella dotazione regionale):</p>
-      <p>Giubbotto antiannegamento, Sacca da lancio, Casco tecnico.</p>
-      <p><em>Se sei in possesso di questi dispositivi, portali con te.</em></p>
+      <div class="avviso" id="avvisoDpi" data-tipo="dpi">
+        <button class="avviso-close" onclick="closeAvviso('dpi')" aria-label="Chiudi">✕</button>
+        <div class="avviso-head">
+          <strong>⚠️ DPI obbligatori per tutti</strong>
+          <span class="avviso-hint">tocca per aprire</span>
+        </div>
+        <div class="avviso-body">
+          <p><strong>Standard di sicurezza:</strong> indumenti ad alta visibilità, guanti, stivali antinfortunistici, caschetto.</p>
+          <p><strong>➕ DPI specifici</strong> (solo per chi li ha nella dotazione regionale): giubbotto antiannegamento, sacca da lancio, casco tecnico. Se sei in possesso di questi dispositivi, portali con te.</p>
+        </div>
+      </div>
+
     </div>
 
     <!-- PROGRAMMA -->
