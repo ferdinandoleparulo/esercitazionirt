@@ -24,31 +24,29 @@
   <!-- MAIN -->
   <main class="app-main">
 
-       <!-- AVVISI COMPATTI -->
+    <!-- AVVISI -->
     <div id="avvisiBox">
 
-      <div class="avviso" id="avvisoAccreditamento" data-tipo="accreditamento">
-        <button class="avviso-close" onclick="closeAvviso('accreditamento')" aria-label="Chiudi">✕</button>
-        <div class="avviso-head">
-          <strong>📝 Obbligo di accreditamento</strong>
-          <span class="avviso-hint">tocca per aprire</span>
-        </div>
+      <details class="avviso" open>
+        <summary class="avviso-head">
+          <span>📝 Obbligo di accreditamento</span>
+          <span class="avviso-arrow">▾</span>
+        </summary>
         <div class="avviso-body">
           Prima di iniziare qualsiasi attività, tutto il personale partecipante — volontari, dipendenti e osservatori — deve registrarsi presso la segreteria operativa.
         </div>
-      </div>
+      </details>
 
-      <div class="avviso" id="avvisoDpi" data-tipo="dpi">
-        <button class="avviso-close" onclick="closeAvviso('dpi')" aria-label="Chiudi">✕</button>
-        <div class="avviso-head">
-          <strong>⚠️ DPI obbligatori per tutti</strong>
-          <span class="avviso-hint">tocca per aprire</span>
-        </div>
+      <details class="avviso" open>
+        <summary class="avviso-head">
+          <span>⚠️ DPI obbligatori per tutti</span>
+          <span class="avviso-arrow">▾</span>
+        </summary>
         <div class="avviso-body">
           <p><strong>Standard di sicurezza:</strong> indumenti ad alta visibilità, guanti, stivali antinfortunistici, caschetto.</p>
           <p><strong>➕ DPI specifici</strong> (solo per chi li ha nella dotazione regionale): giubbotto antiannegamento, sacca da lancio, casco tecnico. Se sei in possesso di questi dispositivi, portali con te.</p>
         </div>
-     
+      </details>
 
     </div>
 
@@ -81,15 +79,15 @@
         <span class="card-icon">📻</span>
         <span class="card-title">Ritiro radio</span>
       </a>
-      <!-- Card Modulo UAS -->
+
       <a href="uas.html" class="card">
         <span class="card-icon">🛸</span>
         <span class="card-title">Modulo UAS - PCR</span>
       </a>
 
       <a href="foto.html" class="card">
-      <span class="card-icon">📸</span>
-      <span class="card-title">Foto</span>
+        <span class="card-icon">📸</span>
+        <span class="card-title">Foto</span>
       </a>
 
       <a href="logistica.html" class="card">
@@ -107,9 +105,9 @@
         <span class="card-title">Risultati</span>
       </a>
 
-       </section>
+    </section>
 
-        <!-- PARTECIPANTI ALL'ESERCITAZIONE -->
+    <!-- PARTECIPANTI ALL'ESERCITAZIONE -->
     <section class="partecipanti">
       <h2 class="partecipanti-title">🤝 Partecipanti e Strutture Coinvolte</h2>
 
@@ -140,8 +138,6 @@
 
   </main>
 
-  </main>
-
   <!-- FOOTER -->
   <footer class="app-footer">
     <p>Regione Toscana · Direzione Difesa del Suolo e Protezione Civile</p>
@@ -154,50 +150,19 @@
   </footer>
 
   <script src="app.js"></script>
-<script>
-  // ============================================
-  // AVVISI COMPATTI - RENAI 2026
-  // Prima dell'08:45 del 10/10/2026 → banner aperti
-  // Dopo → chip piccoli, cliccabili per aprire
-  // ============================================
-
-  const CUTOFF = new Date("2026-10-10T08:45:00");
-  const now = new Date();
-  const avvisiBox = document.getElementById("avvisiBox");
-
-  // Se è dopo il cutoff, mostra in modalità "compressa"
-  if (now > CUTOFF) {
-    avvisiBox.classList.add("avvisi-box--compact");
-  }
-
-  // Click sull'header → toggle apertura
-  document.querySelectorAll(".avviso").forEach(avv => {
-    avv.querySelector(".avviso-head").addEventListener("click", function(e) {
-      if (e.target.closest(".avviso-close")) return;
-      avv.classList.toggle("avviso--open");
-    });
-  });
-
-  // Chiudi singolo avviso (ricordato in localStorage)
-  function closeAvviso(tipo) {
-    const avv = document.getElementById(
-      tipo === "accreditamento" ? "avvisoAccreditamento" : "avvisoDpi"
-    );
-    avv.style.display = "none";
-    try { localStorage.setItem("avviso_" + tipo + "_chiuso", "1"); } catch(e) {}
-  }
-
-  // Ripristina stato chiuso
-  ["accreditamento", "dpi"].forEach(tipo => {
-    try {
-      if (localStorage.getItem("avviso_" + tipo + "_chiuso") === "1") {
-        const id = tipo === "accreditamento" ? "avvisoAccreditamento" : "avvisoDpi";
-        const el = document.getElementById(id);
-        if (el) el.style.display = "none";
-      }
-    } catch(e) {}
-  });
-</script>
+  <script>
+    // ============================================
+    // AVVISI COMPATTI - RENAI 2026
+    // Prima dell'08:45 del 10/10/2026 → avvisi aperti
+    // Dopo → avvisi chiusi, si aprono al tocco
+    // ============================================
+    const CUTOFF = new Date("2026-10-10T08:45:00");
+    if (new Date() > CUTOFF) {
+      document.querySelectorAll("#avvisiBox .avviso").forEach(d => {
+        d.removeAttribute("open");
+      });
+    }
+  </script>
 
 </body>
 </html>
