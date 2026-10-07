@@ -853,3 +853,57 @@ select:focus {
 .foto-istruzioni-list strong {
   color: var(--text);
 }
+/* ============================================
+   PARTECIPANTI (HOME)
+   ============================================ */
+.partecipanti {
+  margin-top: 26px;
+  padding: 18px 16px;
+  background: var(--card);
+  border: 1px solid #262c38;
+  border-radius: var(--radius);
+}
+
+.partecipanti-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  color: var(--text);
+  letter-spacing: 0.3px;
+}
+
+.partecipanti-title:not(:first-child) {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #262c38;
+}
+
+.partecipanti-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.partecipanti-list li {
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #232936;
+  border-left: 3px solid var(--accent);
+  color: var(--text);
+}
+
+.partecipanti-list--enti li {
+  border-left-color: var(--accent);
+  color: var(--text);
+}
+
+.partecipanti-list--volontariato li {
+  border-left-color: var(--warn);
+  background: #2a1f00;
+  color: #ffe9a8;
+}
