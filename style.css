@@ -165,7 +165,7 @@ h1 {
 }
 
 /* ============================
-   AVVISO
+   AVVISO (generico)
    ============================ */
 .alert {
   margin-top: 18px;
@@ -667,6 +667,35 @@ textarea:focus {
 }
 
 /* ============================
+   AVVISO DPI (HOME)
+   ============================ */
+.alert--dpi {
+  margin-top: 0;
+  margin-bottom: 18px;
+  background: #2a1f00;
+  border-left: 4px solid var(--warn);
+  color: #ffe9a8;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.alert--dpi p {
+  margin: 0;
+}
+
+.alert--dpi strong {
+  color: #ffd45e;
+  font-size: 16px;
+}
+
+.alert--dpi em {
+  color: #ffe9a8;
+  font-style: italic;
+}
+
+/* ============================
    PAGINA RADIO
    ============================ */
 .regole-list {
@@ -744,6 +773,7 @@ select:focus {
   border-radius: 10px;
   border-left: 3px solid var(--warn);
 }
+
 /* Contenitori dei campi dinamici (squadra, ruolo) */
 #campoSquadra,
 #campoRuolo {
@@ -751,13 +781,12 @@ select:focus {
   padding: 0;
 }
 
-/* Il select e l'input dentro i campi dinamici devono allinearsi
-   agli altri campi del form */
 #campoRuolo select,
 #campoSquadra input {
   margin-top: 6px;
   display: block;
 }
+
 /* ============================
    ORGANIZZATORE (HOME)
    ============================ */
@@ -769,34 +798,6 @@ select:focus {
   font-style: italic;
 }
 
-/* ============================
-   AVVISO DPI (HOME)
-   ============================ */
-.alert--dpi {
-  margin-top: 0;
-  margin-bottom: 18px;
-  background: #2a1f00;
-  border-left: 4px solid var(--warn);
-  color: #ffe9a8;
-  padding: 14px 16px;
-  border-radius: 10px;
-  font-size: 15px;
-  line-height: 1.5;
-}
-
-.alert--dpi p {
-  margin: 0;
-}
-
-.alert--dpi strong {
-  color: #ffd45e;
-  font-size: 16px;
-}
-
-.alert--dpi em {
-  color: #ffe9a8;
-  font-style: italic;
-}
 /* ============================
    PAGINA FOTO
    ============================ */
@@ -846,13 +847,93 @@ select:focus {
 .foto-istruzioni-list li {
   margin-bottom: 8px;
 }
-/* ============================================
-   MODULO UAS - Stili specifici
-   ============================================ */
-/* ... tutto il blocco con .activities-list, .live-badge, .highlight-box ... */
+
 .foto-istruzioni-list strong {
   color: var(--text);
 }
+
+/* ============================================
+   MODULO UAS
+   ============================================ */
+.uas-activities {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+}
+
+.uas-activities li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px;
+  background: var(--card);
+  border: 1px solid #262c38;
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.uas-activities .letter {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #14532d, #0b3d2e);
+  border: 1px solid #1f6f4a;
+  color: #b9f6d0;
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.uas-streaming {
+  margin-top: 18px;
+  background: #2a1f00;
+  border-left: 4px solid var(--warn);
+  color: #ffe9a8;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.uas-streaming strong {
+  color: #ffd45e;
+}
+
+.uas-caps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.uas-cap {
+  background: #14532d;
+  border: 1px solid #1f6f4a;
+  color: #b9f6d0;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.uas-text {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--text);
+  margin: 0 0 14px;
+}
+
+.uas-text:last-child {
+  margin-bottom: 0;
+}
+
 /* ============================================
    PARTECIPANTI E STRUTTURE (HOME)
    ============================================ */
@@ -900,19 +981,18 @@ select:focus {
   white-space: nowrap;
 }
 
-/* Enti - verde (Protezione Civile, Genio Civile, ecc.) */
 .badge-item--ente {
   background: #14532d;
   border: 1px solid #1f6f4a;
   color: #b9f6d0;
 }
 
-/* Volontariato - ambra/giallo */
 .badge-item--volontariato {
   background: #2a1f00;
   border: 1px solid #3d2f00;
   color: #ffe9a8;
 }
+
 /* ============================================
    AVVISI COMPATTI (HOME)
    ============================================ */
@@ -924,13 +1004,11 @@ select:focus {
 }
 
 .avviso {
-  position: relative;
   background: #2a1f00;
   border-left: 4px solid var(--warn);
   border-radius: 10px;
   color: #ffe9a8;
   overflow: hidden;
-  transition: all 0.2s ease;
 }
 
 .avviso-head {
@@ -940,18 +1018,22 @@ select:focus {
   padding: 12px 14px;
   cursor: pointer;
   user-select: none;
-  gap: 10px;
-}
-
-.avviso-head strong {
-  color: #ffd45e;
   font-size: 15px;
+  font-weight: 600;
+  color: #ffd45e;
+  list-style: none;
 }
 
-.avviso-hint {
-  font-size: 12px;
-  color: #c9a84a;
-  opacity: 0.8;
+.avviso-head::-webkit-details-marker { display: none; }
+.avviso-head::marker { display: none; content: ""; }
+
+.avviso-arrow {
+  font-size: 14px;
+  transition: transform 0.2s;
+}
+
+.avviso[open] .avviso-arrow {
+  transform: rotate(180deg);
 }
 
 .avviso-body {
@@ -962,41 +1044,3 @@ select:focus {
 
 .avviso-body p { margin: 0 0 10px; }
 .avviso-body p:last-child { margin-bottom: 0; }
-
-.avviso-close {
-  position: absolute;
-  top: 8px;
-  right: 10px;
-  background: transparent;
-  border: none;
-  color: #c9a84a;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 6px;
-  z-index: 2;
-}
-
-.avviso-close:hover {
-  color: #fff;
-  background: rgba(255,255,255,0.08);
-}
-
-/* Modalità compressa: chiude il body, mostra solo l'header */
-.avvisi-box--compact .avviso .avviso-body {
-  display: none;
-}
-
-.avvisi-box--compact .avviso .avviso-head {
-  padding-right: 40px;
-}
-
-/* Se aperto esplicitamente, mostra il body anche in modalità compact */
-.avvisi-box--compact .avviso.avviso--open .avviso-body {
-  display: block;
-}
-
-/* In modalità normale (prima del cutoff), body sempre visibile */
-#avvisiBox:not(.avvisi-box--compact) .avviso .avviso-body {
-  display: block;
-}
