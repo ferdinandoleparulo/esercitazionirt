@@ -913,3 +913,90 @@ select:focus {
   border: 1px solid #3d2f00;
   color: #ffe9a8;
 }
+/* ============================================
+   AVVISI COMPATTI (HOME)
+   ============================================ */
+#avvisiBox {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.avviso {
+  position: relative;
+  background: #2a1f00;
+  border-left: 4px solid var(--warn);
+  border-radius: 10px;
+  color: #ffe9a8;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.avviso-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  cursor: pointer;
+  user-select: none;
+  gap: 10px;
+}
+
+.avviso-head strong {
+  color: #ffd45e;
+  font-size: 15px;
+}
+
+.avviso-hint {
+  font-size: 12px;
+  color: #c9a84a;
+  opacity: 0.8;
+}
+
+.avviso-body {
+  padding: 0 14px 14px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.avviso-body p { margin: 0 0 10px; }
+.avviso-body p:last-child { margin-bottom: 0; }
+
+.avviso-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: #c9a84a;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  z-index: 2;
+}
+
+.avviso-close:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.08);
+}
+
+/* Modalità compressa: chiude il body, mostra solo l'header */
+.avvisi-box--compact .avviso .avviso-body {
+  display: none;
+}
+
+.avvisi-box--compact .avviso .avviso-head {
+  padding-right: 40px;
+}
+
+/* Se aperto esplicitamente, mostra il body anche in modalità compact */
+.avvisi-box--compact .avviso.avviso--open .avviso-body {
+  display: block;
+}
+
+/* In modalità normale (prima del cutoff), body sempre visibile */
+#avvisiBox:not(.avvisi-box--compact) .avviso .avviso-body {
+  display: block;
+}
