@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0b3d2e">
-  <title>Strutture e Isole – RENAI 2026</title>
+  <title>Strutture – RENAI 2026</title>
   <style>
     :root {
       --bg: #0f131a;
@@ -16,13 +16,10 @@
     }
     * { box-sizing: border-box; }
     html, body {
-      margin: 0;
-      padding: 0;
-      background: var(--bg);
-      color: var(--text);
+      margin: 0; padding: 0;
+      background: var(--bg); color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
+      line-height: 1.5; -webkit-font-smoothing: antialiased;
     }
     .app-header {
       padding: 18px 16px 14px;
@@ -30,134 +27,78 @@
       border-bottom: 1px solid #1f2530;
     }
     .back-link {
-      display: inline-block;
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 14px;
-      margin-bottom: 10px;
-      font-weight: 600;
+      display: inline-block; color: var(--accent);
+      text-decoration: none; font-size: 14px;
+      margin-bottom: 10px; font-weight: 600;
     }
-    .app-header h1 {
-      margin: 0 0 4px;
-      font-size: 24px;
-      font-weight: 800;
-      letter-spacing: 0.3px;
-    }
-    .subtitle {
-      margin: 0 0 6px;
-      font-size: 14px;
-      color: var(--muted);
-    }
-    .date {
-      margin: 0;
-      font-size: 13px;
-      color: var(--muted);
-      font-weight: 600;
-    }
+    .app-header h1 { margin: 0 0 4px; font-size: 24px; font-weight: 800; }
+    .subtitle { margin: 0 0 6px; font-size: 14px; color: var(--muted); }
+    .date { margin: 0; font-size: 13px; color: var(--muted); font-weight: 600; }
     .app-main { padding: 18px 16px 32px; max-width: 760px; margin: 0 auto; }
 
     .struttura-selector {
-      background: var(--card);
-      border: 1px solid #262c38;
-      border-radius: var(--radius);
-      padding: 16px;
-      margin-bottom: 18px;
+      background: var(--card); border: 1px solid #262c38;
+      border-radius: var(--radius); padding: 16px; margin-bottom: 18px;
     }
     .struttura-selector label {
-      display: block;
-      font-size: 15px;
-      color: var(--muted);
-      margin-bottom: 8px;
-      font-weight: 600;
+      display: block; font-size: 15px; color: var(--muted);
+      margin-bottom: 8px; font-weight: 600;
     }
     .struttura-selector select {
-      width: 100%;
-      background: #232936;
-      border: 1px solid #2e3543;
-      border-radius: 10px;
-      padding: 14px;
-      color: var(--text);
-      font-size: 16px;
-      font-family: inherit;
-      -webkit-appearance: none;
-      appearance: none;
+      width: 100%; background: #232936; border: 1px solid #2e3543;
+      border-radius: 10px; padding: 14px; color: var(--text);
+      font-size: 16px; font-family: inherit;
+      -webkit-appearance: none; appearance: none;
       background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa4b2' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-      background-size: 20px;
-      padding-right: 44px;
+      background-repeat: no-repeat; background-position: right 14px center;
+      background-size: 20px; padding-right: 44px;
     }
-    .struttura-selector select:focus {
-      outline: 2px solid var(--accent);
-      outline-offset: 1px;
-    }
+    .struttura-selector select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
     .empty-state {
-      text-align: center;
-      padding: 40px 20px;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.5;
+      text-align: center; padding: 40px 20px;
+      color: var(--muted); font-size: 15px; line-height: 1.5;
     }
     .struttura-title {
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--accent);
-      margin: 0 0 4px;
-      letter-spacing: 0.3px;
+      font-size: 20px; font-weight: 800; color: var(--accent);
+      margin: 0 0 4px; letter-spacing: 0.3px;
     }
-    .struttura-sub {
-      font-size: 14px;
-      color: var(--muted);
-      margin: 0 0 16px;
+    .struttura-sub { font-size: 14px; color: var(--muted); margin: 0 0 16px; }
+
+    .sezione-title {
+      font-size: 13px; font-weight: 800; color: var(--muted);
+      letter-spacing: 1px; text-transform: uppercase;
+      margin: 20px 0 10px;
     }
+    .sezione-title:first-of-type { margin-top: 0; }
+
     .isola-item {
-      background: var(--card);
-      border: 1px solid #262c38;
-      border-radius: var(--radius);
-      padding: 14px 16px;
-      margin-bottom: 12px;
+      background: var(--card); border: 1px solid #262c38;
+      border-radius: var(--radius); padding: 14px 16px; margin-bottom: 12px;
     }
+    .isola-item--servizio { border-color: #1f6f4a; background: #0f2419; }
     .isola-item-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 6px;
-      flex-wrap: wrap;
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 6px; flex-wrap: wrap;
     }
     .isola-badge {
-      display: inline-block;
-      background: #14532d;
-      border: 1px solid #1f6f4a;
-      color: #b9f6d0;
-      font-size: 13px;
-      font-weight: 800;
-      padding: 3px 10px;
-      border-radius: 8px;
-      letter-spacing: 0.3px;
+      display: inline-block; background: #14532d; border: 1px solid #1f6f4a;
+      color: #b9f6d0; font-size: 13px; font-weight: 800;
+      padding: 3px 10px; border-radius: 8px; letter-spacing: 0.3px;
     }
-    .isola-nome {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text);
+    .isola-badge--servizio {
+      background: #0b3d2e; border-color: #4ade80; color: #b9f6d0;
     }
+    .isola-nome { font-size: 16px; font-weight: 700; color: var(--text); }
     .isola-argomento {
-      font-size: 14px;
-      color: #b9f6d0;
-      margin-top: 6px;
-      line-height: 1.5;
+      font-size: 14px; color: #b9f6d0; margin-top: 6px; line-height: 1.5;
     }
     .isola-formatori {
-      font-size: 13px;
-      color: var(--muted);
-      margin-top: 6px;
-      line-height: 1.5;
+      font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.5;
     }
     .app-footer {
-      text-align: center;
-      padding: 20px 16px 32px;
-      color: var(--muted);
-      font-size: 12px;
-      border-top: 1px solid #1f2530;
+      text-align: center; padding: 20px 16px 32px;
+      color: var(--muted); font-size: 12px; border-top: 1px solid #1f2530;
     }
     .app-footer p { margin: 4px 0; }
     .version { font-weight: 700; }
@@ -167,8 +108,8 @@
 
   <header class="app-header">
     <a href="index.html" class="back-link">← Home</a>
-    <h1>Strutture e Isole</h1>
-    <p class="subtitle">Seleziona una struttura per vedere le isole assegnate</p>
+    <h1>Strutture</h1>
+    <p class="subtitle">Formazione, isole, servizi e formatori</p>
     <p class="date">Sabato 10 ottobre 2026 · Parco dei Renai, Signa</p>
   </header>
 
@@ -183,7 +124,7 @@
 
     <div id="strutturaContainer">
       <div class="empty-state">
-        Seleziona una struttura per visualizzare le isole assegnate.
+        Seleziona una struttura per visualizzare isole, servizi e formatori.
       </div>
     </div>
 
@@ -196,7 +137,7 @@
 
   <script>
     // ============================================
-    // STRUTTURE E ISOLE - RENAI 2026
+    // STRUTTURE - RENAI 2026
     // ============================================
 
     const ARGOMENTI = {
@@ -213,14 +154,28 @@
     };
 
     const STRUTTURE = [
+      // ---------- SERVIZI ----------
       {
         id: "ANPAS",
         nome: "ANPAS",
+        servizi: [
+          { nome: "Isola Ristoro – Pranzo", descrizione: "Gestione cucina e distribuzione dei due turni di pranzo (12:15–13:15 e 13:15–14:15)." }
+        ],
         isole: [
           { lettera: "A", nome: "Ronda A", argomento: "RONDA", formatori: "Pazzi (di ANPAS)" },
           { lettera: "L", nome: "Sacchini L", argomento: "SACCHINI", formatori: "Mantellassi (di ANPAS)" }
         ]
       },
+      {
+        id: "MISERICORDIE",
+        nome: "Misericordie",
+        servizi: [
+          { nome: "Pausa Caffè", descrizione: "Gestione del punto ristoro per la pausa caffè delle 10:45–11:15." }
+        ],
+        isole: []
+      },
+
+      // ---------- FORMAZIONE ----------
       {
         id: "GC-VS",
         nome: "Genio Civile Valdarno Superiore",
@@ -286,6 +241,9 @@
       {
         id: "PCRT",
         nome: "Protezione Civile Regione Toscana",
+        servizi: [
+          { nome: "Segreteria Operativa", descrizione: "Registrazione partecipanti e gestione schede di flusso individuale (07:30–08:45)." }
+        ],
         isole: [
           { lettera: "N", nome: "Soup-RT", argomento: "SOUP-RT", formatori: "Mugnai Possesi, Leparulo" },
           { lettera: "R", nome: "TLC - Comunicazioni", argomento: "COMUNICAZIONE", formatori: "Ottanelli, Benvenuti" }
@@ -304,7 +262,7 @@
 
     // Render
     const container = document.getElementById("strutturaContainer");
-    const emptyHTML = `<div class="empty-state">Seleziona una struttura per visualizzare le isole assegnate.</div>`;
+    const emptyHTML = `<div class="empty-state">Seleziona una struttura per visualizzare isole, servizi e formatori.</div>`;
 
     function renderStruttura(id) {
       const s = STRUTTURE.find(x => x.id === id);
@@ -313,22 +271,42 @@
       let html = `
         <div class="chart-section">
           <h2 class="struttura-title">${s.nome}</h2>
-          <p class="struttura-sub">${s.isole.length === 1 ? "1 isola assegnata" : s.isole.length + " isole assegnate"}</p>
+          <p class="struttura-sub">Dettagli della struttura</p>
       `;
 
-      s.isole.forEach(i => {
-        const descr = ARGOMENTI[i.argomento] || "";
-        html += `
-          <div class="isola-item">
-            <div class="isola-item-header">
-              <span class="isola-badge">ISOLA ${i.lettera}</span>
-              <span class="isola-nome">${i.nome}</span>
+      // Sezione SERVIZI
+      if (s.servizi && s.servizi.length > 0) {
+        html += `<div class="sezione-title">🛠️ Servizi garantiti</div>`;
+        s.servizi.forEach(sv => {
+          html += `
+            <div class="isola-item isola-item--servizio">
+              <div class="isola-item-header">
+                <span class="isola-badge isola-badge--servizio">SERVIZIO</span>
+                <span class="isola-nome">${sv.nome}</span>
+              </div>
+              <div class="isola-argomento">${sv.descrizione}</div>
             </div>
-            <div class="isola-argomento"><strong>${i.argomento}</strong> — ${descr}</div>
-            <div class="isola-formatori">👤 Formatori: ${i.formatori}</div>
-          </div>
-        `;
-      });
+          `;
+        });
+      }
+
+      // Sezione ISOLE / FORMAZIONE
+      if (s.isole && s.isole.length > 0) {
+        html += `<div class="sezione-title">🏝️ Isole formative</div>`;
+        s.isole.forEach(i => {
+          const descr = ARGOMENTI[i.argomento] || "";
+          html += `
+            <div class="isola-item">
+              <div class="isola-item-header">
+                <span class="isola-badge">ISOLA ${i.lettera}</span>
+                <span class="isola-nome">${i.nome}</span>
+              </div>
+              <div class="isola-argomento"><strong>${i.argomento}</strong> — ${descr}</div>
+              <div class="isola-formatori">👤 Formatori: ${i.formatori}</div>
+            </div>
+          `;
+        });
+      }
 
       html += `</div>`;
       container.innerHTML = html;
