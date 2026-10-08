@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0b3d2e">
-  <title>Programma – Esercitazione PC 2026</title>
+  <title>Programma – RENAI 2026</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,63 +22,88 @@
     <!-- TIMELINE -->
     <ul class="timeline" id="timeline">
 
+      <!-- REGISTRAZIONE -->
       <li class="slot slot--istituzionale" data-start="07:30" data-end="08:45">
         <div class="slot-time">07:30 – 08:45</div>
         <div class="slot-title">Registrazione partecipanti</div>
-        <div class="slot-sub">Consegna schede di flusso individuale</div>
+        <div class="slot-sub">Registrazione presso segreteria opertaiva</div>
       </li>
 
+      <!-- FORMAZIONE 1 -->
       <li class="slot slot--formativo" data-start="08:45" data-end="09:45">
         <div class="slot-time">08:45 – 09:45</div>
-        <div class="slot-title">Slot Formativo 1</div>
+        <div class="slot-title">Formazione 1</div>
         <div class="slot-sub">Rotazione isole</div>
       </li>
 
+      <!-- FORMAZIONE 2 -->
       <li class="slot slot--formativo" data-start="09:45" data-end="10:45">
         <div class="slot-time">09:45 – 10:45</div>
-        <div class="slot-title">Slot Formativo 2</div>
+        <div class="slot-title">Formazione 2</div>
         <div class="slot-sub">Rotazione isole</div>
       </li>
 
+      <!-- PAUSA CAFFÈ -->
       <li class="slot slot--pausa" data-start="10:45" data-end="11:15">
         <div class="slot-time">10:45 – 11:15</div>
         <div class="slot-title">Pausa caffè</div>
         <div class="slot-sub">Gestione Misericordie</div>
       </li>
 
-      <li class="slot slot--formativo" data-start="11:15" data-end="12:00">
-        <div class="slot-time">11:15 – 12:00</div>
-        <div class="slot-title">Slot Formativo 3</div>
+      <!-- FORMAZIONE 3 -->
+      <li class="slot slot--formativo" data-start="11:15" data-end="12:15">
+        <div class="slot-time">11:15 – 12:15</div>
+        <div class="slot-title">Formazione 3</div>
         <div class="slot-sub">Rotazione isole</div>
       </li>
 
-      <li class="slot slot--pausa" data-start="12:00" data-end="13:30">
-        <div class="slot-time">12:00 – 13:30</div>
-        <div class="slot-title">Pausa pranzo</div>
-        <div class="slot-sub">Gestione ANPAS</div>
+      <!-- PRANZO FASCIA 1 -->
+      <li class="slot slot--pausa" data-start="12:15" data-end="13:15">
+        <div class="slot-time">12:15 – 13:15</div>
+        <div class="slot-title">Pranzo – Fascia 1</div>
+        <div class="slot-sub">squadre 26-65 + L M N D E F G H I · Gestione ANPAS</div>
       </li>
 
-      <li class="slot slot--istituzionale" data-start="13:30" data-end="14:00">
-        <div class="slot-time">13:30 – 14:00</div>
+      <!-- FORMAZIONE 4 (per chi pranza in Fascia 2) -->
+      <li class="slot slot--formativo" data-start="12:15" data-end="13:15">
+        <div class="slot-time">12:15 – 13:15</div>
+        <div class="slot-title">Formazione 4</div>
+        <div class="slot-sub">Per chi pranza in Fascia 2 (1-25, 66-80 + A B C O P Q R S T)</div>
+      </li>
+
+      <!-- PRANZO FASCIA 2 -->
+      <li class="slot slot--pausa" data-start="13:15" data-end="14:15">
+        <div class="slot-time">13:15 – 14:15</div>
+        <div class="slot-title">Pranzo – Fascia 2</div>
+        <div class="slot-sub">squadre 1-25, 66-80 + A B C O P Q R S T · Gestione ANPAS</div>
+      </li>
+
+      <!-- FORMAZIONE 4 bis (per chi ha pranzato in Fascia 1) -->
+      <li class="slot slot--formativo" data-start="13:15" data-end="14:15">
+        <div class="slot-time">13:15 – 14:15</div>
+        <div class="slot-title">Formazione 4 bis</div>
+        <div class="slot-sub">Per chi ha pranzato in Fascia 1 (26-65 + L M N D E F G H I)</div>
+      </li>
+
+      <!-- SALUTI ISTITUZIONALI -->
+      <li class="slot slot--istituzionale" data-start="14:15" data-end="14:30">
+        <div class="slot-time">14:15 – 14:30</div>
         <div class="slot-title">Saluti istituzionali</div>
+        <div class="slot-sub">Palco Istituzionale · tutti</div>
       </li>
 
-      <li class="slot slot--formativo" data-start="14:00" data-end="15:00">
-        <div class="slot-time">14:00 – 15:00</div>
-        <div class="slot-title">Slot Formativo 4</div>
-        <div class="slot-sub">Rotazione isole</div>
+      <!-- FORMAZIONE 5 -->
+      <li class="slot slot--formativo" data-start="14:30" data-end="15:30">
+        <div class="slot-time">14:30 – 15:30</div>
+        <div class="slot-title">Formazione 5</div>
+        <div class="slot-sub">Rotazione isole · solo squadre 1-80</div>
       </li>
 
-      <li class="slot slot--formativo" data-start="15:00" data-end="16:00">
-        <div class="slot-time">15:00 – 16:00</div>
-        <div class="slot-title">Slot Formativo 5</div>
-        <div class="slot-sub">Rotazione isole</div>
-      </li>
-
+      <!-- DEBRIEFING -->
       <li class="slot slot--istituzionale" data-start="16:00" data-end="17:00">
         <div class="slot-time">16:00 – 17:00</div>
         <div class="slot-title">Debriefing e smontaggio</div>
-        <div class="slot-sub">Debriefing speditivo sul campo</div>
+        <div class="slot-sub">Compilazione formulario di valutazione</div>
       </li>
 
     </ul>
@@ -87,7 +112,7 @@
 
   <footer class="app-footer">
     <p>Regione Toscana · Protezione Civile</p>
-    <p class="version">v1.0 · 2026</p>
+    <p class="version">RENAI 2026 · v2.0</p>
   </footer>
 
   <script src="app.js"></script>
