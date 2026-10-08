@@ -4,7 +4,7 @@
    ============================================================ */
 
 
-/* ============================================================
+/* =========================================================
    1. VARIABILI GLOBALI
    ============================================================ */
 :root {
@@ -661,7 +661,6 @@ body {
   line-height: 1.5;
 }
 
-
 /* ============================================================
    17. TIMELINE E SLOT (programma + squadre)
    ============================================================ */
@@ -669,45 +668,70 @@ body {
   list-style: none;
   margin: 0;
   padding: 0;
+  position: relative;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 22px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: #262c38;
 }
 
 .slot {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 14px 14px;
+  position: relative;
+  margin: 0 0 12px 0;
+  padding: 14px 14px 14px 52px;
   background: var(--card);
   border: 1px solid #262c38;
   border-radius: var(--radius);
-  margin-bottom: 10px;
 }
 
+.slot::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 20px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #3f4756;
+  border: 3px solid var(--card);
+  box-shadow: 0 0 0 1px #3f4756;
+}
+
+.slot--formativo::before     { background: #2ecc71; box-shadow: 0 0 0 1px #2ecc71; }
+.slot--pausa::before         { background: #f1c40f; box-shadow: 0 0 0 1px #f1c40f; }
+.slot--istituzionale::before { background: #9ecbff; box-shadow: 0 0 0 1px #9ecbff; }
+.slot--registrazione::before { background: #2ecc71; box-shadow: 0 0 0 1px #2ecc71; }
+
 .slot-time {
-  flex: 0 0 135px;
-  font-size: clamp(0.9rem, 0.85rem + 0.4vw, 1.05rem);
+  display: block;
+  font-size: clamp(0.85rem, 0.8rem + 0.3vw, 1rem);
   font-weight: 700;
   color: var(--accent);
-  letter-spacing: 0.3px;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
 }
 
 .slot-title {
-  flex: 1;
-  font-size: 1.05rem;
-  color: var(--text);
-  line-height: 1.5;
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
 }
 
 .slot-sub {
-  font-size: 0.95rem;
+  display: block;
+  font-size: 0.9rem;
   color: var(--muted);
   margin-top: 3px;
 }
 
-/* Varianti colore degli slot */
-.slot--formativo {
-  /* default: colore card */
-}
-
+/* Varianti colore */
 .slot--pausa {
   background: #2a1f00;
   border-color: #3d2f00;
@@ -728,21 +752,32 @@ body {
 }
 .slot--registrazione .slot-title { color: #b9f6d0; }
 
-/* Badge isola (dentro gli slot di squadre.html) */
+/* Badge isola dentro gli slot di squadre.html */
 .badge-isola {
   display: inline-block;
   background: #14532d;
   border: 1px solid #1f6f4a;
   color: #b9f6d0;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  padding: 3px 9px;
+  padding: 3px 8px;
   border-radius: 6px;
-  margin-right: 8px;
+  margin-right: 6px;
   vertical-align: middle;
 }
 
+/* Slot in corso / passato (app.js) */
+.slot--now {
+  background: #14532d;
+  border-color: var(--accent);
+}
+.slot--now .slot-time  { color: #b9f6d0; }
+.slot--now .slot-title { color: #d1fae5; }
+.slot--now::before     { background: #2ecc71; box-shadow: 0 0 0 1px #2ecc71; }
 
+.slot--past {
+  opacity: 0.45;
+}
 /* ============================================================
    18. PROGRAMMA – BLOCCHI PARALLELI
    ============================================================ */
