@@ -4,9 +4,58 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0b3d2e">
-  <title>Servizio Strutture – RENAI 2026</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Strutture e Isole – RENAI 2026</title>
   <style>
+    :root {
+      --bg: #0f131a;
+      --card: #171c25;
+      --text: #e8edf4;
+      --muted: #9aa4b2;
+      --accent: #4ade80;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    .app-header {
+      padding: 18px 16px 14px;
+      background: linear-gradient(180deg, #0b3d2e 0%, #0f131a 100%);
+      border-bottom: 1px solid #1f2530;
+    }
+    .back-link {
+      display: inline-block;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .app-header h1 {
+      margin: 0 0 4px;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+    .subtitle {
+      margin: 0 0 6px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .date {
+      margin: 0;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .app-main { padding: 18px 16px 32px; max-width: 760px; margin: 0 auto; }
+
     .struttura-selector {
       background: var(--card);
       border: 1px solid #262c38;
@@ -42,7 +91,6 @@
       outline: 2px solid var(--accent);
       outline-offset: 1px;
     }
-
     .empty-state {
       text-align: center;
       padding: 40px 20px;
@@ -50,125 +98,78 @@
       font-size: 15px;
       line-height: 1.5;
     }
-
-    .struttura-header {
-      background: linear-gradient(135deg, #14532d, #0b3d2e);
-      border: 1px solid #1f6f4a;
-      border-radius: var(--radius);
-      padding: 18px;
-      margin-bottom: 20px;
-    }
-    .struttura-header h2 {
-      margin: 0 0 6px;
-      font-size: 20px;
-      font-weight: 800;
-      color: #b9f6d0;
-      letter-spacing: 0.3px;
-    }
-    .struttura-header p {
-      margin: 0;
-      font-size: 14px;
-      color: #b9f6d0;
-      opacity: 0.85;
-    }
-
-    .isola-card {
-      background: var(--card);
-      border: 1px solid #262c38;
-      border-radius: var(--radius);
-      padding: 18px;
-      margin-bottom: 20px;
-    }
-    .isola-card-title {
+    .struttura-title {
       font-size: 20px;
       font-weight: 800;
       color: var(--accent);
       margin: 0 0 4px;
       letter-spacing: 0.3px;
     }
-    .isola-card-sub {
-      font-size: 13px;
-      color: var(--muted);
-      margin: 0 0 12px;
-    }
-    .isola-card-desc {
-      font-size: 15px;
-      color: var(--text);
-      line-height: 1.5;
-      margin: 0 0 14px;
-      padding: 12px 14px;
-      background: #14532d;
-      border-left: 4px solid var(--accent);
-      border-radius: 10px;
-    }
-    .isola-meta {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 16px;
-      padding: 14px;
-      background: #232936;
-      border: 1px solid #2e3543;
-      border-radius: 10px;
-    }
-    .isola-meta-row {
-      display: flex;
-      gap: 10px;
+    .struttura-sub {
       font-size: 14px;
-      line-height: 1.4;
-    }
-    .isola-meta-label {
-      flex: 0 0 90px;
       color: var(--muted);
-      font-weight: 600;
+      margin: 0 0 16px;
     }
-    .isola-meta-value {
-      flex: 1;
-      color: var(--text);
-    }
-
-    .fasce-list { list-style: none; margin: 0; padding: 0; }
-    .fascia {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      padding: 12px 14px;
+    .isola-item {
       background: var(--card);
       border: 1px solid #262c38;
       border-radius: var(--radius);
-      margin-bottom: 10px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
     }
-    .fascia-time {
-      flex: 0 0 110px;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--accent);
+    .isola-item-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+    .isola-badge {
+      display: inline-block;
+      background: #14532d;
+      border: 1px solid #1f6f4a;
+      color: #b9f6d0;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 8px;
       letter-spacing: 0.3px;
     }
-    .fascia-squadre {
-      flex: 1;
-      font-size: 15px;
+    .isola-nome {
+      font-size: 16px;
+      font-weight: 700;
       color: var(--text);
+    }
+    .isola-argomento {
+      font-size: 14px;
+      color: #b9f6d0;
+      margin-top: 6px;
       line-height: 1.5;
     }
-    .fascia--pausa {
-      background: #2a1f00;
-      border-color: #3d2f00;
-    }
-    .fascia--pausa .fascia-squadre { color: #ffe9a8; }
-    .fascia-empty {
+    .isola-formatori {
+      font-size: 13px;
       color: var(--muted);
-      font-style: italic;
+      margin-top: 6px;
+      line-height: 1.5;
     }
+    .app-footer {
+      text-align: center;
+      padding: 20px 16px 32px;
+      color: var(--muted);
+      font-size: 12px;
+      border-top: 1px solid #1f2530;
+    }
+    .app-footer p { margin: 4px 0; }
+    .version { font-weight: 700; }
   </style>
 </head>
 <body>
 
   <header class="app-header">
     <a href="index.html" class="back-link">← Home</a>
-    <h1>Servizio Strutture</h1>
-    <p class="subtitle">Seleziona la tua struttura per vedere isole e formatori</p>
-    <p class="date">Sabato 10 ottobre 2026 · 07:00 – 17:00</p>
+    <h1>Strutture e Isole</h1>
+    <p class="subtitle">Seleziona una struttura per vedere le isole assegnate</p>
+    <p class="date">Sabato 10 ottobre 2026 · Parco dei Renai, Signa</p>
   </header>
 
   <main class="app-main">
@@ -180,9 +181,9 @@
       </select>
     </div>
 
-    <div id="container">
+    <div id="strutturaContainer">
       <div class="empty-state">
-        Seleziona la tua struttura per visualizzare le isole assegnate e il cronoprogramma.
+        Seleziona una struttura per visualizzare le isole assegnate.
       </div>
     </div>
 
@@ -190,360 +191,154 @@
 
   <footer class="app-footer">
     <p>Regione Toscana · Direzione Difesa del Suolo e Protezione Civile</p>
-    <p class="version">RENAI - 2026 · v1.0</p>
+    <p class="version">RENAI 2026 · v2.0</p>
   </footer>
 
   <script>
     // ============================================
-    // DATI ISOLE - RENAI 2026 (allineati a isole.html)
+    // STRUTTURE E ISOLE - RENAI 2026
     // ============================================
-    const ISOLE_DATA = {
-      A: {
-        nome: "Ronda A",
-        struttura: "ANPAS e Genio Civile Valdarno Superiore",
-        formatori: "Pazzi (ANPAS), Di Paco, Liuti, Comanducci, Sassoli, Ruggiero",
-        descrizione: "Modalità di esecuzione ronde, lettura aste idrometriche e segnalazione fontanazzi.",
-        fasce: {
-          "08:45 – 09:45": "1, 2, 3, 4, 5",
-          "09:45 – 10:45": "76, 77, 78, 79, 80",
-          "11:15 – 12:15": "71, 72, 73, 74, 75",
-          "12:15 – 13:15": "66, 67, 68, 69, 70",
-          "13:15 – 14:15": null,
-          "14:30 – 15:30": "61, 62, 63, 64, 65"
-        }
-      },
-      B: {
-        nome: "Opere B",
-        struttura: "Genio Civile Valdarno Superiore",
-        formatori: "Tinagli, Ruggiero, Dimaggio",
-        descrizione: "Manovra di paratoie, monitoraggio paratie e gestione manufatti idraulici.",
-        fasce: {
-          "08:45 – 09:45": "6, 7, 8, 9, 10",
-          "09:45 – 10:45": "1, 2, 3, 4, 5",
-          "11:15 – 12:15": "76, 77, 78, 79, 80",
-          "12:15 – 13:15": "71, 72, 73, 74, 75",
-          "13:15 – 14:15": null,
-          "14:30 – 15:30": "66, 67, 68, 69, 70"
-        }
-      },
-      C: {
-        nome: "Rete Monitoraggio",
-        struttura: "Centro Funzionale Regione Toscana",
-        formatori: "Trotta, Pisani, Criscuolo",
-        descrizione: "Interpretazione della rete di monitoraggio idro-meteo regionale.",
-        fasce: {
-          "08:45 – 09:45": "11, 12, 13, 14, 15, A, B, C",
-          "09:45 – 10:45": "6, 7, 8, 9, 10, R, S, T",
-          "11:15 – 12:15": "1, 2, 3, 4, 5, O, P, Q",
-          "12:15 – 13:15": "76, 77, 78, 79, 80",
-          "13:15 – 14:15": null,
-          "14:30 – 15:30": "71, 72, 73, 74, 75"
-        }
-      },
-      D: {
-        nome: "Insacchettatrice",
-        struttura: "CISOM",
-        formatori: "Ballini, Massai, Zito",
-        descrizione: "Uso della macchina automatica con supporto Bobcat.",
-        fasce: {
-          "08:45 – 09:45": "16, 17, 18, 19, 20, D, E, F",
-          "09:45 – 10:45": "11, 12, 13, 14, 15, A, B, C",
-          "11:15 – 12:15": "6, 7, 8, 9, 10, R, S, T",
-          "12:15 – 13:15": "1, 2, 3, 4, 5",
-          "13:15 – 14:15": null,
-          "14:30 – 15:30": "76, 77, 78, 79, 80"
-        }
-      },
-      E: {
-        nome: "Sacchini E",
-        struttura: "Genio Civile Toscana Nord",
-        formatori: "Galliani, Del Carlo, Rossi",
-        descrizione: "Tecniche di insaccaggio manuale e realizzazione coronelle.",
-        fasce: {
-          "08:45 – 09:45": "21, 22, 23, 24, 25",
-          "09:45 – 10:45": "16, 17, 18, 19, 20",
-          "11:15 – 12:15": "11, 12, 13, 14, 15",
-          "12:15 – 13:15": "6, 7, 8, 9, 10",
-          "13:15 – 14:15": null,
-          "14:30 – 15:30": "1, 2, 3, 4, 5"
-        }
-      },
-      F: {
-        nome: "Ronda F",
-        struttura: "Genio Civile Valdarno Inferiore",
-        formatori: "Di Lauro, Bargi, Lazzaroni",
-        descrizione: "Modalità di esecuzione ronde, lettura aste idrometriche e segnalazione fontanazzi.",
-        fasce: {
-          "08:45 – 09:45": "26, 27, 28, 29, 30",
-          "09:45 – 10:45": "21, 22, 23, 24, 25",
-          "11:15 – 12:15": "16, 17, 18, 19, 20",
-          "12:15 – 13:15": "11, 12, 13, 14, 15",
-          "13:15 – 14:15": null,
-          "14:30 – 15:30": "6, 7, 8, 9, 10"
-        }
-      },
-      G: {
-        nome: "Opere G",
-        struttura: "Genio Civile Valdarno Superiore",
-        formatori: "Moretti, Giannelli, Melucci, Riccucci Matteo, Pari",
-        descrizione: "Manovra di paratoie, monitoraggio paratie e gestione manufatti idraulici.",
-        fasce: {
-          "08:45 – 09:45": "31, 32, 33, 34, 35",
-          "09:45 – 10:45": "26, 27, 28, 29, 30",
-          "11:15 – 12:15": "21, 22, 23, 24, 25",
-          "12:15 – 13:15": "16, 17, 18, 19, 20",
-          "13:15 – 14:15": null,
-          "14:30 – 15:30": "11, 12, 13, 14, 15"
-        }
-      },
-      H: {
-        nome: "Segnalazioni",
-        struttura: "Centro Scienze Naturali Prato",
-        formatori: "Tozzi",
-        descrizione: "Segnalazione di criticità e gestione delle comunicazioni con la sala operativa.",
-        fasce: {
-          "08:45 – 09:45": "36, 37, 38, 39, 40, G, H, I",
-          "09:45 – 10:45": "31, 32, 33, 34, 35, D, E, F",
-          "11:15 – 12:15": "26, 27, 28, 29, 30, A, B, C",
-          "12:15 – 13:15": "21, 22, 23, 24, 25",
-          "13:15 – 14:15": null,
-          "14:30 – 15:30": "16, 17, 18, 19, 20"
-        }
-      },
-      I: {
-        nome: "Telone I",
-        struttura: "Genio Civile Toscana Nord",
-        formatori: "Fico, Cruicchi, Grilli",
-        descrizione: "Procedure di telonatura arginale per contrastare l'erosione superficiale.",
-        fasce: {
-          "08:45 – 09:45": "41, 42, 43, 44, 45",
-          "09:45 – 10:45": "36, 37, 38, 39, 40",
-          "11:15 – 12:15": "31, 32, 33, 34, 35",
-          "12:15 – 13:15": null,
-          "13:15 – 14:15": "26, 27, 28, 29, 30",
-          "14:30 – 15:30": "21, 22, 23, 24, 25"
-        }
-      },
-      L: {
-        nome: "Sacchini L",
-        struttura: "ANPAS e Genio Civile Valdarno Superiore",
-        formatori: "Mantellassi (ANPAS), Facenna, Vanni, Trovato, Riccucci Marco, Signorini",
-        descrizione: "Tecniche di insaccaggio manuale e realizzazione coronelle.",
-        fasce: {
-          "08:45 – 09:45": "46, 47, 48, 49, 50",
-          "09:45 – 10:45": "41, 42, 43, 44, 45",
-          "11:15 – 12:15": "36, 37, 38, 39, 40",
-          "12:15 – 13:15": null,
-          "13:15 – 14:15": "31, 32, 33, 34, 35",
-          "14:30 – 15:30": "26, 27, 28, 29, 30"
-        }
-      },
-      M: {
-        nome: "Sicurezza",
-        struttura: "Croce Rossa Italiana - Comitato Toscana",
-        formatori: "Lucarini",
-        descrizione: "Norme comportamentali e utilizzo corretto dei DPI specialistici.",
-        fasce: {
-          "08:45 – 09:45": "51, 52, 53, 54, 55, L, M, N",
-          "09:45 – 10:45": "46, 47, 48, 49, 50, G, H, I",
-          "11:15 – 12:15": "41, 42, 43, 44, 45, D, E, F",
-          "12:15 – 13:15": null,
-          "13:15 – 14:15": "36, 37, 38, 39, 40",
-          "14:30 – 15:30": "31, 32, 33, 34, 35"
-        }
-      },
-      N: {
-        nome: "SOUPRT",
-        struttura: "Protezione Civile Regione Toscana",
-        formatori: "Mugnai Poggesi, Leparulo",
-        descrizione: "Utilizzo del programma di sala operativa per il servizio di piena.",
-        fasce: {
-          "08:45 – 09:45": "56, 57, 58, 59, 60",
-          "09:45 – 10:45": "51, 52, 53, 54, 55",
-          "11:15 – 12:15": "46, 47, 48, 49, 50",
-          "12:15 – 13:15": null,
-          "13:15 – 14:15": "41, 42, 43, 44, 45",
-          "14:30 – 15:30": "36, 37, 38, 39, 40"
-        }
-      },
-      O: {
-        nome: "Ronda O",
-        struttura: "Genio Civile Valdarno Inferiore",
-        formatori: "Menicagli, Barsuglia, D'Isep",
-        descrizione: "Modalità di esecuzione ronde, lettura aste idrometriche e segnalazione fontanazzi.",
-        fasce: {
-          "08:45 – 09:45": "61, 62, 63, 64, 65",
-          "09:45 – 10:45": "56, 57, 58, 59, 60",
-          "11:15 – 12:15": "51, 52, 53, 54, 55",
-          "12:15 – 13:15": null,
-          "13:15 – 14:15": "46, 47, 48, 49, 50",
-          "14:30 – 15:30": "41, 42, 43, 44, 45"
-        }
-      },
-      P: {
-        nome: "Telone P",
-        struttura: "Genio Civile Valdarno Centrale",
-        formatori: "Alagia, Bazzani, Borchi, Gori, Molinaro, Restivo, Seghi, Tesi",
-        descrizione: "Procedure di telonatura arginale per contrastare l'erosione superficiale.",
-        fasce: {
-          "08:45 – 09:45": "66, 67, 68, 69, 70",
-          "09:45 – 10:45": "61, 62, 63, 64, 65",
-          "11:15 – 12:15": "56, 57, 58, 59, 60",
-          "12:15 – 13:15": null,
-          "13:15 – 14:15": "51, 52, 53, 54, 55",
-          "14:30 – 15:30": "46, 47, 48, 49, 50"
-        }
-      },
-      Q: {
-        nome: "Opere Q",
-        struttura: "Genio Civile Valdarno Centrale",
-        formatori: "Gonnelli, Pierro, Reggiannini, Trinci, Cipriani, Longo",
-        descrizione: "Manovra di paratoie, monitoraggio paratie e gestione manufatti idraulici.",
-        fasce: {
-          "08:45 – 09:45": "71, 72, 73, 74, 75, O, P, Q",
-          "09:45 – 10:45": "66, 67, 68, 69, 70, L, M, N",
-          "11:15 – 12:15": "61, 62, 63, 64, 65, G, H, I",
-          "12:15 – 13:15": null,
-          "13:15 – 14:15": "56, 57, 58, 59, 60",
-          "14:30 – 15:30": "51, 52, 53, 54, 55"
-        }
-      },
-      R: {
-        nome: "TLC - Comunicazioni",
-        struttura: "Protezione Civile Regione Toscana",
-        formatori: "Ottanelli, Benvenuti",
-        descrizione: "Utilizzo delle radio e di un corretto linguaggio per le comunicazioni durante la specifica attività di servizio di piena.",
-        fasce: {
-          "08:45 – 09:45": "76, 77, 78, 79, 80, R, S, T",
-          "09:45 – 10:45": "71, 72, 73, 74, 75, O, P, Q",
-          "11:15 – 12:15": "66, 67, 68, 69, 70, L, M, N",
-          "12:15 – 13:15": null,
-          "13:15 – 14:15": "61, 62, 63, 64, 65",
-          "14:30 – 15:30": "56, 57, 58, 59, 60"
-        }
-      }
+
+    const ARGOMENTI = {
+      "RONDA": "Modalità di esecuzione ronde, lettura aste idrometriche e segnalazione fontanazzi.",
+      "OPERE": "Manovra di paratoie, monitoraggio paratie e gestione manufatti idraulici.",
+      "RETE MONITORAGGIO": "Interpretazione della rete di monitoraggio idro-meteo regionale.",
+      "INSACCHETTATRICE": "Uso della macchina automatica con supporto Bobcat.",
+      "SACCHINI": "Tecniche di insaccaggio manuale e realizzazione coronelle.",
+      "TELONE": "Procedure di telonatura arginale per contrastare l'erosione superficiale.",
+      "SOUP-RT": "Utilizzo del programma di sala operativa per il servizio di piena.",
+      "SICUREZZA": "Norme comportamentali e utilizzo corretto dei DPI specialistici.",
+      "COMUNICAZIONE": "Utilizzo delle radio e di un corretto linguaggio per le comunicazioni durante la specifica attività di servizio di piena.",
+      "SEGNALAZIONI": "Segnalazione di criticità e gestione delle comunicazioni con la sala operativa."
     };
 
-    // ============================================
-    // ELENCO STRUTTURE (con le isole assegnate)
-    // ============================================
     const STRUTTURE = [
-      { nome: "ANPAS", isole: ["A", "L"] },
-      { nome: "Centro Funzionale Regione Toscana", isole: ["C"] },
-      { nome: "Centro Scienze Naturali Prato", isole: ["H"] },
-      { nome: "CISOM", isole: ["D"] },
-      { nome: "Croce Rossa Italiana - Comitato Toscana", isole: ["M"] },
-      { nome: "Genio Civile Toscana Nord", isole: ["E", "I"] },
-      { nome: "Genio Civile Valdarno Centrale", isole: ["P", "Q"] },
-      { nome: "Genio Civile Valdarno Inferiore", isole: ["F", "O"] },
-      { nome: "Genio Civile Valdarno Superiore", isole: ["A", "B", "G", "L"] },
-      { nome: "Protezione Civile Regione Toscana", isole: ["N", "R"] }
+      {
+        id: "ANPAS",
+        nome: "ANPAS",
+        isole: [
+          { lettera: "A", nome: "Ronda A", argomento: "RONDA", formatori: "Pazzi (di ANPAS)" },
+          { lettera: "L", nome: "Sacchini L", argomento: "SACCHINI", formatori: "Mantellassi (di ANPAS)" }
+        ]
+      },
+      {
+        id: "GC-VS",
+        nome: "Genio Civile Valdarno Superiore",
+        isole: [
+          { lettera: "A", nome: "Ronda A", argomento: "RONDA", formatori: "Di Paco, Liuti, Comanducci, Sassoli, Ruggiero" },
+          { lettera: "B", nome: "Opere B", argomento: "OPERE", formatori: "Tinagli, Ruggiero, Dimaggio" },
+          { lettera: "G", nome: "Opere G", argomento: "OPERE", formatori: "Moretti, Giannelli, Melucci, Riccucci Matteo, Pari" },
+          { lettera: "L", nome: "Sacchini L", argomento: "SACCHINI", formatori: "Facenna, Vanni, Trovato, Riccucci Marco, Signorini" }
+        ]
+      },
+      {
+        id: "GC-NORD",
+        nome: "Genio Civile Toscana Nord",
+        isole: [
+          { lettera: "E", nome: "Sacchini E", argomento: "SACCHINI", formatori: "Galliani, Del Carlo, Rossi" },
+          { lettera: "I", nome: "Telone I", argomento: "TELONE", formatori: "Fico, Cruicchi, Grilli" }
+        ]
+      },
+      {
+        id: "GC-INF",
+        nome: "Genio Civile Valdarno Inferiore",
+        isole: [
+          { lettera: "F", nome: "Ronda F", argomento: "RONDA", formatori: "Di Lauro, Bargi, Lazzaroni" },
+          { lettera: "O", nome: "Ronda O", argomento: "RONDA", formatori: "Menicagli, Barsuglia, D'Isep" }
+        ]
+      },
+      {
+        id: "GC-CENTR",
+        nome: "Genio Civile Valdarno Centrale",
+        isole: [
+          { lettera: "P", nome: "Telone P", argomento: "TELONE", formatori: "Alagia, Bazzani, Borchi, Gori, Molinaro, Restivo, Seghi, Tesi" },
+          { lettera: "Q", nome: "Opere Q", argomento: "OPERE", formatori: "Gonnelli, Pierro, Reggiannini, Trinci, Cipriani, Longo" }
+        ]
+      },
+      {
+        id: "CFR",
+        nome: "Centro Funzionale Regione Toscana",
+        isole: [
+          { lettera: "C", nome: "Rete Monitoraggio", argomento: "RETE MONITORAGGIO", formatori: "Trotta, Pisani, Criscuolo" }
+        ]
+      },
+      {
+        id: "CISOM",
+        nome: "CISOM",
+        isole: [
+          { lettera: "D", nome: "Insacchettatrice", argomento: "INSACCHETTATRICE", formatori: "Ballini, Massai, Zito" }
+        ]
+      },
+      {
+        id: "CSN",
+        nome: "Centro Scienze Naturali Prato",
+        isole: [
+          { lettera: "H", nome: "Segnalazioni", argomento: "SEGNALAZIONI", formatori: "Tozzi Saverio" }
+        ]
+      },
+      {
+        id: "CRI",
+        nome: "Croce Rossa Italiana – Comitato Toscana",
+        isole: [
+          { lettera: "M", nome: "Sicurezza", argomento: "SICUREZZA", formatori: "Lucarini" }
+        ]
+      },
+      {
+        id: "PCRT",
+        nome: "Protezione Civile Regione Toscana",
+        isole: [
+          { lettera: "N", nome: "Soup-RT", argomento: "SOUP-RT", formatori: "Mugnai Possesi, Leparulo" },
+          { lettera: "R", nome: "TLC - Comunicazioni", argomento: "COMUNICAZIONE", formatori: "Ottanelli, Benvenuti" }
+        ]
+      }
     ];
 
-    const ORARI_ORDER = [
-      "08:45 – 09:45",
-      "09:45 – 10:45",
-      "10:45 – 11:15",
-      "11:15 – 12:15",
-      "12:15 – 13:15",
-      "13:15 – 14:15",
-      "14:15 – 14:30",
-      "14:30 – 15:30"
-    ];
-
-    // ============================================
-    // POPOLA LA TENDINA
-    // ============================================
+    // Popola la tendina
     const select = document.getElementById("strutturaSelect");
-    STRUTTURE.forEach((s, idx) => {
+    STRUTTURE.forEach(s => {
       const opt = document.createElement("option");
-      opt.value = idx;
+      opt.value = s.id;
       opt.textContent = s.nome;
       select.appendChild(opt);
     });
 
-    // ============================================
-    // RENDER
-    // ============================================
-    const container = document.getElementById("container");
-    const emptyHTML = `<div class="empty-state">Seleziona la tua struttura per visualizzare le isole assegnate e il cronoprogramma.</div>`;
+    // Render
+    const container = document.getElementById("strutturaContainer");
+    const emptyHTML = `<div class="empty-state">Seleziona una struttura per visualizzare le isole assegnate.</div>`;
 
-    function renderStruttura(idx) {
-      const s = STRUTTURE[idx];
+    function renderStruttura(id) {
+      const s = STRUTTURE.find(x => x.id === id);
       if (!s) return;
 
       let html = `
-        <div class="struttura-header">
-          <h2>🏛️ ${s.nome}</h2>
-          <p>${s.isole.length} isol${s.isole.length === 1 ? "a" : "e"} assegnat${s.isole.length === 1 ? "a" : "e"}</p>
-        </div>
+        <div class="chart-section">
+          <h2 class="struttura-title">${s.nome}</h2>
+          <p class="struttura-sub">${s.isole.length === 1 ? "1 isola assegnata" : s.isole.length + " isole assegnate"}</p>
       `;
 
-      s.isole.forEach(lettera => {
-        const d = ISOLE_DATA[lettera];
-        if (!d) return;
-
+      s.isole.forEach(i => {
+        const descr = ARGOMENTI[i.argomento] || "";
         html += `
-          <div class="isola-card">
-            <h3 class="isola-card-title">Isola ${lettera} – ${d.nome}</h3>
-            <p class="isola-card-sub">Sabato 10 ottobre 2026</p>
-
-            <p class="isola-card-desc">${d.descrizione}</p>
-
-            <div class="isola-meta">
-              <div class="isola-meta-row">
-                <div class="isola-meta-label">🏛️ Struttura</div>
-                <div class="isola-meta-value">${d.struttura}</div>
-              </div>
-              <div class="isola-meta-row">
-                <div class="isola-meta-label">👤 Formatori</div>
-                <div class="isola-meta-value">${d.formatori}</div>
-              </div>
+          <div class="isola-item">
+            <div class="isola-item-header">
+              <span class="isola-badge">ISOLA ${i.lettera}</span>
+              <span class="isola-nome">${i.nome}</span>
             </div>
-
-            <ul class="fasce-list">
+            <div class="isola-argomento"><strong>${i.argomento}</strong> — ${descr}</div>
+            <div class="isola-formatori">👤 Formatori: ${i.formatori}</div>
+          </div>
         `;
-
-        ORARI_ORDER.forEach(orario => {
-          let cls = "fascia";
-          let content = "";
-
-          if (orario === "10:45 – 11:15") {
-            cls += " fascia--pausa";
-            content = "☕ Pausa Caffè";
-          } else if (orario === "14:15 – 14:30") {
-            cls += " fascia--pausa";
-            content = "🎤 Saluti Istituzionali";
-          } else {
-            const squadre = d.fasce[orario];
-            if (squadre && squadre.trim()) {
-              content = "Squadre: <strong>" + squadre + "</strong>";
-            } else {
-              content = `<span class="fascia-empty">— nessuna squadra —</span>`;
-            }
-          }
-
-          html += `
-              <li class="${cls}">
-                <div class="fascia-time">${orario}</div>
-                <div class="fascia-squadre">${content}</div>
-              </li>
-          `;
-        });
-
-        html += `</ul></div>`;
       });
 
+      html += `</div>`;
       container.innerHTML = html;
     }
 
     select.addEventListener("change", function() {
-      if (this.value !== "") renderStruttura(this.value);
+      if (this.value) renderStruttura(this.value);
       else container.innerHTML = emptyHTML;
     });
   </script>
-
-  <script src="app.js"></script>
 
 </body>
 </html>
