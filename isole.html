@@ -5,9 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0b3d2e">
   <title>Isole Formative – RENAI 2026</title>
-  <link rel="stylesheet" href="style.css">
   <style>
-    /* Selettore isola */
+    :root {
+      --bg: #0f131a;
+      --card: #171c25;
+      --text: #e8edf4;
+      --muted: #9aa4b2;
+      --accent: #4ade80;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    .app-header {
+      padding: 18px 16px 14px;
+      background: linear-gradient(180deg, #0b3d2e 0%, #0f131a 100%);
+      border-bottom: 1px solid #1f2530;
+    }
+    .back-link {
+      display: inline-block;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .app-header h1 {
+      margin: 0 0 4px;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+    .subtitle {
+      margin: 0 0 6px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .date {
+      margin: 0;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .app-main { padding: 18px 16px 32px; max-width: 760px; margin: 0 auto; }
+
     .isola-selector {
       background: var(--card);
       border: 1px solid #262c38;
@@ -43,7 +91,6 @@
       outline: 2px solid var(--accent);
       outline-offset: 1px;
     }
-
     .empty-state {
       text-align: center;
       padding: 40px 20px;
@@ -51,8 +98,6 @@
       font-size: 15px;
       line-height: 1.5;
     }
-
-    /* Intestazione */
     .isola-title {
       font-size: 22px;
       font-weight: 800;
@@ -100,8 +145,6 @@
       flex: 1;
       color: var(--text);
     }
-
-    /* Fasce */
     .fasce-list { list-style: none; margin: 0; padding: 0; }
     .fascia {
       display: flex;
@@ -135,6 +178,15 @@
       color: var(--muted);
       font-style: italic;
     }
+    .app-footer {
+      text-align: center;
+      padding: 20px 16px 32px;
+      color: var(--muted);
+      font-size: 12px;
+      border-top: 1px solid #1f2530;
+    }
+    .app-footer p { margin: 4px 0; }
+    .version { font-weight: 700; }
   </style>
 </head>
 <body>
@@ -143,7 +195,7 @@
     <a href="index.html" class="back-link">← Home</a>
     <h1>Isole Formative</h1>
     <p class="subtitle">Seleziona un'isola per vedere descrizione, struttura e squadre attese</p>
-    <p class="date">Sabato 10 ottobre 2026 · 07:00 – 17:00</p>
+    <p class="date">Sabato 10 ottobre 2026 · Parco dei Renai, Signa</p>
   </header>
 
   <main class="app-main">
@@ -165,12 +217,12 @@
 
   <footer class="app-footer">
     <p>Regione Toscana · Direzione Difesa del Suolo e Protezione Civile</p>
-    <p class="version">RENAI - 2026 · v1.0</p>
+    <p class="version">RENAI 2026 · v2.0</p>
   </footer>
 
   <script>
     // ============================================
-    // DATI ISOLE - RENAI 2026
+    // DATI ISOLE - RENAI 2026 (rev. 2)
     // ============================================
     const ISOLE_DATA = {
       A: {
@@ -207,9 +259,9 @@
         formatori: "Trotta, Pisani, Criscuolo",
         descrizione: "Interpretazione della rete di monitoraggio idro-meteo regionale.",
         fasce: {
-          "08:45 – 09:45": "11, 12, 13, 14, 15, A, B, C",
-          "09:45 – 10:45": "6, 7, 8, 9, 10, R, S, T",
-          "11:15 – 12:15": "1, 2, 3, 4, 5, O, P, Q",
+          "08:45 – 09:45": "11, 12, 13, 14, 15",
+          "09:45 – 10:45": "6, 7, 8, 9, 10 + R, S, T",
+          "11:15 – 12:15": "1, 2, 3, 4, 5 + O, P, Q",
           "12:15 – 13:15": "76, 77, 78, 79, 80",
           "13:15 – 14:15": null,
           "14:30 – 15:30": "71, 72, 73, 74, 75"
@@ -221,9 +273,9 @@
         formatori: "Ballini, Massai, Zito",
         descrizione: "Uso della macchina automatica con supporto Bobcat.",
         fasce: {
-          "08:45 – 09:45": "16, 17, 18, 19, 20, D, E, F",
-          "09:45 – 10:45": "11, 12, 13, 14, 15, A, B, C",
-          "11:15 – 12:15": "6, 7, 8, 9, 10, R, S, T",
+          "08:45 – 09:45": "16, 17, 18, 19, 20 + D, E, F",
+          "09:45 – 10:45": "11, 12, 13, 14, 15 + A, B, C",
+          "11:15 – 12:15": "6, 7, 8, 9, 10 + R, S, T",
           "12:15 – 13:15": "1, 2, 3, 4, 5",
           "13:15 – 14:15": null,
           "14:30 – 15:30": "76, 77, 78, 79, 80"
@@ -274,12 +326,12 @@
       H: {
         nome: "Segnalazioni",
         struttura: "Centro Scienze Naturali Prato",
-        formatori: "Tozzi",
+        formatori: "Tozzi Saverio",
         descrizione: "Segnalazione di criticità e gestione delle comunicazioni con la sala operativa.",
         fasce: {
-          "08:45 – 09:45": "36, 37, 38, 39, 40, G, H, I",
-          "09:45 – 10:45": "31, 32, 33, 34, 35, D, E, F",
-          "11:15 – 12:15": "26, 27, 28, 29, 30, A, B, C",
+          "08:45 – 09:45": "36, 37, 38, 39, 40 + G, H, I",
+          "09:45 – 10:45": "31, 32, 33, 34, 35",
+          "11:15 – 12:15": "26, 27, 28, 29, 30 + A, B, C",
           "12:15 – 13:15": "21, 22, 23, 24, 25",
           "13:15 – 14:15": null,
           "14:30 – 15:30": "16, 17, 18, 19, 20"
@@ -319,25 +371,25 @@
         formatori: "Lucarini",
         descrizione: "Norme comportamentali e utilizzo corretto dei DPI specialistici.",
         fasce: {
-          "08:45 – 09:45": "51, 52, 53, 54, 55, L, M, N",
-          "09:45 – 10:45": "46, 47, 48, 49, 50, G, H, I",
-          "11:15 – 12:15": "41, 42, 43, 44, 45, D, E, F",
+          "08:45 – 09:45": "51, 52, 53, 54, 55 + L, M, N",
+          "09:45 – 10:45": "46, 47, 48, 49, 50 + G, H, I",
+          "11:15 – 12:15": "41, 42, 43, 44, 45 + D, E, F",
           "12:15 – 13:15": null,
           "13:15 – 14:15": "36, 37, 38, 39, 40",
           "14:30 – 15:30": "31, 32, 33, 34, 35"
         }
       },
       N: {
-        nome: "SOUPRT",
+        nome: "Soup-RT",
         struttura: "Protezione Civile Regione Toscana",
-        formatori: "Mugnai Poggesi, Leparulo",
+        formatori: "Mugnai Possesi, Leparulo",
         descrizione: "Utilizzo del programma di sala operativa per il servizio di piena.",
         fasce: {
-          "08:45 – 09:45": "56, 57, 58, 59, 60",
-          "09:45 – 10:45": "51, 52, 53, 54, 55",
-          "11:15 – 12:15": "46, 47, 48, 49, 50",
+          "08:45 – 09:45": "56, 57, 58, 59, 60 + A, B, C",
+          "09:45 – 10:45": "51, 52, 53, 54, 55 + D, E, F",
+          "11:15 – 12:15": "46, 47, 48, 49, 50 + G, H, I",
           "12:15 – 13:15": null,
-          "13:15 – 14:15": "41, 42, 43, 44, 45",
+          "13:15 – 14:15": "41, 42, 43, 44, 45 + L, M, N",
           "14:30 – 15:30": "36, 37, 38, 39, 40"
         }
       },
@@ -363,7 +415,7 @@
         fasce: {
           "08:45 – 09:45": "66, 67, 68, 69, 70",
           "09:45 – 10:45": "61, 62, 63, 64, 65",
-          "11:15 – 12:15": "56, 57, 58, 59, 60",
+          "11:15 – 12:15": "56, 57, 58, 59, 60 + L, M, N",
           "12:15 – 13:15": null,
           "13:15 – 14:15": "51, 52, 53, 54, 55",
           "14:30 – 15:30": "46, 47, 48, 49, 50"
@@ -375,9 +427,9 @@
         formatori: "Gonnelli, Pierro, Reggiannini, Trinci, Cipriani, Longo",
         descrizione: "Manovra di paratoie, monitoraggio paratie e gestione manufatti idraulici.",
         fasce: {
-          "08:45 – 09:45": "71, 72, 73, 74, 75, O, P, Q",
-          "09:45 – 10:45": "66, 67, 68, 69, 70, L, M, N",
-          "11:15 – 12:15": "61, 62, 63, 64, 65, G, H, I",
+          "08:45 – 09:45": "71, 72, 73, 74, 75 + O, P, Q",
+          "09:45 – 10:45": "66, 67, 68, 69, 70 + L, M, N",
+          "11:15 – 12:15": "61, 62, 63, 64, 65",
           "12:15 – 13:15": null,
           "13:15 – 14:15": "56, 57, 58, 59, 60",
           "14:30 – 15:30": "51, 52, 53, 54, 55"
@@ -389,9 +441,9 @@
         formatori: "Ottanelli, Benvenuti",
         descrizione: "Utilizzo delle radio e di un corretto linguaggio per le comunicazioni durante la specifica attività di servizio di piena.",
         fasce: {
-          "08:45 – 09:45": "76, 77, 78, 79, 80, R, S, T",
-          "09:45 – 10:45": "71, 72, 73, 74, 75, O, P, Q",
-          "11:15 – 12:15": "66, 67, 68, 69, 70, L, M, N",
+          "08:45 – 09:45": "76, 77, 78, 79, 80 + R, S, T",
+          "09:45 – 10:45": "71, 72, 73, 74, 75 + O, P, Q",
+          "11:15 – 12:15": "66, 67, 68, 69, 70",
           "12:15 – 13:15": null,
           "13:15 – 14:15": "61, 62, 63, 64, 65",
           "14:30 – 15:30": "56, 57, 58, 59, 60"
@@ -412,9 +464,7 @@
       "14:30 – 15:30"
     ];
 
-    // ============================================
-    // POPOLA LA TENDINA
-    // ============================================
+    // Popola la tendina
     const select = document.getElementById("isolaSelect");
     ISLAND_ORDER.forEach(l => {
       const opt = document.createElement("option");
@@ -423,9 +473,7 @@
       select.appendChild(opt);
     });
 
-    // ============================================
-    // RENDER
-    // ============================================
+    // Render
     const container = document.getElementById("scheduleContainer");
     const emptyHTML = `<div class="empty-state">Seleziona un'isola per visualizzare il cronoprogramma delle squadre attese.</div>`;
 
@@ -460,10 +508,10 @@
 
         if (orario === "10:45 – 11:15") {
           cls += " fascia--pausa";
-          content = "☕ Pausa Caffè";
+          content = "☕ Pausa Caffè (tutti)";
         } else if (orario === "14:15 – 14:30") {
           cls += " fascia--pausa";
-          content = "🎤 Saluti Istituzionali";
+          content = "🎤 Saluti Istituzionali (tutti)";
         } else {
           const squadre = d.fasce[orario];
           if (squadre && squadre.trim()) {
@@ -490,8 +538,6 @@
       else container.innerHTML = emptyHTML;
     });
   </script>
-
-  <script src="app.js"></script>
 
 </body>
 </html>
