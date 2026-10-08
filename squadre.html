@@ -5,11 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0b3d2e">
   <title>Cronoprogramma Squadre – RENAI 2026</title>
-  <link rel="stylesheet" href="style.css">
   <style>
-    /* ============================================
-       Selettore squadra
-       ============================================ */
+    :root {
+      --bg: #0f131a;
+      --card: #171c25;
+      --text: #e8edf4;
+      --muted: #9aa4b2;
+      --accent: #4ade80;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    .app-header {
+      padding: 18px 16px 14px;
+      background: linear-gradient(180deg, #0b3d2e 0%, #0f131a 100%);
+      border-bottom: 1px solid #1f2530;
+    }
+    .back-link {
+      display: inline-block;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .app-header h1 {
+      margin: 0 0 4px;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+    .subtitle {
+      margin: 0 0 6px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .date {
+      margin: 0;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .app-main { padding: 18px 16px 32px; max-width: 760px; margin: 0 auto; }
+
     .team-selector {
       background: var(--card);
       border: 1px solid #262c38;
@@ -45,10 +91,6 @@
       outline: 2px solid var(--accent);
       outline-offset: 1px;
     }
-
-    /* ============================================
-       Stato vuoto
-       ============================================ */
     .empty-state {
       text-align: center;
       padding: 40px 20px;
@@ -56,10 +98,6 @@
       font-size: 15px;
       line-height: 1.5;
     }
-
-    /* ============================================
-       Intestazione risultato
-       ============================================ */
     .team-name {
       font-size: 22px;
       font-weight: 800;
@@ -72,10 +110,35 @@
       color: var(--muted);
       margin: 0 0 16px;
     }
-
-    /* ============================================
-       Badge isola dentro gli slot
-       ============================================ */
+    .timeline { list-style: none; margin: 0; padding: 0; }
+    .slot {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 14px;
+      background: var(--card);
+      border: 1px solid #262c38;
+      border-radius: var(--radius);
+      margin-bottom: 10px;
+    }
+    .slot-time {
+      flex: 0 0 115px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.3px;
+    }
+    .slot-title {
+      flex: 1;
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .slot-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
     .badge-isola {
       display: inline-block;
       background: #14532d;
@@ -88,6 +151,30 @@
       margin-right: 8px;
       vertical-align: middle;
     }
+    .slot--pausa {
+      background: #2a1f00;
+      border-color: #3d2f00;
+    }
+    .slot--pausa .slot-title { color: #ffe9a8; }
+    .slot--istituzionale {
+      background: #14283a;
+      border-color: #1f3d55;
+    }
+    .slot--istituzionale .slot-title { color: #b8dcff; }
+    .slot--registrazione {
+      background: #0b3d2e;
+      border-color: #1f6f4a;
+    }
+    .slot--registrazione .slot-title { color: #b9f6d0; }
+    .app-footer {
+      text-align: center;
+      padding: 20px 16px 32px;
+      color: var(--muted);
+      font-size: 12px;
+      border-top: 1px solid #1f2530;
+    }
+    .app-footer p { margin: 4px 0; }
+    .version { font-weight: 700; }
   </style>
 </head>
 <body>
@@ -95,14 +182,13 @@
   <header class="app-header">
     <a href="index.html" class="back-link">← Home</a>
     <h1>Cronoprogramma Squadre</h1>
-    <p class="subtitle">Seleziona la tua squadra</p>
-    <p class="date">Sabato 10 ottobre 2026 · 07:00 – 17:00</p>
+    <p class="subtitle">Seleziona la tua squadra per vedere la giornata</p>
+    <p class="date">Sabato 10 ottobre 2026 · Parco dei Renai, Signa</p>
   </header>
 
   <main class="app-main">
 
-    <!-- REGISTRAZIONE -->
-    <div class="slot slot--istituzionale" style="margin-bottom: 18px;">
+    <div class="slot slot--registrazione" style="margin-bottom: 18px;">
       <div class="slot-time">07:00 – 08:45</div>
       <div class="slot-title">📝 Registrazione in segreteria operativa</div>
       <div class="slot-sub">e installazione area esercitativa</div>
@@ -125,19 +211,16 @@
 
   <footer class="app-footer">
     <p>Regione Toscana · Direzione Difesa del Suolo e Protezione Civile</p>
-    <p class="version">RENAI - 2026 · v1.0</p>
+    <p class="version">RENAI 2026 · v2.0</p>
   </footer>
 
   <script>
     // ============================================
-    // CRONOPROGRAMMA SQUADRE - RENAI 2026
+    // CRONOPROGRAMMA SQUADRE - RENAI 2026 (rev. 2)
     // ============================================
 
     const schedules = {};
 
-    // --------------------------------------------
-    // Nomi delle isole
-    // --------------------------------------------
     const ISLAND_NAMES = {
       A: "Ronda A",
       B: "Opere B",
@@ -189,15 +272,15 @@
       const i5 = ISLAND_ORDER[(g.start + 4) % 16];
 
       const slots = [
-        { time: "8:45 – 9:45",  isola: i1, activity: ISLAND_NAMES[i1], type: "formativo" },
-        { time: "9:45 – 10:45", isola: i2, activity: ISLAND_NAMES[i2], type: "formativo" },
-        { time: "10:45 – 11:15",           activity: "Pausa Caffè",    type: "pausa" },
+        { time: "8:45 – 9:45",   isola: i1, activity: ISLAND_NAMES[i1], type: "formativo" },
+        { time: "9:45 – 10:45",  isola: i2, activity: ISLAND_NAMES[i2], type: "formativo" },
+        { time: "10:45 – 11:15",            activity: "Pausa Caffè",    type: "pausa" },
         { time: "11:15 – 12:15", isola: i3, activity: ISLAND_NAMES[i3], type: "formativo" }
       ];
 
       if (g.pranzo === 2) {
         slots.push({ time: "12:15 – 13:15", isola: i4, activity: ISLAND_NAMES[i4], type: "formativo" });
-        slots.push({ time: "13:15 – 14:00",           activity: "Pranzo (Fascia 2)",  type: "pausa" });
+        slots.push({ time: "13:15 – 14:15",           activity: "Pranzo (Fascia 2)",  type: "pausa" });
       } else {
         slots.push({ time: "12:15 – 13:15",           activity: "Pranzo (Fascia 1)",  type: "pausa" });
         slots.push({ time: "13:15 – 14:15", isola: i4, activity: ISLAND_NAMES[i4], type: "formativo" });
@@ -212,84 +295,84 @@
     });
 
     // --------------------------------------------
-    // Squadre Istituzionali A-T
+    // Squadre Istituzionali A-T (formazione solo la mattina)
     // --------------------------------------------
 
-    // A, B, C
+    // A, B, C → F1=N, F2=D, F3=H, Pranzo 2
     const istABC = [
-      { time: "8:45 – 9:45",  isola: "C", activity: "Rete Monitoraggio", type: "formativo" },
-      { time: "9:45 – 10:45", isola: "D", activity: "Insacchettatrice",   type: "formativo" },
-      { time: "10:45 – 11:15",           activity: "Pausa Caffè",        type: "pausa" },
+      { time: "8:45 – 9:45",   isola: "N", activity: "Soup-RT",          type: "formativo" },
+      { time: "9:45 – 10:45",  isola: "D", activity: "Insacchettatrice", type: "formativo" },
+      { time: "10:45 – 11:15",            activity: "Pausa Caffè",       type: "pausa" },
       { time: "11:15 – 12:15", isola: "H", activity: "Segnalazioni",     type: "formativo" },
-      { time: "12:15 – 13:15",           activity: "Pranzo (Fascia 1)",  type: "pausa" },
-      { time: "13:15 – 14:00",           activity: "Termine Formazione (Attesa)", type: "istituzionale" },
-      { time: "14:15 – 14:30",           activity: "Saluti Istituzionali", type: "istituzionale" },
-      { time: "14:30 – 15:30",           activity: "Termine Attività",   type: "istituzionale" }
+      { time: "12:15 – 13:15",            activity: "Termine Formazione (Attesa)", type: "istituzionale" },
+      { time: "13:15 – 14:15",            activity: "Pranzo (Fascia 2)", type: "pausa" },
+      { time: "14:15 – 14:30",            activity: "Saluti Istituzionali", type: "istituzionale" },
+      { time: "14:30 – 15:30",            activity: "Termine Attività",  type: "istituzionale" }
     ];
     ["A","B","C"].forEach(id => schedules[id] = istABC);
 
-    // D, E, F
+    // D, E, F → F1=D, F2=N, F3=M, Pranzo 1
     const istDEF = [
-      { time: "8:45 – 9:45",  isola: "D", activity: "Insacchettatrice", type: "formativo" },
-      { time: "9:45 – 10:45", isola: "H", activity: "Segnalazioni",     type: "formativo" },
-      { time: "10:45 – 11:15",           activity: "Pausa Caffè",      type: "pausa" },
-      { time: "11:15 – 12:15", isola: "M", activity: "Sicurezza",       type: "formativo" },
-      { time: "12:15 – 13:15",           activity: "Pranzo (Fascia 1)", type: "pausa" },
-      { time: "13:15 – 14:00",           activity: "Termine Formazione (Attesa)", type: "istituzionale" },
-      { time: "14:15 – 14:30",           activity: "Saluti Istituzionali", type: "istituzionale" },
-      { time: "14:30 – 15:30",           activity: "Termine Attività",  type: "istituzionale" }
+      { time: "8:45 – 9:45",   isola: "D", activity: "Insacchettatrice", type: "formativo" },
+      { time: "9:45 – 10:45",  isola: "N", activity: "Soup-RT",          type: "formativo" },
+      { time: "10:45 – 11:15",            activity: "Pausa Caffè",       type: "pausa" },
+      { time: "11:15 – 12:15", isola: "M", activity: "Sicurezza",        type: "formativo" },
+      { time: "12:15 – 13:15",            activity: "Pranzo (Fascia 1)", type: "pausa" },
+      { time: "13:15 – 14:15",            activity: "Termine Formazione (Attesa)", type: "istituzionale" },
+      { time: "14:15 – 14:30",            activity: "Saluti Istituzionali", type: "istituzionale" },
+      { time: "14:30 – 15:30",            activity: "Termine Attività",  type: "istituzionale" }
     ];
     ["D","E","F"].forEach(id => schedules[id] = istDEF);
 
-    // G, H, I
+    // G, H, I → F1=H, F2=M, F3=N, Pranzo 1
     const istGHI = [
-      { time: "8:45 – 9:45",  isola: "H", activity: "Segnalazioni", type: "formativo" },
-      { time: "9:45 – 10:45", isola: "M", activity: "Sicurezza",    type: "formativo" },
-      { time: "10:45 – 11:15",           activity: "Pausa Caffè",   type: "pausa" },
-      { time: "11:15 – 12:15", isola: "Q", activity: "Opere Q",     type: "formativo" },
-      { time: "12:15 – 13:15",           activity: "Pranzo (Fascia 1)", type: "pausa" },
-      { time: "13:15 – 14:00",           activity: "Termine Formazione (Attesa)", type: "istituzionale" },
-      { time: "14:15 – 14:30",           activity: "Saluti Istituzionali", type: "istituzionale" },
-      { time: "14:30 – 15:30",           activity: "Termine Attività", type: "istituzionale" }
+      { time: "8:45 – 9:45",   isola: "H", activity: "Segnalazioni", type: "formativo" },
+      { time: "9:45 – 10:45",  isola: "M", activity: "Sicurezza",    type: "formativo" },
+      { time: "10:45 – 11:15",            activity: "Pausa Caffè",   type: "pausa" },
+      { time: "11:15 – 12:15", isola: "N", activity: "Soup-RT",      type: "formativo" },
+      { time: "12:15 – 13:15",            activity: "Pranzo (Fascia 1)", type: "pausa" },
+      { time: "13:15 – 14:15",            activity: "Termine Formazione (Attesa)", type: "istituzionale" },
+      { time: "14:15 – 14:30",            activity: "Saluti Istituzionali", type: "istituzionale" },
+      { time: "14:30 – 15:30",            activity: "Termine Attività", type: "istituzionale" }
     ];
     ["G","H","I"].forEach(id => schedules[id] = istGHI);
 
-    // L, M, N
+    // L, M, N → F1=M, F2=Q, F3=P, Pranzo 1, F4bis=N
     const istLMN = [
-      { time: "8:45 – 9:45",  isola: "M", activity: "Sicurezza",           type: "formativo" },
-      { time: "9:45 – 10:45", isola: "Q", activity: "Opere Q",              type: "formativo" },
-      { time: "10:45 – 11:15",           activity: "Pausa Caffè",          type: "pausa" },
-      { time: "11:15 – 12:15", isola: "R", activity: "TLC - Comunicazioni", type: "formativo" },
-      { time: "12:15 – 13:15",           activity: "Termine Formazione (Attesa)", type: "istituzionale" },
-      { time: "13:15 – 14:00",           activity: "Pranzo (Fascia 2)",    type: "pausa" },
-      { time: "14:15 – 14:30",           activity: "Saluti Istituzionali", type: "istituzionale" },
-      { time: "14:30 – 15:30",           activity: "Termine Attività",     type: "istituzionale" }
+      { time: "8:45 – 9:45",   isola: "M", activity: "Sicurezza",           type: "formativo" },
+      { time: "9:45 – 10:45",  isola: "Q", activity: "Opere Q",              type: "formativo" },
+      { time: "10:45 – 11:15",            activity: "Pausa Caffè",          type: "pausa" },
+      { time: "11:15 – 12:15", isola: "P", activity: "Telone P",             type: "formativo" },
+      { time: "12:15 – 13:15",            activity: "Pranzo (Fascia 1)",    type: "pausa" },
+      { time: "13:15 – 14:15", isola: "N", activity: "Soup-RT",              type: "formativo" },
+      { time: "14:15 – 14:30",            activity: "Saluti Istituzionali", type: "istituzionale" },
+      { time: "14:30 – 15:30",            activity: "Termine Attività",     type: "istituzionale" }
     ];
     ["L","M","N"].forEach(id => schedules[id] = istLMN);
 
-    // O, P, Q
+    // O, P, Q → F1=Q, F2=R, F3=C, Pranzo 2
     const istOPQ = [
-      { time: "8:45 – 9:45",  isola: "Q", activity: "Opere Q",             type: "formativo" },
-      { time: "9:45 – 10:45", isola: "R", activity: "TLC - Comunicazioni", type: "formativo" },
-      { time: "10:45 – 11:15",           activity: "Pausa Caffè",          type: "pausa" },
-      { time: "11:15 – 12:15", isola: "C", activity: "Rete Monitoraggio",  type: "formativo" },
-      { time: "12:15 – 13:15",           activity: "Termine Formazione (Attesa)", type: "istituzionale" },
-      { time: "13:15 – 14:00",           activity: "Pranzo (Fascia 2)",    type: "pausa" },
-      { time: "14:15 – 14:30",           activity: "Saluti Istituzionali", type: "istituzionale" },
-      { time: "14:30 – 15:30",           activity: "Termine Attività",     type: "istituzionale" }
+      { time: "8:45 – 9:45",   isola: "Q", activity: "Opere Q",             type: "formativo" },
+      { time: "9:45 – 10:45",  isola: "R", activity: "TLC - Comunicazioni", type: "formativo" },
+      { time: "10:45 – 11:15",            activity: "Pausa Caffè",          type: "pausa" },
+      { time: "11:15 – 12:15", isola: "C", activity: "Rete Monitoraggio",   type: "formativo" },
+      { time: "12:15 – 13:15",            activity: "Termine Formazione (Attesa)", type: "istituzionale" },
+      { time: "13:15 – 14:15",            activity: "Pranzo (Fascia 2)",    type: "pausa" },
+      { time: "14:15 – 14:30",            activity: "Saluti Istituzionali", type: "istituzionale" },
+      { time: "14:30 – 15:30",            activity: "Termine Attività",     type: "istituzionale" }
     ];
     ["O","P","Q"].forEach(id => schedules[id] = istOPQ);
 
-    // R, S, T
+    // R, S, T → F1=R, F2=C, F3=D, Pranzo 2
     const istRST = [
-      { time: "8:45 – 9:45",  isola: "R", activity: "TLC - Comunicazioni", type: "formativo" },
-      { time: "9:45 – 10:45", isola: "C", activity: "Rete Monitoraggio",   type: "formativo" },
-      { time: "10:45 – 11:15",           activity: "Pausa Caffè",          type: "pausa" },
-      { time: "11:15 – 12:15", isola: "D", activity: "Insacchettatrice",   type: "formativo" },
-      { time: "12:15 – 13:15",           activity: "Termine Formazione (Attesa)", type: "istituzionale" },
-      { time: "13:15 – 14:00",           activity: "Pranzo (Fascia 2)",    type: "pausa" },
-      { time: "14:15 – 14:30",           activity: "Saluti Istituzionali", type: "istituzionale" },
-      { time: "14:30 – 15:30",           activity: "Termine Attività",     type: "istituzionale" }
+      { time: "8:45 – 9:45",   isola: "R", activity: "TLC - Comunicazioni", type: "formativo" },
+      { time: "9:45 – 10:45",  isola: "C", activity: "Rete Monitoraggio",   type: "formativo" },
+      { time: "10:45 – 11:15",            activity: "Pausa Caffè",          type: "pausa" },
+      { time: "11:15 – 12:15", isola: "D", activity: "Insacchettatrice",    type: "formativo" },
+      { time: "12:15 – 13:15",            activity: "Termine Formazione (Attesa)", type: "istituzionale" },
+      { time: "13:15 – 14:15",            activity: "Pranzo (Fascia 2)",    type: "pausa" },
+      { time: "14:15 – 14:30",            activity: "Saluti Istituzionali", type: "istituzionale" },
+      { time: "14:30 – 15:30",            activity: "Termine Attività",     type: "istituzionale" }
     ];
     ["R","S","T"].forEach(id => schedules[id] = istRST);
 
@@ -298,18 +381,16 @@
     // --------------------------------------------
     const select = document.getElementById("teamSelect");
 
-    // Volontari 1-80
     for (let i = 1; i <= 80; i++) {
       const opt = document.createElement("option");
       opt.value = String(i);
       opt.textContent = "Squadra " + i;
       select.appendChild(opt);
     }
-    // Istituzionali A-T (senza J, K)
     ["A","B","C","D","E","F","G","H","I","L","M","N","O","P","Q","R","S","T"].forEach(l => {
       const opt = document.createElement("option");
       opt.value = l;
-      opt.textContent = "Squadra " + l;
+      opt.textContent = "Squadra " + l + " (Istituzionale)";
       select.appendChild(opt);
     });
 
@@ -336,41 +417,32 @@
       slots.forEach(s => {
         const isolaTag = s.isola ? `<span class="badge-isola">Isola ${s.isola}</span>` : "";
 
-        // Icona automatica per pause e pranzi
         let icona = "";
-        if (s.activity === "Pausa Caffè")         icona = "☕ ";
-        else if (s.activity.startsWith("Pranzo")) icona = "🍽️ ";
-        else if (s.activity === "Saluti Istituzionali") icona = "🎤 ";
-        else if (s.activity.startsWith("Termine")) icona = "🏁 ";
-
-        // Splitta "8:45 – 9:45" in "8:45" e "9:45"
-        const parts = s.time.split("–").map(p => p.trim());
-        const start = parts[0] || "";
-        const end   = parts[1] || "";
+        if (s.activity === "Pausa Caffè")                icona = "☕ ";
+        else if (s.activity.startsWith("Pranzo"))        icona = "🍽️ ";
+        else if (s.activity === "Saluti Istituzionali")  icona = "🎤 ";
+        else if (s.activity.startsWith("Termine"))       icona = "🏁 ";
 
         html += `
-            <li class="slot slot--${s.type}" data-start="${start}" data-end="${end}">
+            <li class="slot slot--${s.type}">
               <div class="slot-time">${s.time}</div>
               <div class="slot-title">${isolaTag}${icona}${s.activity}</div>
             </li>
         `;
       });
 
-           html += `
-        <ul class="timeline" style="margin-top: 18px;">
-          <li class="slot slot--istituzionale" data-start="16:00" data-end="17:00">
-            <div class="slot-time">16:00 – 17:00</div>
-            <div class="slot-title">🏁 Debriefing e smontaggio</div>
-            <div class="slot-sub">Compilazione del formulario di valutazione</div>
-          </li>
-        </ul>
-      </div>`;
+      html += `
+          </ul>
+          <ul class="timeline" style="margin-top: 18px;">
+            <li class="slot slot--istituzionale">
+              <div class="slot-time">16:00 – 17:00</div>
+              <div class="slot-title">🏁 Debriefing e smontaggio</div>
+              <div class="slot-sub">Compilazione del formulario di valutazione</div>
+            </li>
+          </ul>
+        </div>
+      `;
       container.innerHTML = html;
-
-      // Chiedi ad app.js di riapplicare l'evidenziazione slot in corso
-      if (typeof window.highlightCurrentSlot === "function") {
-        window.highlightCurrentSlot();
-      }
     }
 
     select.addEventListener("change", function() {
@@ -378,9 +450,6 @@
       else container.innerHTML = emptyHTML;
     });
   </script>
-
-  <!-- Script comune: stato evento + evidenziazione slot in corso -->
-  <script src="app.js"></script>
 
 </body>
 </html>
