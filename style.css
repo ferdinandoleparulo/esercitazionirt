@@ -1044,3 +1044,191 @@ select:focus {
 
 .avviso-body p { margin: 0 0 10px; }
 .avviso-body p:last-child { margin-bottom: 0; }
+
+/* ============================================
+   RENAI 2026 – Patch leggibilità (v2.1)
+   Aumenta le dimensioni dei testi in tutta l'app
+   ============================================ */
+
+/* Base: aumenta la dimensione radice */
+html {
+  font-size: 18px; /* default browser = 16px, ora +12.5% */
+}
+
+body {
+  font-size: 1rem; /* eredita da html */
+  line-height: 1.6;
+}
+
+/* ---------- HEADER ---------- */
+.app-header h1 {
+  font-size: 1.7rem; /* ~30px */
+  line-height: 1.25;
+}
+.app-header .subtitle {
+  font-size: 1.05rem;
+}
+.app-header .date {
+  font-size: 1rem;
+}
+.app-header .organizzatore {
+  font-size: 0.95rem;
+}
+.badge {
+  font-size: 0.8rem;
+  padding: 5px 10px;
+}
+.status {
+  font-size: 0.8rem;
+  padding: 5px 10px;
+}
+
+/* ---------- AVVISI ---------- */
+.avviso-head {
+  font-size: 1.05rem;
+  padding: 14px 16px;
+}
+.avviso-body {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ---------- GRIGLIA / CARD ---------- */
+.card {
+  padding: 18px 16px;
+}
+.card-icon {
+  font-size: 1.9rem;
+}
+.card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+/* ---------- SELEZIONE STRUTTURA / ISOLA / SQUADRA ---------- */
+.struttura-selector label,
+.isola-selector label,
+.team-selector label {
+  font-size: 1rem;
+}
+.struttura-selector select,
+.isola-selector select,
+.team-selector select {
+  font-size: 1.05rem;
+  padding: 16px;
+}
+
+/* ---------- CONTENUTI STRUTTURA / ISOLA ---------- */
+.struttura-title,
+.isola-title,
+.team-name {
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+.struttura-sub,
+.isola-sub,
+.team-sub {
+  font-size: 1rem;
+}
+.isola-description {
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+.isola-meta-row {
+  font-size: 1rem;
+}
+.isola-meta-label {
+  flex: 0 0 100px;
+}
+.sezione-title {
+  font-size: 0.95rem;
+}
+.isola-nome {
+  font-size: 1.1rem;
+}
+.isola-argomento {
+  font-size: 1rem;
+  line-height: 1.55;
+}
+.isola-formatori {
+  font-size: 0.95rem;
+}
+.isola-badge {
+  font-size: 0.85rem;
+  padding: 4px 10px;
+}
+
+/* ---------- FASCE ORARIE ---------- */
+.fascia-time {
+  font-size: 1rem;
+  flex: 0 0 130px;
+}
+.fascia-squadre {
+  font-size: 1.05rem;
+}
+
+/* ---------- TIMELINE / SLOT ---------- */
+.slot-time {
+  font-size: 1rem;
+  flex: 0 0 135px;
+}
+.slot-title {
+  font-size: 1.05rem;
+}
+.slot-sub {
+  font-size: 0.95rem;
+}
+.badge-isola {
+  font-size: 0.85rem;
+}
+
+/* ---------- MODULI PARALLELI (programma) ---------- */
+.parallel-block .block-time {
+  font-size: 1.05rem;
+}
+.mini-slot {
+  font-size: 0.95rem;
+}
+.mini-slot .mini-title {
+  font-size: 1rem;
+}
+.mini-slot .mini-sub {
+  font-size: 0.9rem;
+}
+.info-note {
+  font-size: 0.95rem;
+}
+
+/* ---------- PARTECIPANTI ---------- */
+.partecipanti-title {
+  font-size: 1.25rem;
+}
+.partecipanti-sub {
+  font-size: 1.05rem;
+}
+.badge-item {
+  font-size: 0.95rem;
+  padding: 8px 12px;
+}
+
+/* ---------- FOOTER ---------- */
+.app-footer {
+  font-size: 0.9rem;
+}
+
+/* ---------- LOCANDINA – link in fondo ---------- */
+.app-footer a {
+  font-size: 1.05rem !important;
+  font-weight: 600;
+  padding: 8px 0;
+  display: inline-block;
+}
+.app-footer a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- BOTTONE HOME / BACK ---------- */
+.back-link {
+  font-size: 1rem;
+  padding: 6px 0;
+}
