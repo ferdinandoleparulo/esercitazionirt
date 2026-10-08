@@ -18,7 +18,7 @@
 
   <main class="app-main">
 
-    <div class="slot slot--registrazione" style="margin-bottom: 18px;">
+    <div class="slot slot--registrazione" data-start="07:00" data-end="08:45" style="margin-bottom: 18px;">
       <div class="slot-time">07:00 – 08:45</div>
       <div class="slot-title">📝 Registrazione in segreteria operativa</div>
       <div class="slot-sub">e installazione area esercitativa</div>
@@ -46,7 +46,7 @@
 
   <script>
     // ============================================
-    // CRONOPROGRAMMA SQUADRE - RENAI 2026 (rev. 2)
+    // CRONOPROGRAMMA SQUADRE - RENAI 2026 (rev. 3)
     // ============================================
 
     const schedules = {};
@@ -102,22 +102,22 @@
       const i5 = ISLAND_ORDER[(g.start + 4) % 16];
 
       const slots = [
-        { time: "8:45 – 9:45",   isola: i1, activity: ISLAND_NAMES[i1], type: "formativo" },
-        { time: "9:45 – 10:45",  isola: i2, activity: ISLAND_NAMES[i2], type: "formativo" },
-        { time: "10:45 – 11:15",            activity: "Pausa Caffè",    type: "pausa" },
-        { time: "11:15 – 12:15", isola: i3, activity: ISLAND_NAMES[i3], type: "formativo" }
+        { start: "08:45", end: "09:45", isola: i1, activity: ISLAND_NAMES[i1], type: "formativo" },
+        { start: "09:45", end: "10:45", isola: i2, activity: ISLAND_NAMES[i2], type: "formativo" },
+        { start: "10:45", end: "11:15",            activity: "Pausa Caffè",    type: "pausa" },
+        { start: "11:15", end: "12:15", isola: i3, activity: ISLAND_NAMES[i3], type: "formativo" }
       ];
 
       if (g.pranzo === 2) {
-        slots.push({ time: "12:15 – 13:15", isola: i4, activity: ISLAND_NAMES[i4], type: "formativo" });
-        slots.push({ time: "13:15 – 14:15",           activity: "Pranzo (Fascia 2)",  type: "pausa" });
+        slots.push({ start: "12:15", end: "13:15", isola: i4, activity: ISLAND_NAMES[i4], type: "formativo" });
+        slots.push({ start: "13:15", end: "14:15",            activity: "Pranzo (Fascia 2)",  type: "pausa" });
       } else {
-        slots.push({ time: "12:15 – 13:15",           activity: "Pranzo (Fascia 1)",  type: "pausa" });
-        slots.push({ time: "13:15 – 14:15", isola: i4, activity: ISLAND_NAMES[i4], type: "formativo" });
+        slots.push({ start: "12:15", end: "13:15",            activity: "Pranzo (Fascia 1)",  type: "pausa" });
+        slots.push({ start: "13:15", end: "14:15", isola: i4, activity: ISLAND_NAMES[i4], type: "formativo" });
       }
 
-      slots.push({ time: "14:15 – 14:30", activity: "Saluti Istituzionali", type: "istituzionale" });
-      slots.push({ time: "14:30 – 15:30", isola: i5, activity: ISLAND_NAMES[i5], type: "formativo" });
+      slots.push({ start: "14:15", end: "14:30", activity: "Saluti Istituzionali", type: "istituzionale" });
+      slots.push({ start: "14:30", end: "15:30", isola: i5, activity: ISLAND_NAMES[i5], type: "formativo" });
 
       for (let id = g.from; id <= g.to; id++) {
         schedules[String(id)] = slots;
@@ -130,79 +130,79 @@
 
     // A, B, C → F1=N, F2=D, F3=H, Pranzo 2
     const istABC = [
-      { time: "8:45 – 9:45",   isola: "N", activity: "Soup-RT",          type: "formativo" },
-      { time: "9:45 – 10:45",  isola: "D", activity: "Insacchettatrice", type: "formativo" },
-      { time: "10:45 – 11:15",            activity: "Pausa Caffè",       type: "pausa" },
-      { time: "11:15 – 12:15", isola: "H", activity: "Segnalazioni",     type: "formativo" },
-      { time: "12:15 – 13:15",            activity: "Termine Formazione (Attesa)", type: "istituzionale" },
-      { time: "13:15 – 14:15",            activity: "Pranzo (Fascia 2)", type: "pausa" },
-      { time: "14:15 – 14:30",            activity: "Saluti Istituzionali", type: "istituzionale" },
-      { time: "14:30 – 15:30",            activity: "Termine Attività",  type: "istituzionale" }
+      { start: "08:45", end: "09:45", isola: "N", activity: "Soup-RT",          type: "formativo" },
+      { start: "09:45", end: "10:45", isola: "D", activity: "Insacchettatrice", type: "formativo" },
+      { start: "10:45", end: "11:15",            activity: "Pausa Caffè",       type: "pausa" },
+      { start: "11:15", end: "12:15", isola: "H", activity: "Segnalazioni",     type: "formativo" },
+      { start: "12:15", end: "13:15",            activity: "Termine Formazione (Attesa)", type: "istituzionale" },
+      { start: "13:15", end: "14:15",            activity: "Pranzo (Fascia 2)", type: "pausa" },
+      { start: "14:15", end: "14:30",            activity: "Saluti Istituzionali", type: "istituzionale" },
+      { start: "14:30", end: "15:30",            activity: "Termine Attività",  type: "istituzionale" }
     ];
     ["A","B","C"].forEach(id => schedules[id] = istABC);
 
     // D, E, F → F1=D, F2=N, F3=M, Pranzo 1
     const istDEF = [
-      { time: "8:45 – 9:45",   isola: "D", activity: "Insacchettatrice", type: "formativo" },
-      { time: "9:45 – 10:45",  isola: "N", activity: "Soup-RT",          type: "formativo" },
-      { time: "10:45 – 11:15",            activity: "Pausa Caffè",       type: "pausa" },
-      { time: "11:15 – 12:15", isola: "M", activity: "Sicurezza",        type: "formativo" },
-      { time: "12:15 – 13:15",            activity: "Pranzo (Fascia 1)", type: "pausa" },
-      { time: "13:15 – 14:15",            activity: "Termine Formazione (Attesa)", type: "istituzionale" },
-      { time: "14:15 – 14:30",            activity: "Saluti Istituzionali", type: "istituzionale" },
-      { time: "14:30 – 15:30",            activity: "Termine Attività",  type: "istituzionale" }
+      { start: "08:45", end: "09:45", isola: "D", activity: "Insacchettatrice", type: "formativo" },
+      { start: "09:45", end: "10:45", isola: "N", activity: "Soup-RT",          type: "formativo" },
+      { start: "10:45", end: "11:15",            activity: "Pausa Caffè",       type: "pausa" },
+      { start: "11:15", end: "12:15", isola: "M", activity: "Sicurezza",        type: "formativo" },
+      { start: "12:15", end: "13:15",            activity: "Pranzo (Fascia 1)", type: "pausa" },
+      { start: "13:15", end: "14:15",            activity: "Termine Formazione (Attesa)", type: "istituzionale" },
+      { start: "14:15", end: "14:30",            activity: "Saluti Istituzionali", type: "istituzionale" },
+      { start: "14:30", end: "15:30",            activity: "Termine Attività",  type: "istituzionale" }
     ];
     ["D","E","F"].forEach(id => schedules[id] = istDEF);
 
     // G, H, I → F1=H, F2=M, F3=N, Pranzo 1
     const istGHI = [
-      { time: "8:45 – 9:45",   isola: "H", activity: "Segnalazioni", type: "formativo" },
-      { time: "9:45 – 10:45",  isola: "M", activity: "Sicurezza",    type: "formativo" },
-      { time: "10:45 – 11:15",            activity: "Pausa Caffè",   type: "pausa" },
-      { time: "11:15 – 12:15", isola: "N", activity: "Soup-RT",      type: "formativo" },
-      { time: "12:15 – 13:15",            activity: "Pranzo (Fascia 1)", type: "pausa" },
-      { time: "13:15 – 14:15",            activity: "Termine Formazione (Attesa)", type: "istituzionale" },
-      { time: "14:15 – 14:30",            activity: "Saluti Istituzionali", type: "istituzionale" },
-      { time: "14:30 – 15:30",            activity: "Termine Attività", type: "istituzionale" }
+      { start: "08:45", end: "09:45", isola: "H", activity: "Segnalazioni", type: "formativo" },
+      { start: "09:45", end: "10:45", isola: "M", activity: "Sicurezza",    type: "formativo" },
+      { start: "10:45", end: "11:15",            activity: "Pausa Caffè",   type: "pausa" },
+      { start: "11:15", end: "12:15", isola: "N", activity: "Soup-RT",      type: "formativo" },
+      { start: "12:15", end: "13:15",            activity: "Pranzo (Fascia 1)", type: "pausa" },
+      { start: "13:15", end: "14:15",            activity: "Termine Formazione (Attesa)", type: "istituzionale" },
+      { start: "14:15", end: "14:30",            activity: "Saluti Istituzionali", type: "istituzionale" },
+      { start: "14:30", end: "15:30",            activity: "Termine Attività", type: "istituzionale" }
     ];
     ["G","H","I"].forEach(id => schedules[id] = istGHI);
 
     // L, M, N → F1=M, F2=Q, F3=P, Pranzo 1, F4bis=N
     const istLMN = [
-      { time: "8:45 – 9:45",   isola: "M", activity: "Sicurezza",           type: "formativo" },
-      { time: "9:45 – 10:45",  isola: "Q", activity: "Opere Q",              type: "formativo" },
-      { time: "10:45 – 11:15",            activity: "Pausa Caffè",          type: "pausa" },
-      { time: "11:15 – 12:15", isola: "P", activity: "Telone P",             type: "formativo" },
-      { time: "12:15 – 13:15",            activity: "Pranzo (Fascia 1)",    type: "pausa" },
-      { time: "13:15 – 14:15", isola: "N", activity: "Soup-RT",              type: "formativo" },
-      { time: "14:15 – 14:30",            activity: "Saluti Istituzionali", type: "istituzionale" },
-      { time: "14:30 – 15:30",            activity: "Termine Attività",     type: "istituzionale" }
+      { start: "08:45", end: "09:45", isola: "M", activity: "Sicurezza",           type: "formativo" },
+      { start: "09:45", end: "10:45", isola: "Q", activity: "Opere Q",              type: "formativo" },
+      { start: "10:45", end: "11:15",            activity: "Pausa Caffè",          type: "pausa" },
+      { start: "11:15", end: "12:15", isola: "P", activity: "Telone P",             type: "formativo" },
+      { start: "12:15", end: "13:15",            activity: "Pranzo (Fascia 1)",    type: "pausa" },
+      { start: "13:15", end: "14:15", isola: "N", activity: "Soup-RT",              type: "formativo" },
+      { start: "14:15", end: "14:30",            activity: "Saluti Istituzionali", type: "istituzionale" },
+      { start: "14:30", end: "15:30",            activity: "Termine Attività",     type: "istituzionale" }
     ];
     ["L","M","N"].forEach(id => schedules[id] = istLMN);
 
     // O, P, Q → F1=Q, F2=R, F3=C, Pranzo 2
     const istOPQ = [
-      { time: "8:45 – 9:45",   isola: "Q", activity: "Opere Q",             type: "formativo" },
-      { time: "9:45 – 10:45",  isola: "R", activity: "TLC - Comunicazioni", type: "formativo" },
-      { time: "10:45 – 11:15",            activity: "Pausa Caffè",          type: "pausa" },
-      { time: "11:15 – 12:15", isola: "C", activity: "Rete Monitoraggio",   type: "formativo" },
-      { time: "12:15 – 13:15",            activity: "Termine Formazione (Attesa)", type: "istituzionale" },
-      { time: "13:15 – 14:15",            activity: "Pranzo (Fascia 2)",    type: "pausa" },
-      { time: "14:15 – 14:30",            activity: "Saluti Istituzionali", type: "istituzionale" },
-      { time: "14:30 – 15:30",            activity: "Termine Attività",     type: "istituzionale" }
+      { start: "08:45", end: "09:45", isola: "Q", activity: "Opere Q",             type: "formativo" },
+      { start: "09:45", end: "10:45", isola: "R", activity: "TLC - Comunicazioni", type: "formativo" },
+      { start: "10:45", end: "11:15",            activity: "Pausa Caffè",          type: "pausa" },
+      { start: "11:15", end: "12:15", isola: "C", activity: "Rete Monitoraggio",   type: "formativo" },
+      { start: "12:15", end: "13:15",            activity: "Termine Formazione (Attesa)", type: "istituzionale" },
+      { start: "13:15", end: "14:15",            activity: "Pranzo (Fascia 2)",    type: "pausa" },
+      { start: "14:15", end: "14:30",            activity: "Saluti Istituzionali", type: "istituzionale" },
+      { start: "14:30", end: "15:30",            activity: "Termine Attività",     type: "istituzionale" }
     ];
     ["O","P","Q"].forEach(id => schedules[id] = istOPQ);
 
     // R, S, T → F1=R, F2=C, F3=D, Pranzo 2
     const istRST = [
-      { time: "8:45 – 9:45",   isola: "R", activity: "TLC - Comunicazioni", type: "formativo" },
-      { time: "9:45 – 10:45",  isola: "C", activity: "Rete Monitoraggio",   type: "formativo" },
-      { time: "10:45 – 11:15",            activity: "Pausa Caffè",          type: "pausa" },
-      { time: "11:15 – 12:15", isola: "D", activity: "Insacchettatrice",    type: "formativo" },
-      { time: "12:15 – 13:15",            activity: "Termine Formazione (Attesa)", type: "istituzionale" },
-      { time: "13:15 – 14:15",            activity: "Pranzo (Fascia 2)",    type: "pausa" },
-      { time: "14:15 – 14:30",            activity: "Saluti Istituzionali", type: "istituzionale" },
-      { time: "14:30 – 15:30",            activity: "Termine Attività",     type: "istituzionale" }
+      { start: "08:45", end: "09:45", isola: "R", activity: "TLC - Comunicazioni", type: "formativo" },
+      { start: "09:45", end: "10:45", isola: "C", activity: "Rete Monitoraggio",   type: "formativo" },
+      { start: "10:45", end: "11:15",            activity: "Pausa Caffè",          type: "pausa" },
+      { start: "11:15", end: "12:15", isola: "D", activity: "Insacchettatrice",    type: "formativo" },
+      { start: "12:15", end: "13:15",            activity: "Termine Formazione (Attesa)", type: "istituzionale" },
+      { start: "13:15", end: "14:15",            activity: "Pranzo (Fascia 2)",    type: "pausa" },
+      { start: "14:15", end: "14:30",            activity: "Saluti Istituzionali", type: "istituzionale" },
+      { start: "14:30", end: "15:30",            activity: "Termine Attività",     type: "istituzionale" }
     ];
     ["R","S","T"].forEach(id => schedules[id] = istRST);
 
@@ -253,9 +253,12 @@
         else if (s.activity === "Saluti Istituzionali")  icona = "🎤 ";
         else if (s.activity.startsWith("Termine"))       icona = "🏁 ";
 
+        // Formattazione orario "08:45 – 09:45"
+        const timeLabel = s.start + " – " + s.end;
+
         html += `
-            <li class="slot slot--${s.type}">
-              <div class="slot-time">${s.time}</div>
+            <li class="slot slot--${s.type}" data-start="${s.start}" data-end="${s.end}">
+              <div class="slot-time">${timeLabel}</div>
               <div class="slot-title">${isolaTag}${icona}${s.activity}</div>
             </li>
         `;
@@ -264,7 +267,7 @@
       html += `
           </ul>
           <ul class="timeline" style="margin-top: 18px;">
-            <li class="slot slot--istituzionale">
+            <li class="slot slot--istituzionale" data-start="16:00" data-end="17:00">
               <div class="slot-time">16:00 – 17:00</div>
               <div class="slot-title">🏁 Debriefing e smontaggio</div>
               <div class="slot-sub">Compilazione del formulario di valutazione</div>
@@ -273,6 +276,11 @@
         </div>
       `;
       container.innerHTML = html;
+
+      // Evidenzia lo slot in corso dopo aver rigenerato il contenuto
+      if (typeof window.highlightCurrentSlot === "function") {
+        window.highlightCurrentSlot();
+      }
     }
 
     select.addEventListener("change", function() {
@@ -280,6 +288,9 @@
       else container.innerHTML = emptyHTML;
     });
   </script>
+
+  <!-- Script comune: stato evento + evidenziazione slot in corso -->
+  <script src="app.js"></script>
 
 </body>
 </html>
