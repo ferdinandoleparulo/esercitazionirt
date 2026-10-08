@@ -34,7 +34,9 @@ function updateStatus() {
 
 
 /* ============================
-   2) EVIDENZIA SLOT IN CORSO
+   2) EVIDENZIA SLOT/FASCE IN CORSO
+   Gestisce sia .slot (programma, squadre)
+   sia .fascia (isole) leggendo data-start/data-end
    ============================ */
 function timeToMinutes(hhmm) {
   if (!hhmm) return NaN;
@@ -43,39 +45,43 @@ function timeToMinutes(hhmm) {
 }
 
 function highlightCurrentSlot() {
-  const slots = document.querySelectorAll(".slot");
-  if (slots.length === 0) return;
+  const elements = document.querySelectorAll(".slot, .fascia");
+  if (elements.length === 0) return;
 
   const now = new Date();
   const nowMin = now.getHours() * 60 + now.getMinutes();
 
-  slots.forEach(slot => {
-    const start = timeToMinutes(slot.dataset.start);
-    const end   = timeToMinutes(slot.dataset.end);
+  elements.forEach(el => {
+    const start = timeToMinutes(el.dataset.start);
+    const end   = timeToMinutes(el.dataset.end);
 
-    // Se mancano gli attributi data-start/data-end, salta
+    // Se mancano data-start/data-end, salta
     if (isNaN(start) || isNaN(end)) return;
 
-    slot.classList.remove("slot--now", "slot--past");
+    const isFascia = el.classList.contains("fascia");
+    const nowClass  = isFascia ? "fascia--now"  : "slot--now";
+    const pastClass = isFascia ? "fascia--past" : "slot--past";
+
+    el.classList.remove("slot--now", "slot--past", "fascia--now", "fascia--past");
 
     if (nowMin >= start && nowMin < end) {
-      slot.classList.add("slot--now");
+      el.classList.add(nowClass);
     } else if (nowMin >= end) {
-      slot.classList.add("slot--past");
+      el.classList.add(pastClass);
     }
   });
 }
 
 
 /* ============================
-   3) OSSERVA CAMBI DOM (per pagine con select)
+   3) OSSERVA CAMBI DOM
+   (per pagine con select che rigenerano contenuto)
    ============================ */
 function observeSlotChanges() {
   const main = document.querySelector(".app-main") || document.body;
   if (!main) return;
 
   const observer = new MutationObserver(() => {
-    // Rilancia l'evidenziazione ogni volta che i nodi cambiano
     highlightCurrentSlot();
   });
 
@@ -90,12 +96,12 @@ updateStatus();
 highlightCurrentSlot();
 observeSlotChanges();
 
-// Aggiorna ogni minuto lo stato e l'evidenziazione
+// Aggiorna ogni minuto
 setInterval(() => {
   updateStatus();
   highlightCurrentSlot();
 }, 60000);
 
-// Esponi globalmente per poter chiamare manualmente da altre pagine
+// Esponi globalmente per le pagine che ne hanno bisogno
 window.highlightCurrentSlot = highlightCurrentSlot;
 window.updateStatus = updateStatus;
