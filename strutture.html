@@ -5,104 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0b3d2e">
   <title>Strutture – RENAI 2026</title>
-  <style>
-    :root {
-      --bg: #0f131a;
-      --card: #171c25;
-      --text: #e8edf4;
-      --muted: #9aa4b2;
-      --accent: #4ade80;
-      --radius: 14px;
-    }
-    * { box-sizing: border-box; }
-    html, body {
-      margin: 0; padding: 0;
-      background: var(--bg); color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.5; -webkit-font-smoothing: antialiased;
-    }
-    .app-header {
-      padding: 18px 16px 14px;
-      background: linear-gradient(180deg, #0b3d2e 0%, #0f131a 100%);
-      border-bottom: 1px solid #1f2530;
-    }
-    .back-link {
-      display: inline-block; color: var(--accent);
-      text-decoration: none; font-size: 14px;
-      margin-bottom: 10px; font-weight: 600;
-    }
-    .app-header h1 { margin: 0 0 4px; font-size: 24px; font-weight: 800; }
-    .subtitle { margin: 0 0 6px; font-size: 14px; color: var(--muted); }
-    .date { margin: 0; font-size: 13px; color: var(--muted); font-weight: 600; }
-    .app-main { padding: 18px 16px 32px; max-width: 760px; margin: 0 auto; }
-
-    .struttura-selector {
-      background: var(--card); border: 1px solid #262c38;
-      border-radius: var(--radius); padding: 16px; margin-bottom: 18px;
-    }
-    .struttura-selector label {
-      display: block; font-size: 15px; color: var(--muted);
-      margin-bottom: 8px; font-weight: 600;
-    }
-    .struttura-selector select {
-      width: 100%; background: #232936; border: 1px solid #2e3543;
-      border-radius: 10px; padding: 14px; color: var(--text);
-      font-size: 16px; font-family: inherit;
-      -webkit-appearance: none; appearance: none;
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa4b2' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
-      background-repeat: no-repeat; background-position: right 14px center;
-      background-size: 20px; padding-right: 44px;
-    }
-    .struttura-selector select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-
-    .empty-state {
-      text-align: center; padding: 40px 20px;
-      color: var(--muted); font-size: 15px; line-height: 1.5;
-    }
-    .struttura-title {
-      font-size: 20px; font-weight: 800; color: var(--accent);
-      margin: 0 0 4px; letter-spacing: 0.3px;
-    }
-    .struttura-sub { font-size: 14px; color: var(--muted); margin: 0 0 16px; }
-
-    .sezione-title {
-      font-size: 13px; font-weight: 800; color: var(--muted);
-      letter-spacing: 1px; text-transform: uppercase;
-      margin: 20px 0 10px;
-    }
-    .sezione-title:first-of-type { margin-top: 0; }
-
-    .isola-item {
-      background: var(--card); border: 1px solid #262c38;
-      border-radius: var(--radius); padding: 14px 16px; margin-bottom: 12px;
-    }
-    .isola-item--servizio { border-color: #1f6f4a; background: #0f2419; }
-    .isola-item-header {
-      display: flex; align-items: center; gap: 10px;
-      margin-bottom: 6px; flex-wrap: wrap;
-    }
-    .isola-badge {
-      display: inline-block; background: #14532d; border: 1px solid #1f6f4a;
-      color: #b9f6d0; font-size: 13px; font-weight: 800;
-      padding: 3px 10px; border-radius: 8px; letter-spacing: 0.3px;
-    }
-    .isola-badge--servizio {
-      background: #0b3d2e; border-color: #4ade80; color: #b9f6d0;
-    }
-    .isola-nome { font-size: 16px; font-weight: 700; color: var(--text); }
-    .isola-argomento {
-      font-size: 14px; color: #b9f6d0; margin-top: 6px; line-height: 1.5;
-    }
-    .isola-formatori {
-      font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.5;
-    }
-    .app-footer {
-      text-align: center; padding: 20px 16px 32px;
-      color: var(--muted); font-size: 12px; border-top: 1px solid #1f2530;
-    }
-    .app-footer p { margin: 4px 0; }
-    .version { font-weight: 700; }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -155,17 +58,17 @@
 
     const STRUTTURE = [
       // ---------- SICUREZZA E LOGISTICA ----------
-  {
-    id: "ANC",
-    nome: "ANC – Associazione Nazionale Carabinieri",
-    servizi: [
-      { nome: "Sicurezza dell'area", descrizione: "Controllo degli accessi, vigilanza dell'area esercitativa e raccordo con i referenti della Protezione Civile." },
-      { nome: "Viabilità e parcheggi", descrizione: "Indicazioni sui parcheggi riservati ai partecipanti, gestione della viabilità interna al Parco dei Renai e individuazione dei percorsi pedonali sicuri tra le isole formative, il punto ristoro e il palco istituzionale." },
-      { nome: "Punto informativo logistico", descrizione: "Riferimento per l'orientamento all'interno dell'area: ubicazione dei servizi igienici, del punto ristoro, del palco istituzionale, delle isole formative e delle vie di fuga." }
-    ],
-    isole: []
-  }, 
-      
+      {
+        id: "ANC",
+        nome: "ANC – Associazione Nazionale Carabinieri",
+        servizi: [
+          { nome: "Sicurezza dell'area", descrizione: "Controllo degli accessi, vigilanza dell'area esercitativa e raccordo con i referenti della Protezione Civile." },
+          { nome: "Viabilità e parcheggi", descrizione: "Indicazioni sui parcheggi riservati ai partecipanti, gestione della viabilità interna al Parco dei Renai e individuazione dei percorsi pedonali sicuri tra le isole formative, il punto ristoro e il palco istituzionale." },
+          { nome: "Punto informativo logistico", descrizione: "Riferimento per l'orientamento all'interno dell'area: ubicazione dei servizi igienici, del punto ristoro, del palco istituzionale, delle isole formative e delle vie di fuga." }
+        ],
+        isole: []
+      },
+
       // ---------- SERVIZI ----------
       {
         id: "ANPAS",
