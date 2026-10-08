@@ -4,7 +4,7 @@
    ============================================================ */
 
 
-/* =========================================================
+/* ============================================================
    1. VARIABILI GLOBALI
    ============================================================ */
 :root {
@@ -19,7 +19,6 @@
   --danger: #e74c3c;
   --radius: 14px;
 
-  /* Colori di stato */
   --stato-programmata-bg: #1f3a5f;
   --stato-programmata-fg: #9ecbff;
   --stato-corso-bg: #14532d;
@@ -32,15 +31,9 @@
 /* ============================================================
    2. RESET E BASE
    ============================================================ */
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 html {
-  /* Dimensione base dinamica:
-     - minimo 16px (smartphone piccoli)
-     - ideale 1rem + 0.35vw (cresce con lo schermo)
-     - massimo 20px (desktop/tablet grandi) */
   font-size: clamp(16px, 1rem + 0.35vw, 20px);
   -webkit-text-size-adjust: 100%;
 }
@@ -91,18 +84,9 @@ body {
   font-weight: 600;
 }
 
-.status--programmata {
-  background: var(--stato-programmata-bg);
-  color: var(--stato-programmata-fg);
-}
-.status--in-corso {
-  background: var(--stato-corso-bg);
-  color: var(--stato-corso-fg);
-}
-.status--conclusa {
-  background: var(--stato-conclusa-bg);
-  color: var(--stato-conclusa-fg);
-}
+.status--programmata { background: var(--stato-programmata-bg); color: var(--stato-programmata-fg); }
+.status--in-corso    { background: var(--stato-corso-bg);        color: var(--stato-corso-fg); }
+.status--conclusa    { background: var(--stato-conclusa-bg);     color: var(--stato-conclusa-fg); }
 
 .app-header h1 {
   margin: 0 0 6px;
@@ -134,7 +118,7 @@ body {
 
 
 /* ============================================================
-   4. BACK LINK (Home)
+   4. BACK LINK
    ============================================================ */
 .back-link {
   display: inline-block;
@@ -146,9 +130,7 @@ body {
   font-weight: 600;
 }
 
-.back-link:active {
-  opacity: 0.6;
-}
+.back-link:active { opacity: 0.6; }
 
 
 /* ============================================================
@@ -162,40 +144,7 @@ body {
 
 
 /* ============================================================
-   6. HOME – CARD PRIMARIA
-   ============================================================ */
-.card--primary {
-  display: block;
-  background: linear-gradient(135deg, #14532d, #0b3d2e);
-  border: 1px solid #1f6f4a;
-  padding: 18px;
-  border-radius: var(--radius);
-  text-decoration: none;
-  color: var(--text);
-  margin-bottom: 18px;
-}
-
-.card--primary .card-icon {
-  font-size: 1.9rem;
-}
-
-.card--primary .card-title {
-  display: block;
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-top: 6px;
-}
-
-.card--primary .card-sub {
-  display: block;
-  font-size: 1rem;
-  color: #b9f6d0;
-  margin-top: 2px;
-}
-
-
-/* ============================================================
-   7. HOME – GRIGLIA CARD
+   6. HOME – GRIGLIA CARD
    ============================================================ */
 .grid {
   display: grid;
@@ -218,24 +167,27 @@ body {
   transition: background 0.15s ease;
 }
 
-.card:active {
-  background: var(--card-hi);
-}
+.card:active { background: var(--card-hi); }
+.card-icon { font-size: 1.9rem; line-height: 1; }
+.card-title { font-size: 1.05rem; font-weight: 700; line-height: 1.25; }
 
-.card-icon {
-  font-size: 1.9rem;
-  line-height: 1;
+.card--primary {
+  display: block;
+  background: linear-gradient(135deg, #14532d, #0b3d2e);
+  border: 1px solid #1f6f4a;
+  padding: 18px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--text);
+  margin-bottom: 18px;
 }
-
-.card-title {
-  font-size: 1.05rem;
-  font-weight: 700;
-  line-height: 1.25;
-}
+.card--primary .card-icon  { font-size: 1.9rem; }
+.card--primary .card-title { display: block; font-size: 1.25rem; font-weight: 700; margin-top: 6px; }
+.card--primary .card-sub   { display: block; font-size: 1rem; color: #b9f6d0; margin-top: 2px; }
 
 
 /* ============================================================
-   8. AVVISI (details/summary nella Home)
+   7. AVVISI (details/summary nella Home)
    ============================================================ */
 #avvisiBox {
   display: flex;
@@ -267,58 +219,15 @@ body {
 
 .avviso-head::-webkit-details-marker { display: none; }
 .avviso-head::marker { display: none; content: ""; }
-
-.avviso-arrow {
-  font-size: 0.9rem;
-  transition: transform 0.2s;
-}
-
-.avviso[open] .avviso-arrow {
-  transform: rotate(180deg);
-}
-
-.avviso-body {
-  padding: 0 16px 14px;
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
+.avviso-arrow { font-size: 0.9rem; transition: transform 0.2s; }
+.avviso[open] .avviso-arrow { transform: rotate(180deg); }
+.avviso-body { padding: 0 16px 14px; font-size: 1rem; line-height: 1.6; }
 .avviso-body p { margin: 0 0 10px; }
 .avviso-body p:last-child { margin-bottom: 0; }
 
-.alert {
-  margin-top: 18px;
-  background: #2a1f00;
-  border-left: 4px solid var(--warn);
-  color: #ffe9a8;
-  padding: 12px 14px;
-  border-radius: 10px;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-.alert--accreditamento {
-  margin-top: 0;
-  margin-bottom: 18px;
-  background: #2a1f00;
-  border-left: 4px solid var(--warn);
-  color: #ffe9a8;
-  padding: 14px 16px;
-  border-radius: 10px;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-.alert--accreditamento strong {
-  color: #ffd45e;
-  display: block;
-  margin-bottom: 4px;
-  font-size: 1.05rem;
-}
-
 
 /* ============================================================
-   9. PARTECIPANTI E STRUTTURE (HOME)
+   8. PARTECIPANTI E STRUTTURE (HOME)
    ============================================================ */
 .partecipanti {
   margin-top: 26px;
@@ -347,12 +256,7 @@ body {
   border-bottom: 1px solid #262c38;
 }
 
-.badge-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 8px;
-}
+.badge-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
 
 .badge-item {
   display: inline-block;
@@ -363,21 +267,12 @@ body {
   line-height: 1.3;
 }
 
-.badge-item--ente {
-  background: #14532d;
-  border: 1px solid #1f6f4a;
-  color: #b9f6d0;
-}
-
-.badge-item--volontariato {
-  background: #2a1f00;
-  border: 1px solid #3d2f00;
-  color: #ffe9a8;
-}
+.badge-item--ente        { background: #14532d; border: 1px solid #1f6f4a; color: #b9f6d0; }
+.badge-item--volontariato { background: #2a1f00; border: 1px solid #3d2f00; color: #ffe9a8; }
 
 
 /* ============================================================
-   10. FOOTER
+   9. FOOTER
    ============================================================ */
 .app-footer {
   text-align: center;
@@ -398,14 +293,11 @@ body {
   color: var(--accent);
   text-decoration: none;
 }
-
-.app-footer a:hover {
-  text-decoration: underline;
-}
+.app-footer a:hover { text-decoration: underline; }
 
 
 /* ============================================================
-   11. SELEZIONI (struttura / isola / squadra)
+   10. SELEZIONI (struttura / isola / squadra)
    ============================================================ */
 .struttura-selector,
 .isola-selector,
@@ -450,14 +342,11 @@ body {
 
 .struttura-selector select:focus,
 .isola-selector select:focus,
-.team-selector select:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
-}
+.team-selector select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
 
 
 /* ============================================================
-   12. EMPTY STATE
+   11. EMPTY STATE
    ============================================================ */
 .empty-state {
   text-align: center;
@@ -469,7 +358,7 @@ body {
 
 
 /* ============================================================
-   13. TITOLI PAGINE INTERNE
+   12. TITOLI PAGINE INTERNE
    ============================================================ */
 .isola-title,
 .struttura-title,
@@ -492,7 +381,7 @@ body {
 
 
 /* ============================================================
-   14. ISOLE – DESCRIZIONE E META
+   13. ISOLE – DESCRIZIONE E META
    ============================================================ */
 .isola-description {
   font-size: 1.05rem;
@@ -516,33 +405,15 @@ body {
   border-radius: var(--radius);
 }
 
-.isola-meta-row {
-  display: flex;
-  gap: 10px;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-.isola-meta-label {
-  flex: 0 0 100px;
-  color: var(--muted);
-  font-weight: 600;
-}
-
-.isola-meta-value {
-  flex: 1;
-  color: var(--text);
-}
+.isola-meta-row { display: flex; gap: 10px; font-size: 1rem; line-height: 1.5; }
+.isola-meta-label { flex: 0 0 100px; color: var(--muted); font-weight: 600; }
+.isola-meta-value { flex: 1; color: var(--text); }
 
 
 /* ============================================================
-   15. ISOLE – FASCE ORARIE
+   14. ISOLE – FASCE ORARIE
    ============================================================ */
-.fasce-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+.fasce-list { list-style: none; margin: 0; padding: 0; }
 
 .fascia {
   display: flex;
@@ -563,33 +434,32 @@ body {
   letter-spacing: 0.3px;
 }
 
-.fascia-squadre {
-  flex: 1;
-  font-size: 1.05rem;
-  color: var(--text);
-  line-height: 1.55;
-}
+.fascia-squadre { flex: 1; font-size: 1.05rem; color: var(--text); line-height: 1.55; }
 
-.fascia--pausa {
-  background: #2a1f00;
-  border-color: #3d2f00;
-}
+.fascia--pausa { background: #2a1f00; border-color: #3d2f00; }
 .fascia--pausa .fascia-squadre { color: #ffe9a8; }
 
-.fascia--pranzo {
-  background: #2e1a00;
-  border-color: #4a2a00;
-}
+.fascia--pranzo { background: #2e1a00; border-color: #4a2a00; }
 .fascia--pranzo .fascia-squadre { color: #ffb86b; }
 
-.fascia-empty {
-  color: var(--muted);
-  font-style: italic;
+.fascia-empty { color: var(--muted); font-style: italic; }
+
+/* Evidenziazione fascia oraria in corso (isole.html) */
+.fascia--now {
+  background: #14532d;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
 }
+.fascia--now .fascia-time  { color: #b9f6d0; }
+.fascia--now .fascia-squadre { color: #d1fae5; }
+
+.fascia--past { opacity: 0.45; }
+.fascia--past.fascia--pausa,
+.fascia--past.fascia--pranzo { opacity: 0.6; }
 
 
 /* ============================================================
-   16. STRUTTURE – CARD ISOLE E SERVIZI
+   15. STRUTTURE – CARD ISOLE E SERVIZI
    ============================================================ */
 .sezione-title {
   font-size: 0.95rem;
@@ -599,7 +469,6 @@ body {
   text-transform: uppercase;
   margin: 20px 0 10px;
 }
-
 .sezione-title:first-of-type { margin-top: 0; }
 
 .isola-item {
@@ -609,19 +478,9 @@ body {
   padding: 14px 16px;
   margin-bottom: 12px;
 }
+.isola-item--servizio { border-color: #1f6f4a; background: #0f2419; }
 
-.isola-item--servizio {
-  border-color: #1f6f4a;
-  background: #0f2419;
-}
-
-.isola-item-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 6px;
-  flex-wrap: wrap;
-}
+.isola-item-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
 
 .isola-badge {
   display: inline-block;
@@ -634,35 +493,15 @@ body {
   border-radius: 8px;
   letter-spacing: 0.3px;
 }
+.isola-badge--servizio { background: #0b3d2e; border-color: #4ade80; color: #b9f6d0; }
 
-.isola-badge--servizio {
-  background: #0b3d2e;
-  border-color: #4ade80;
-  color: #b9f6d0;
-}
+.isola-nome { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+.isola-argomento { font-size: 1rem; color: #b9f6d0; margin-top: 6px; line-height: 1.55; }
+.isola-formatori { font-size: 0.95rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
 
-.isola-nome {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.isola-argomento {
-  font-size: 1rem;
-  color: #b9f6d0;
-  margin-top: 6px;
-  line-height: 1.55;
-}
-
-.isola-formatori {
-  font-size: 0.95rem;
-  color: var(--muted);
-  margin-top: 6px;
-  line-height: 1.5;
-}
 
 /* ============================================================
-   17. TIMELINE E SLOT (programma + squadre)
+   16. TIMELINE E SLOT (programma + squadre)
    ============================================================ */
 .timeline {
   list-style: none;
@@ -710,10 +549,10 @@ body {
 
 .slot-time {
   display: block;
-  font-size: clamp(0.85rem, 0.8rem + 0.3vw, 1rem);
+  font-size: clamp(0.9rem, 0.85rem + 0.3vw, 1.05rem);
   font-weight: 700;
   color: var(--accent);
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
   margin-bottom: 4px;
 }
 
@@ -731,28 +570,17 @@ body {
   margin-top: 3px;
 }
 
-/* Varianti colore */
-.slot--pausa {
-  background: #2a1f00;
-  border-color: #3d2f00;
-}
+.slot--pausa         { background: #2a1f00; border-color: #3d2f00; }
 .slot--pausa .slot-title { color: #ffe9a8; }
 .slot--pausa .slot-time  { color: #f1c40f; }
 
-.slot--istituzionale {
-  background: #14283a;
-  border-color: #1f3d55;
-}
+.slot--istituzionale         { background: #14283a; border-color: #1f3d55; }
 .slot--istituzionale .slot-title { color: #b8dcff; }
 .slot--istituzionale .slot-time  { color: #9ecbff; }
 
-.slot--registrazione {
-  background: #0b3d2e;
-  border-color: #1f6f4a;
-}
+.slot--registrazione         { background: #0b3d2e; border-color: #1f6f4a; }
 .slot--registrazione .slot-title { color: #b9f6d0; }
 
-/* Badge isola dentro gli slot di squadre.html */
 .badge-isola {
   display: inline-block;
   background: #14532d;
@@ -766,20 +594,17 @@ body {
   vertical-align: middle;
 }
 
-/* Slot in corso / passato (app.js) */
-.slot--now {
-  background: #14532d;
-  border-color: var(--accent);
-}
+/* Evidenziazione slot in corso (programma + squadre) */
+.slot--now { background: #14532d; border-color: var(--accent); }
 .slot--now .slot-time  { color: #b9f6d0; }
 .slot--now .slot-title { color: #d1fae5; }
 .slot--now::before     { background: #2ecc71; box-shadow: 0 0 0 1px #2ecc71; }
 
-.slot--past {
-  opacity: 0.45;
-}
+.slot--past { opacity: 0.45; }
+
+
 /* ============================================================
-   18. PROGRAMMA – BLOCCHI PARALLELI
+   17. PROGRAMMA – BLOCCHI PARALLELI
    ============================================================ */
 .parallel-block {
   background: var(--card);
@@ -797,46 +622,15 @@ body {
   letter-spacing: 0.3px;
 }
 
-.parallel-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
+.parallel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 480px) { .parallel-grid { grid-template-columns: 1fr; } }
 
-@media (max-width: 480px) {
-  .parallel-grid { grid-template-columns: 1fr; }
-}
+.mini-slot { padding: 10px 12px; border-radius: 10px; font-size: 0.95rem; line-height: 1.45; }
+.mini-slot .mini-title { font-weight: 800; font-size: 1rem; margin-bottom: 4px; display: block; }
+.mini-slot .mini-sub { font-size: 0.9rem; opacity: 0.85; }
 
-.mini-slot {
-  padding: 10px 12px;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  line-height: 1.45;
-}
-
-.mini-slot .mini-title {
-  font-weight: 800;
-  font-size: 1rem;
-  margin-bottom: 4px;
-  display: block;
-}
-
-.mini-slot .mini-sub {
-  font-size: 0.9rem;
-  opacity: 0.85;
-}
-
-.mini-slot--pranzo {
-  background: #2a1f00;
-  border: 1px solid #3d2f00;
-  color: #ffe9a8;
-}
-
-.mini-slot--formazione {
-  background: #14532d;
-  border: 1px solid #1f6f4a;
-  color: #b9f6d0;
-}
+.mini-slot--pranzo    { background: #2a1f00; border: 1px solid #3d2f00; color: #ffe9a8; }
+.mini-slot--formazione { background: #14532d; border: 1px solid #1f6f4a; color: #b9f6d0; }
 
 .info-note {
   background: #14283a;
@@ -851,7 +645,7 @@ body {
 
 
 /* ============================================================
-   19. FORM (valutazione, radio)
+   18. FORM (valutazione, radio)
    ============================================================ */
 .form-section {
   background: var(--card);
@@ -868,31 +662,13 @@ body {
   color: var(--accent);
 }
 
-.form-question {
-  margin: 14px 0 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1.35;
-}
-
+.form-question { margin: 14px 0 8px; font-size: 1rem; font-weight: 600; line-height: 1.35; }
 .form-question:first-of-type { margin-top: 0; }
-
-.form-hint {
-  margin: 0 0 10px;
-  font-size: 0.9rem;
-  color: var(--muted);
-}
-
+.form-hint { margin: 0 0 10px; font-size: 0.9rem; color: var(--muted); }
 .required { color: var(--danger); }
 
-
-/* Gruppi radio e checkbox */
 .radio-group,
-.checkbox-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+.checkbox-group { display: flex; flex-direction: column; gap: 8px; }
 
 .radio-option,
 .checkbox-option {
@@ -907,35 +683,14 @@ body {
   cursor: pointer;
   min-height: 48px;
 }
-
 .radio-option:active,
-.checkbox-option:active {
-  background: #2a3242;
-}
+.checkbox-option:active { background: #2a3242; }
 
 .radio-option input,
-.checkbox-option input {
-  width: 20px;
-  height: 20px;
-  accent-color: var(--accent);
-  flex: 0 0 20px;
-}
+.checkbox-option input { width: 20px; height: 20px; accent-color: var(--accent); flex: 0 0 20px; }
 
-
-/* Scale Likert 1-5 */
-.scale-group {
-  display: flex;
-  gap: 6px;
-  flex-wrap: nowrap;
-  margin-top: 6px;
-}
-
-.scale-option {
-  flex: 1;
-  text-align: center;
-  cursor: pointer;
-}
-
+.scale-group { display: flex; gap: 6px; flex-wrap: nowrap; margin-top: 6px; }
+.scale-option { flex: 1; text-align: center; cursor: pointer; }
 .scale-option input { display: none; }
 
 .scale-option span {
@@ -951,19 +706,9 @@ body {
   color: var(--text);
   transition: all 0.15s ease;
 }
+.scale-option input:checked + span { background: var(--accent); border-color: var(--accent); color: #0b3d2e; }
+.scale-option:active span { background: #2a3242; }
 
-.scale-option input:checked + span {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #0b3d2e;
-}
-
-.scale-option:active span {
-  background: #2a3242;
-}
-
-
-/* Input e textarea */
 input[type="text"],
 input[type="tel"],
 input[type="number"] {
@@ -983,10 +728,7 @@ input[type="text"]:focus,
 input[type="tel"]:focus,
 input[type="number"]:focus,
 textarea:focus,
-select:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
-}
+select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
 
 textarea {
   width: 100%;
@@ -1002,7 +744,6 @@ textarea {
   margin-top: 6px;
 }
 
-/* Select generico (radio.html, valutazione.html) */
 select {
   width: 100%;
   background: #232936;
@@ -1023,8 +764,6 @@ select {
   box-sizing: border-box;
 }
 
-
-/* Bottone submit */
 .submit-btn {
   display: block;
   width: 100%;
@@ -1041,19 +780,11 @@ select {
   cursor: pointer;
   font-family: inherit;
 }
-
 .submit-btn:active { background: #27b862; }
 .submit-btn:disabled { opacity: 0.6; cursor: wait; }
 
-.form-note {
-  margin-top: 14px;
-  font-size: 0.85rem;
-  color: var(--muted);
-  text-align: center;
-}
+.form-note { margin-top: 14px; font-size: 0.85rem; color: var(--muted); text-align: center; }
 
-
-/* Box grazie */
 .grazie-box {
   background: var(--card);
   border: 1px solid #262c38;
@@ -1061,13 +792,7 @@ select {
   padding: 24px 18px;
   text-align: center;
 }
-
-.grazie-box p {
-  font-size: 1rem;
-  line-height: 1.5;
-  color: var(--text);
-  margin: 0 0 20px;
-}
+.grazie-box p { font-size: 1rem; line-height: 1.5; color: var(--text); margin: 0 0 20px; }
 
 .grazie-nota {
   font-size: 0.9rem !important;
@@ -1079,36 +804,18 @@ select {
   border-left: 3px solid var(--warn);
 }
 
-
-/* Contenitori dinamici radio.html */
 #campoSquadra,
-#campoRuolo {
-  margin: 0;
-  padding: 0;
-}
-
+#campoRuolo { margin: 0; padding: 0; }
 #campoRuolo select,
-#campoSquadra input {
-  margin-top: 6px;
-  display: block;
-}
+#campoSquadra input { margin-top: 6px; display: block; }
 
-
-/* Regole radio.html */
-.regole-list {
-  margin: 0;
-  padding-left: 20px;
-  color: var(--muted);
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
+.regole-list { margin: 0; padding-left: 20px; color: var(--muted); font-size: 1rem; line-height: 1.6; }
 .regole-list li { margin-bottom: 6px; }
 .regole-list strong { color: var(--text); }
 
 
 /* ============================================================
-   20. RISULTATI
+   19. RISULTATI
    ============================================================ */
 .media-box {
   background: linear-gradient(135deg, #14532d, #0b3d2e);
@@ -1118,27 +825,9 @@ select {
   text-align: center;
   margin-bottom: 20px;
 }
-
-.media-label {
-  font-size: 0.9rem;
-  color: #b9f6d0;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 8px;
-}
-
-.media-value {
-  font-size: 3.5rem;
-  font-weight: 800;
-  color: #ffffff;
-  line-height: 1;
-}
-
-.media-sub {
-  font-size: 0.9rem;
-  color: #b9f6d0;
-  margin-top: 6px;
-}
+.media-label { font-size: 0.9rem; color: #b9f6d0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.media-value { font-size: 3.5rem; font-weight: 800; color: #ffffff; line-height: 1; }
+.media-sub { font-size: 0.9rem; color: #b9f6d0; margin-top: 6px; }
 
 .chart-section {
   background: var(--card);
@@ -1147,39 +836,16 @@ select {
   padding: 16px;
   margin-bottom: 16px;
 }
-
-.chart-title {
-  margin: 0 0 4px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.chart-sub {
-  margin: 0 0 12px;
-  font-size: 0.9rem;
-  color: var(--muted);
-}
-
-.chart-wrap {
-  position: relative;
-  width: 100%;
-}
-
-.chart-wrap--pie { height: 280px; }
+.chart-title { margin: 0 0 4px; font-size: 1.1rem; font-weight: 700; color: var(--text); }
+.chart-sub { margin: 0 0 12px; font-size: 0.9rem; color: var(--muted); }
+.chart-wrap { position: relative; width: 100%; }
+.chart-wrap--pie  { height: 280px; }
 .chart-wrap--tall { height: 420px; }
-
-.chart-note {
-  margin-top: 20px;
-  font-size: 0.85rem;
-  color: var(--muted);
-  text-align: center;
-  line-height: 1.4;
-}
+.chart-note { margin-top: 20px; font-size: 0.85rem; color: var(--muted); text-align: center; line-height: 1.4; }
 
 
 /* ============================================================
-   21. MAPPA
+   20. MAPPA
    ============================================================ */
 .mappa-wrap {
   border-radius: var(--radius);
@@ -1187,12 +853,7 @@ select {
   border: 1px solid #262c38;
   margin-bottom: 16px;
 }
-
-.mappa-wrap iframe {
-  display: block;
-  width: 100%;
-  height: 600px;
-}
+.mappa-wrap iframe { display: block; width: 100%; height: 600px; }
 
 .mappa-legenda {
   background: var(--card);
@@ -1201,41 +862,14 @@ select {
   padding: 16px;
   margin-bottom: 16px;
 }
-
-.mappa-legenda-title {
-  margin: 0 0 12px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.mappa-legenda-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.mappa-legenda-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 1rem;
-  line-height: 1.4;
-  color: var(--muted);
-}
-
-.legenda-punto {
-  flex: 0 0 22px;
-  font-size: 1.1rem;
-  line-height: 1;
-}
+.mappa-legenda-title { margin: 0 0 12px; font-size: 1.1rem; font-weight: 700; color: var(--text); }
+.mappa-legenda-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.mappa-legenda-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 1rem; line-height: 1.4; color: var(--muted); }
+.legenda-punto { flex: 0 0 22px; font-size: 1.1rem; line-height: 1; }
 
 
 /* ============================================================
-   22. FOTO
+   21. FOTO
    ============================================================ */
 .foto-intro {
   background: var(--card);
@@ -1244,14 +878,7 @@ select {
   padding: 18px;
   margin-bottom: 16px;
 }
-
-.foto-intro p {
-  margin: 0 0 10px;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: var(--text);
-}
-
+.foto-intro p { margin: 0 0 10px; font-size: 1rem; line-height: 1.5; color: var(--text); }
 .foto-intro p:last-child { margin-bottom: 0; }
 
 .foto-istruzioni {
@@ -1262,44 +889,19 @@ select {
   margin-top: 16px;
   margin-bottom: 16px;
 }
-
-.foto-istruzioni-title {
-  margin: 0 0 12px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--accent);
-}
-
-.foto-istruzioni-list {
-  margin: 0;
-  padding-left: 22px;
-  color: var(--muted);
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
+.foto-istruzioni-title { margin: 0 0 12px; font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+.foto-istruzioni-list { margin: 0; padding-left: 22px; color: var(--muted); font-size: 1rem; line-height: 1.6; }
 .foto-istruzioni-list li { margin-bottom: 8px; }
 .foto-istruzioni-list strong { color: var(--text); }
 
 
 /* ============================================================
-   23. MODULO UAS
+   22. MODULO UAS
    ============================================================ */
-.uas-text {
-  font-size: 1rem;
-  line-height: 1.55;
-  color: var(--text);
-  margin: 0 0 14px;
-}
-
+.uas-text { font-size: 1rem; line-height: 1.55; color: var(--text); margin: 0 0 14px; }
 .uas-text:last-child { margin-bottom: 0; }
 
-.uas-activities {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 8px;
-}
-
+.uas-activities { list-style: none; padding: 0; margin: 0 0 8px; }
 .uas-activities li {
   display: flex;
   align-items: flex-start;
@@ -1313,7 +915,6 @@ select {
   line-height: 1.5;
   color: var(--text);
 }
-
 .uas-activities .letter {
   flex: 0 0 32px;
   width: 32px;
@@ -1340,16 +941,9 @@ select {
   font-size: 1rem;
   line-height: 1.5;
 }
-
 .uas-streaming strong { color: #ffd45e; }
 
-.uas-caps {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
-}
-
+.uas-caps { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .uas-cap {
   background: #14532d;
   border: 1px solid #1f6f4a;
