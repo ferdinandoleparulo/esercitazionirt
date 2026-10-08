@@ -40,7 +40,7 @@
 
   <script>
     // ============================================
-    // DATI ISOLE - RENAI 2026 (rev. 2)
+    // DATI ISOLE - RENAI 2026 (rev. 3)
     // ============================================
     const ISOLE_DATA = {
       A: {
@@ -282,6 +282,12 @@
       "14:30 – 15:30"
     ];
 
+    // Trasforma "08:45 – 09:45" in {start:"08:45", end:"09:45"}
+    function parseFasciaOraria(orario) {
+      const parts = orario.split("–").map(p => p.trim());
+      return { start: parts[0] || "", end: parts[1] || "" };
+    }
+
     // Popola la tendina
     const select = document.getElementById("isolaSelect");
     ISLAND_ORDER.forEach(l => {
@@ -321,6 +327,7 @@
       `;
 
       ORARI_ORDER.forEach(orario => {
+        const { start, end } = parseFasciaOraria(orario);
         let cls = "fascia";
         let content = "";
 
@@ -345,7 +352,7 @@
         }
 
         html += `
-            <li class="${cls}">
+            <li class="${cls}" data-start="${start}" data-end="${end}">
               <div class="fascia-time">${orario}</div>
               <div class="fascia-squadre">${content}</div>
             </li>
@@ -354,6 +361,11 @@
 
       html += `</ul></div>`;
       container.innerHTML = html;
+
+      // Evidenzia la fascia oraria in corso dopo aver rigenerato il contenuto
+      if (typeof window.highlightCurrentSlot === "function") {
+        window.highlightCurrentSlot();
+      }
     }
 
     select.addEventListener("change", function() {
@@ -361,6 +373,9 @@
       else container.innerHTML = emptyHTML;
     });
   </script>
+
+  <!-- Script comune: stato evento + evidenziazione fascia in corso -->
+  <script src="app.js"></script>
 
 </body>
 </html>
