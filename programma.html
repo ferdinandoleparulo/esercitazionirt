@@ -6,10 +6,70 @@
   <meta name="theme-color" content="#0b3d2e">
   <title>Programma – RENAI 2026</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Stili locali per i blocchi paralleli */
+    .parallel-block {
+      background: var(--card);
+      border: 1px solid #262c38;
+      border-radius: var(--radius);
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .parallel-block .block-time {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 12px;
+      letter-spacing: 0.3px;
+    }
+    .parallel-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 480px) {
+      .parallel-grid { grid-template-columns: 1fr; }
+    }
+    .mini-slot {
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .mini-slot .mini-title {
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 4px;
+      display: block;
+    }
+    .mini-slot .mini-sub {
+      font-size: 12px;
+      opacity: 0.85;
+    }
+    .mini-slot--pranzo {
+      background: #2a1f00;
+      border: 1px solid #3d2f00;
+      color: #ffe9a8;
+    }
+    .mini-slot--formazione {
+      background: #14532d;
+      border: 1px solid #1f6f4a;
+      color: #b9f6d0;
+    }
+    .info-note {
+      background: #14283a;
+      border-left: 4px solid #4ade80;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 13px;
+      color: #b8dcff;
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- HEADER -->
   <header class="app-header">
     <a href="index.html" class="back-link">← Home</a>
     <h1>Programma di oggi</h1>
@@ -19,14 +79,18 @@
 
   <main class="app-main">
 
-    <!-- TIMELINE -->
+    <!-- NOTA INFORMATIVA -->
+    <div class="info-note">
+      ℹ️ <strong>Come funziona il pranzo:</strong> per non affollare il punto ristoro, il pranzo è diviso in <strong>due turni</strong>. Mentre un gruppo mangia, l’altro svolge la <strong>Formazione 4</strong> (o la <strong>Formazione 4 bis</strong>).
+    </div>
+
     <ul class="timeline" id="timeline">
 
       <!-- REGISTRAZIONE -->
       <li class="slot slot--istituzionale" data-start="07:30" data-end="08:45">
         <div class="slot-time">07:30 – 08:45</div>
         <div class="slot-title">Registrazione partecipanti</div>
-        <div class="slot-sub">Registrazione presso segreteria opertaiva</div>
+        <div class="slot-sub">Registrazione presso segreteria operativa</div>
       </li>
 
       <!-- FORMAZIONE 1 -->
@@ -47,7 +111,7 @@
       <li class="slot slot--pausa" data-start="10:45" data-end="11:15">
         <div class="slot-time">10:45 – 11:15</div>
         <div class="slot-title">Pausa caffè</div>
-        <div class="slot-sub">Gestione Misericordie</div>
+        <div class="slot-sub">Gestione Misericordie · tutti</div>
       </li>
 
       <!-- FORMAZIONE 3 -->
@@ -57,33 +121,53 @@
         <div class="slot-sub">Rotazione isole</div>
       </li>
 
-      <!-- PRANZO FASCIA 1 -->
-      <li class="slot slot--pausa" data-start="12:15" data-end="13:15">
-        <div class="slot-time">12:15 – 13:15</div>
-        <div class="slot-title">Pranzo – Fascia 1</div>
-        <div class="slot-sub">squadre 26-65 + L M N D E F G H I · Gestione ANPAS</div>
-      </li>
+    </ul>
 
-      <!-- FORMAZIONE 4 (per chi pranza in Fascia 2) -->
-      <li class="slot slot--formativo" data-start="12:15" data-end="13:15">
-        <div class="slot-time">12:15 – 13:15</div>
-        <div class="slot-title">Formazione 4</div>
-        <div class="slot-sub">Per chi pranza in Fascia 2 (1-25, 66-80 + A B C O P Q R S T)</div>
-      </li>
+    <!-- BLOCCO PARALLELO 1: 12:15 – 13:15 -->
+    <div class="parallel-block">
+      <div class="block-time">🍽️📚 12:15 – 13:15 · Pranzo e Formazione in parallelo</div>
+      <div class="parallel-grid">
+        <div class="mini-slot mini-slot--pranzo">
+          <span class="mini-title">🍽️ Pranzo — Turno A</span>
+          <span class="mini-sub">
+            Squadre <strong>26-65</strong><br>
+            + <strong>L M N D E F G H I</strong><br>
+            Gestione ANPAS
+          </span>
+        </div>
+        <div class="mini-slot mini-slot--formazione">
+          <span class="mini-title">📚 Formazione 4</span>
+          <span class="mini-sub">
+            Squadre <strong>1-25, 66-80</strong><br>
+            + <strong>A B C O P Q R S T</strong>
+          </span>
+        </div>
+      </div>
+    </div>
 
-      <!-- PRANZO FASCIA 2 -->
-      <li class="slot slot--pausa" data-start="13:15" data-end="14:15">
-        <div class="slot-time">13:15 – 14:15</div>
-        <div class="slot-title">Pranzo – Fascia 2</div>
-        <div class="slot-sub">squadre 1-25, 66-80 + A B C O P Q R S T · Gestione ANPAS</div>
-      </li>
+    <!-- BLOCCO PARALLELO 2: 13:15 – 14:15 -->
+    <div class="parallel-block">
+      <div class="block-time">🍽️📚 13:15 – 14:15 · Pranzo e Formazione in parallelo</div>
+      <div class="parallel-grid">
+        <div class="mini-slot mini-slot--pranzo">
+          <span class="mini-title">🍽️ Pranzo — Turno B</span>
+          <span class="mini-sub">
+            Squadre <strong>1-25, 66-80</strong><br>
+            + <strong>A B C O P Q R S T</strong><br>
+            Gestione ANPAS
+          </span>
+        </div>
+        <div class="mini-slot mini-slot--formazione">
+          <span class="mini-title">📚 Formazione 4 bis</span>
+          <span class="mini-sub">
+            Squadre <strong>26-65</strong><br>
+            + <strong>L M N D E F G H I</strong>
+          </span>
+        </div>
+      </div>
+    </div>
 
-      <!-- FORMAZIONE 4 bis (per chi ha pranzato in Fascia 1) -->
-      <li class="slot slot--formativo" data-start="13:15" data-end="14:15">
-        <div class="slot-time">13:15 – 14:15</div>
-        <div class="slot-title">Formazione 4 bis</div>
-        <div class="slot-sub">Per chi ha pranzato in Fascia 1 (26-65 + L M N D E F G H I)</div>
-      </li>
+    <ul class="timeline">
 
       <!-- SALUTI ISTITUZIONALI -->
       <li class="slot slot--istituzionale" data-start="14:15" data-end="14:30">
