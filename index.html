@@ -153,19 +153,25 @@
   </footer>
 
   <script src="app.js"></script>
-  <script>
-    // ============================================
-    // AVVISI COMPATTI - RENAI 2026
-    // Prima dell'08:45 del 10/10/2026 → avvisi aperti
-    // Dopo → avvisi chiusi, si aprono al tocco
-    // ============================================
-    const CUTOFF = new Date("2026-10-10T08:45:00");
-    if (new Date() > CUTOFF) {
-      document.querySelectorAll("#avvisiBox .avviso").forEach(d => {
-        d.removeAttribute("open");
-      });
+<script>
+  (function () {
+    const CUTOFF = new Date("2026-10-10T08:45:00+02:00");
+    let chiusiUnaVolta = false;
+
+    function controllaCutoff() {
+      if (chiusiUnaVolta) return;          // chiudi solo la prima volta
+      if (new Date() >= CUTOFF) {
+        document.querySelectorAll("#avvisiBox .avviso").forEach(d => {
+          d.removeAttribute("open");
+        });
+        chiusiUnaVolta = true;
+      }
     }
-  </script>
+
+    controllaCutoff();
+    setInterval(controllaCutoff, 15000);   // ricontrolla ogni 15 secondi
+  })();
+</script>
 
 </body>
 </html>
