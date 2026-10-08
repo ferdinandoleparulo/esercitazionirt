@@ -1,6 +1,12 @@
-/* ============================
-   VARIABILI GLOBALI 
-   ============================ */
+/* ============================================================
+   RENAI 2026 – style.css
+   Foglio di stile unificato per tutte le pagine dell'app
+   ============================================================ */
+
+
+/* ============================================================
+   1. VARIABILI GLOBALI
+   ============================================================ */
 :root {
   --bg: #0f1115;
   --card: #1b1f27;
@@ -12,15 +18,30 @@
   --warn: #f1c40f;
   --danger: #e74c3c;
   --radius: 14px;
+
+  /* Colori di stato */
+  --stato-programmata-bg: #1f3a5f;
+  --stato-programmata-fg: #9ecbff;
+  --stato-corso-bg: #14532d;
+  --stato-corso-fg: #86efac;
+  --stato-conclusa-bg: #3f3f46;
+  --stato-conclusa-fg: #d4d4d8;
 }
 
-/* ============================
-   RESET E BASE
-   ============================ */
-* { box-sizing: border-box; }
+
+/* ============================================================
+   2. RESET E BASE
+   ============================================================ */
+* {
+  box-sizing: border-box;
+}
 
 html {
-  font-size: 17px;
+  /* Dimensione base dinamica:
+     - minimo 16px (smartphone piccoli)
+     - ideale 1rem + 0.35vw (cresce con lo schermo)
+     - massimo 20px (desktop/tablet grandi) */
+  font-size: clamp(16px, 1rem + 0.35vw, 20px);
   -webkit-text-size-adjust: 100%;
 }
 
@@ -31,15 +52,16 @@ body {
   color: var(--text);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
            env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
-/* ============================
-   HEADER
-   ============================ */
+
+/* ============================================================
+   3. HEADER
+   ============================================================ */
 .app-header {
   padding: 20px 18px 16px;
   background: linear-gradient(180deg, #0b3d2e 0%, #0f1115 100%);
@@ -55,52 +77,93 @@ body {
 }
 
 .badge {
-  font-size: 13px;
-  letter-spacing: .5px;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
   color: var(--muted);
+  padding: 5px 10px;
 }
 
 .status {
-  font-size: 13px;
-  padding: 4px 10px;
+  font-size: 0.8rem;
+  padding: 5px 10px;
   border-radius: 999px;
   font-weight: 600;
 }
 
-.status--programmata { background: #1f3a5f; color: #9ecbff; }
-.status--in-corso    { background: #14532d; color: #86efac; }
-.status--conclusa    { background: #3f3f46; color: #d4d4d8; }
-
-h1 {
-  margin: 0 0 6px;
-  font-size: 26px;
-  line-height: 1.2;
+.status--programmata {
+  background: var(--stato-programmata-bg);
+  color: var(--stato-programmata-fg);
+}
+.status--in-corso {
+  background: var(--stato-corso-bg);
+  color: var(--stato-corso-fg);
+}
+.status--conclusa {
+  background: var(--stato-conclusa-bg);
+  color: var(--stato-conclusa-fg);
 }
 
-.subtitle {
+.app-header h1 {
+  margin: 0 0 6px;
+  font-size: clamp(1.5rem, 1rem + 2vw, 2.2rem);
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.app-header .subtitle {
   margin: 0;
   color: var(--muted);
-  font-size: 17px;
+  font-size: clamp(1rem, 0.95rem + 0.3vw, 1.15rem);
 }
 
-.date {
+.app-header .date {
   margin: 4px 0 0;
-  font-size: 16px;
+  font-size: clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem);
   color: var(--accent);
   font-weight: 600;
 }
 
-/* ============================
-   MAIN
-   ============================ */
-.app-main {
-  padding: 16px 14px 24px;
+.app-header .organizzatore {
+  margin: 8px 0 0;
+  font-size: clamp(0.85rem, 0.8rem + 0.2vw, 0.95rem);
+  color: var(--muted);
+  line-height: 1.4;
+  font-style: italic;
 }
 
-/* ============================
-   CARD PRINCIPALE (HOME)
-   ============================ */
+
+/* ============================================================
+   4. BACK LINK (Home)
+   ============================================================ */
+.back-link {
+  display: inline-block;
+  color: #9ecbff;
+  text-decoration: none;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  padding: 6px 0;
+  font-weight: 600;
+}
+
+.back-link:active {
+  opacity: 0.6;
+}
+
+
+/* ============================================================
+   5. MAIN
+   ============================================================ */
+.app-main {
+  padding: 16px 14px 24px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+
+/* ============================================================
+   6. HOME – CARD PRIMARIA
+   ============================================================ */
 .card--primary {
   display: block;
   background: linear-gradient(135deg, #14532d, #0b3d2e);
@@ -112,25 +175,28 @@ h1 {
   margin-bottom: 18px;
 }
 
-.card--primary .card-icon { font-size: 26px; }
+.card--primary .card-icon {
+  font-size: 1.9rem;
+}
 
 .card--primary .card-title {
   display: block;
-  font-size: 21px;
+  font-size: 1.25rem;
   font-weight: 700;
   margin-top: 6px;
 }
 
 .card--primary .card-sub {
   display: block;
-  font-size: 15px;
+  font-size: 1rem;
   color: #b9f6d0;
   margin-top: 2px;
 }
 
-/* ============================
-   GRIGLIA (HOME)
-   ============================ */
+
+/* ============================================================
+   7. HOME – GRIGLIA CARD
+   ============================================================ */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -141,7 +207,7 @@ h1 {
   background: var(--card);
   border: 1px solid #262c38;
   border-radius: var(--radius);
-  padding: 16px 12px;
+  padding: 18px 16px;
   text-decoration: none;
   color: var(--text);
   display: flex;
@@ -149,24 +215,77 @@ h1 {
   align-items: flex-start;
   gap: 8px;
   min-height: 96px;
-  transition: background .15s ease;
+  transition: background 0.15s ease;
 }
 
 .card:active {
   background: var(--card-hi);
 }
 
-.card-icon { font-size: 22px; }
+.card-icon {
+  font-size: 1.9rem;
+  line-height: 1;
+}
 
 .card-title {
-  font-size: 17px;
-  font-weight: 600;
+  font-size: 1.05rem;
+  font-weight: 700;
   line-height: 1.25;
 }
 
-/* ============================
-   AVVISO (generico)
-   ============================ */
+
+/* ============================================================
+   8. AVVISI (details/summary nella Home)
+   ============================================================ */
+#avvisiBox {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.avviso {
+  background: #2a1f00;
+  border-left: 4px solid var(--warn);
+  border-radius: 10px;
+  color: #ffe9a8;
+  overflow: hidden;
+}
+
+.avviso-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffd45e;
+  list-style: none;
+}
+
+.avviso-head::-webkit-details-marker { display: none; }
+.avviso-head::marker { display: none; content: ""; }
+
+.avviso-arrow {
+  font-size: 0.9rem;
+  transition: transform 0.2s;
+}
+
+.avviso[open] .avviso-arrow {
+  transform: rotate(180deg);
+}
+
+.avviso-body {
+  padding: 0 16px 14px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.avviso-body p { margin: 0 0 10px; }
+.avviso-body p:last-child { margin-bottom: 0; }
+
 .alert {
   margin-top: 18px;
   background: #2a1f00;
@@ -174,170 +293,531 @@ h1 {
   color: #ffe9a8;
   padding: 12px 14px;
   border-radius: 10px;
-  font-size: 15px;
-  line-height: 1.4;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
-/* ============================
-   FOOTER
-   ============================ */
-.app-footer {
-  text-align: center;
-  padding: 18px 12px 28px;
-  color: var(--muted);
-  font-size: 13px;
+.alert--accreditamento {
+  margin-top: 0;
+  margin-bottom: 18px;
+  background: #2a1f00;
+  border-left: 4px solid var(--warn);
+  color: #ffe9a8;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
-.app-footer .version { margin-top: 4px; opacity: .7; }
-
-/* ============================
-   PAGINA PROGRAMMA
-   ============================ */
-.back-link {
-  display: inline-block;
-  color: #9ecbff;
-  text-decoration: none;
-  font-size: 15px;
-  margin-bottom: 10px;
+.alert--accreditamento strong {
+  color: #ffd45e;
+  display: block;
+  margin-bottom: 4px;
+  font-size: 1.05rem;
 }
 
-.back-link:active {
-  opacity: 0.6;
-}
 
-.timeline {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  position: relative;
-}
-
-.timeline::before {
-  content: "";
-  position: absolute;
-  left: 22px;
-  top: 8px;
-  bottom: 8px;
-  width: 2px;
-  background: #262c38;
-}
-
-.slot {
-  position: relative;
-  margin: 0 0 12px 0;
-  padding: 14px 14px 14px 52px;
+/* ============================================================
+   9. PARTECIPANTI E STRUTTURE (HOME)
+   ============================================================ */
+.partecipanti {
+  margin-top: 26px;
+  padding: 18px 16px;
   background: var(--card);
   border: 1px solid #262c38;
   border-radius: var(--radius);
 }
 
-.slot::before {
-  content: "";
-  position: absolute;
-  left: 15px;
-  top: 20px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #3f4756;
-  border: 3px solid var(--card);
-  box-shadow: 0 0 0 1px #3f4756;
-}
-
-.slot--formativo::before      { background: #2ecc71; box-shadow: 0 0 0 1px #2ecc71; }
-.slot--pausa::before          { background: #f1c40f; box-shadow: 0 0 0 1px #f1c40f; }
-.slot--istituzionale::before  { background: #9ecbff; box-shadow: 0 0 0 1px #9ecbff; }
-
-.slot-time {
-  font-size: 15px;
+.partecipanti-title {
+  font-size: 1.25rem;
   font-weight: 700;
-  color: var(--accent);
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
+  margin: 0 0 16px;
+  color: var(--text);
+  letter-spacing: 0.3px;
 }
 
-.slot-title {
-  font-size: 17px;
+.partecipanti-sub {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin: 16px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #262c38;
+}
+
+.badge-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.badge-item {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.badge-item--ente {
+  background: #14532d;
+  border: 1px solid #1f6f4a;
+  color: #b9f6d0;
+}
+
+.badge-item--volontariato {
+  background: #2a1f00;
+  border: 1px solid #3d2f00;
+  color: #ffe9a8;
+}
+
+
+/* ============================================================
+   10. FOOTER
+   ============================================================ */
+.app-footer {
+  text-align: center;
+  padding: 20px 12px 28px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  border-top: 1px solid #1f2530;
+}
+
+.app-footer p { margin: 4px 0; }
+.app-footer .version { margin-top: 4px; opacity: 0.7; font-weight: 700; }
+
+.app-footer a {
+  font-size: 1.05rem !important;
   font-weight: 600;
+  padding: 8px 0;
+  display: inline-block;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.app-footer a:hover {
+  text-decoration: underline;
+}
+
+
+/* ============================================================
+   11. SELEZIONI (struttura / isola / squadra)
+   ============================================================ */
+.struttura-selector,
+.isola-selector,
+.team-selector {
+  background: var(--card);
+  border: 1px solid #262c38;
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 18px;
+}
+
+.struttura-selector label,
+.isola-selector label,
+.team-selector label {
+  display: block;
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.struttura-selector select,
+.isola-selector select,
+.team-selector select {
+  width: 100%;
+  background: #232936;
+  border: 1px solid #2e3543;
+  border-radius: 10px;
+  padding: 16px;
+  color: var(--text);
+  font-size: 1.05rem;
+  font-family: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa4b2' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 20px;
+  padding-right: 44px;
+  box-sizing: border-box;
+}
+
+.struttura-selector select:focus,
+.isola-selector select:focus,
+.team-selector select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+
+/* ============================================================
+   12. EMPTY STATE
+   ============================================================ */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+
+/* ============================================================
+   13. TITOLI PAGINE INTERNE
+   ============================================================ */
+.isola-title,
+.struttura-title,
+.team-name {
+  font-size: clamp(1.3rem, 1rem + 1.5vw, 1.8rem);
+  font-weight: 800;
+  color: var(--accent);
+  margin: 0 0 4px;
+  letter-spacing: 0.3px;
   line-height: 1.25;
 }
 
-.slot-sub {
-  font-size: 15px;
+.isola-sub,
+.struttura-sub,
+.team-sub {
+  font-size: 1rem;
   color: var(--muted);
-  margin-top: 2px;
+  margin: 0 0 16px;
 }
 
-.slot--now {
+
+/* ============================================================
+   14. ISOLE – DESCRIZIONE E META
+   ============================================================ */
+.isola-description {
+  font-size: 1.05rem;
+  color: var(--text);
+  line-height: 1.6;
+  margin: 0 0 14px;
+  padding: 12px 14px;
   background: #14532d;
-  border-color: #2ecc71;
+  border-left: 4px solid var(--accent);
+  border-radius: 10px;
 }
 
-.slot--now .slot-time { color: #b9f6d0; }
-.slot--now::before    { background: #2ecc71; box-shadow: 0 0 0 1px #2ecc71; }
-
-.slot--past {
-  opacity: 0.45;
-}
-
-/* ============================
-   PAGINA ISOLE FORMATIVE
-   ============================ */
-.isole-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.isola {
+.isola-meta {
   display: flex;
-  align-items: flex-start;
-  gap: 14px;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
   padding: 14px;
   background: var(--card);
   border: 1px solid #262c38;
   border-radius: var(--radius);
-  margin-bottom: 12px;
 }
 
-.isola-num {
-  flex: 0 0 40px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #14532d, #0b3d2e);
-  border: 1px solid #1f6f4a;
-  color: #b9f6d0;
-  font-weight: 700;
-  font-size: 17px;
+.isola-meta-row {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  gap: 10px;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
-.isola-body {
+.isola-meta-label {
+  flex: 0 0 100px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.isola-meta-value {
   flex: 1;
-  min-width: 0;
-}
-
-.isola-title {
-  margin: 0 0 4px;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.25;
   color: var(--text);
 }
 
-.isola-desc {
+
+/* ============================================================
+   15. ISOLE – FASCE ORARIE
+   ============================================================ */
+.fasce-list {
+  list-style: none;
   margin: 0;
-  font-size: 15px;
-  line-height: 1.45;
-  color: var(--muted);
+  padding: 0;
 }
 
-/* ============================
-   FORM DI VALUTAZIONE
-   ============================ */
+.fascia {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 14px;
+  background: var(--card);
+  border: 1px solid #262c38;
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+}
+
+.fascia-time {
+  flex: 0 0 130px;
+  font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.05rem);
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.3px;
+}
+
+.fascia-squadre {
+  flex: 1;
+  font-size: 1.05rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.fascia--pausa {
+  background: #2a1f00;
+  border-color: #3d2f00;
+}
+.fascia--pausa .fascia-squadre { color: #ffe9a8; }
+
+.fascia--pranzo {
+  background: #2e1a00;
+  border-color: #4a2a00;
+}
+.fascia--pranzo .fascia-squadre { color: #ffb86b; }
+
+.fascia-empty {
+  color: var(--muted);
+  font-style: italic;
+}
+
+
+/* ============================================================
+   16. STRUTTURE – CARD ISOLE E SERVIZI
+   ============================================================ */
+.sezione-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin: 20px 0 10px;
+}
+
+.sezione-title:first-of-type { margin-top: 0; }
+
+.isola-item {
+  background: var(--card);
+  border: 1px solid #262c38;
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+
+.isola-item--servizio {
+  border-color: #1f6f4a;
+  background: #0f2419;
+}
+
+.isola-item-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.isola-badge {
+  display: inline-block;
+  background: #14532d;
+  border: 1px solid #1f6f4a;
+  color: #b9f6d0;
+  font-size: 0.85rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 8px;
+  letter-spacing: 0.3px;
+}
+
+.isola-badge--servizio {
+  background: #0b3d2e;
+  border-color: #4ade80;
+  color: #b9f6d0;
+}
+
+.isola-nome {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.isola-argomento {
+  font-size: 1rem;
+  color: #b9f6d0;
+  margin-top: 6px;
+  line-height: 1.55;
+}
+
+.isola-formatori {
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+
+/* ============================================================
+   17. TIMELINE E SLOT (programma + squadre)
+   ============================================================ */
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.slot {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 14px;
+  background: var(--card);
+  border: 1px solid #262c38;
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+}
+
+.slot-time {
+  flex: 0 0 135px;
+  font-size: clamp(0.9rem, 0.85rem + 0.4vw, 1.05rem);
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.3px;
+}
+
+.slot-title {
+  flex: 1;
+  font-size: 1.05rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.slot-sub {
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+/* Varianti colore degli slot */
+.slot--formativo {
+  /* default: colore card */
+}
+
+.slot--pausa {
+  background: #2a1f00;
+  border-color: #3d2f00;
+}
+.slot--pausa .slot-title { color: #ffe9a8; }
+.slot--pausa .slot-time  { color: #f1c40f; }
+
+.slot--istituzionale {
+  background: #14283a;
+  border-color: #1f3d55;
+}
+.slot--istituzionale .slot-title { color: #b8dcff; }
+.slot--istituzionale .slot-time  { color: #9ecbff; }
+
+.slot--registrazione {
+  background: #0b3d2e;
+  border-color: #1f6f4a;
+}
+.slot--registrazione .slot-title { color: #b9f6d0; }
+
+/* Badge isola (dentro gli slot di squadre.html) */
+.badge-isola {
+  display: inline-block;
+  background: #14532d;
+  border: 1px solid #1f6f4a;
+  color: #b9f6d0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 6px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+
+/* ============================================================
+   18. PROGRAMMA – BLOCCHI PARALLELI
+   ============================================================ */
+.parallel-block {
+  background: var(--card);
+  border: 1px solid #262c38;
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.parallel-block .block-time {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 12px;
+  letter-spacing: 0.3px;
+}
+
+.parallel-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 480px) {
+  .parallel-grid { grid-template-columns: 1fr; }
+}
+
+.mini-slot {
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.mini-slot .mini-title {
+  font-weight: 800;
+  font-size: 1rem;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.mini-slot .mini-sub {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.mini-slot--pranzo {
+  background: #2a1f00;
+  border: 1px solid #3d2f00;
+  color: #ffe9a8;
+}
+
+.mini-slot--formazione {
+  background: #14532d;
+  border: 1px solid #1f6f4a;
+  color: #b9f6d0;
+}
+
+.info-note {
+  background: #14283a;
+  border-left: 4px solid #4ade80;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  color: #b8dcff;
+  margin-bottom: 18px;
+  line-height: 1.55;
+}
+
+
+/* ============================================================
+   19. FORM (valutazione, radio)
+   ============================================================ */
 .form-section {
   background: var(--card);
   border: 1px solid #262c38;
@@ -348,30 +828,30 @@ h1 {
 
 .form-section-title {
   margin: 0 0 12px;
-  font-size: 18px;
+  font-size: 1.15rem;
   font-weight: 700;
   color: var(--accent);
 }
 
 .form-question {
   margin: 14px 0 8px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
   line-height: 1.35;
 }
 
-.form-question:first-of-type {
-  margin-top: 0;
-}
+.form-question:first-of-type { margin-top: 0; }
 
 .form-hint {
   margin: 0 0 10px;
-  font-size: 14px;
+  font-size: 0.9rem;
   color: var(--muted);
 }
 
 .required { color: var(--danger); }
 
+
+/* Gruppi radio e checkbox */
 .radio-group,
 .checkbox-group {
   display: flex;
@@ -388,7 +868,7 @@ h1 {
   background: #232936;
   border: 1px solid #2e3543;
   border-radius: 10px;
-  font-size: 15px;
+  font-size: 1rem;
   cursor: pointer;
   min-height: 48px;
 }
@@ -406,6 +886,8 @@ h1 {
   flex: 0 0 20px;
 }
 
+
+/* Scale Likert 1-5 */
 .scale-group {
   display: flex;
   gap: 6px;
@@ -419,9 +901,7 @@ h1 {
   cursor: pointer;
 }
 
-.scale-option input {
-  display: none;
-}
+.scale-option input { display: none; }
 
 .scale-option span {
   display: flex;
@@ -431,10 +911,10 @@ h1 {
   background: #232936;
   border: 1px solid #2e3543;
   border-radius: 10px;
-  font-size: 17px;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--text);
-  transition: all .15s ease;
+  transition: all 0.15s ease;
 }
 
 .scale-option input:checked + span {
@@ -447,6 +927,32 @@ h1 {
   background: #2a3242;
 }
 
+
+/* Input e textarea */
+input[type="text"],
+input[type="tel"],
+input[type="number"] {
+  width: 100%;
+  background: #232936;
+  border: 1px solid #2e3543;
+  border-radius: 10px;
+  padding: 14px;
+  color: var(--text);
+  font-size: 1rem;
+  font-family: inherit;
+  margin-top: 6px;
+  -webkit-appearance: none;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
 textarea {
   width: 100%;
   background: #232936;
@@ -454,18 +960,36 @@ textarea {
   border-radius: 10px;
   padding: 12px 14px;
   color: var(--text);
-  font-size: 15px;
+  font-size: 1rem;
   font-family: inherit;
   line-height: 1.4;
   resize: vertical;
   margin-top: 6px;
 }
 
-textarea:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
+/* Select generico (radio.html, valutazione.html) */
+select {
+  width: 100%;
+  background: #232936;
+  border: 1px solid #2e3543;
+  border-radius: 10px;
+  padding: 14px;
+  color: var(--text);
+  font-size: 1rem;
+  font-family: inherit;
+  margin-top: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa4b2' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 20px;
+  padding-right: 44px;
+  box-sizing: border-box;
 }
 
+
+/* Bottone submit */
 .submit-btn {
   display: block;
   width: 100%;
@@ -475,7 +999,7 @@ textarea:focus {
   border: none;
   border-radius: var(--radius);
   color: #0b3d2e;
-  font-size: 18px;
+  font-size: 1.1rem;
   font-weight: 700;
   text-align: center;
   text-decoration: none;
@@ -483,22 +1007,18 @@ textarea:focus {
   font-family: inherit;
 }
 
-.submit-btn:active {
-  background: #27b862;
-}
-
-.submit-btn:disabled {
-  opacity: 0.6;
-  cursor: wait;
-}
+.submit-btn:active { background: #27b862; }
+.submit-btn:disabled { opacity: 0.6; cursor: wait; }
 
 .form-note {
   margin-top: 14px;
-  font-size: 13px;
+  font-size: 0.85rem;
   color: var(--muted);
   text-align: center;
 }
 
+
+/* Box grazie */
 .grazie-box {
   background: var(--card);
   border: 1px solid #262c38;
@@ -508,15 +1028,53 @@ textarea:focus {
 }
 
 .grazie-box p {
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.5;
   color: var(--text);
   margin: 0 0 20px;
 }
 
-/* ============================
-   PAGINA RISULTATI
-   ============================ */
+.grazie-nota {
+  font-size: 0.9rem !important;
+  color: var(--warn) !important;
+  margin-top: 14px !important;
+  padding: 10px 14px;
+  background: #2a1f00;
+  border-radius: 10px;
+  border-left: 3px solid var(--warn);
+}
+
+
+/* Contenitori dinamici radio.html */
+#campoSquadra,
+#campoRuolo {
+  margin: 0;
+  padding: 0;
+}
+
+#campoRuolo select,
+#campoSquadra input {
+  margin-top: 6px;
+  display: block;
+}
+
+
+/* Regole radio.html */
+.regole-list {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.regole-list li { margin-bottom: 6px; }
+.regole-list strong { color: var(--text); }
+
+
+/* ============================================================
+   20. RISULTATI
+   ============================================================ */
 .media-box {
   background: linear-gradient(135deg, #14532d, #0b3d2e);
   border: 1px solid #1f6f4a;
@@ -527,7 +1085,7 @@ textarea:focus {
 }
 
 .media-label {
-  font-size: 14px;
+  font-size: 0.9rem;
   color: #b9f6d0;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -535,14 +1093,14 @@ textarea:focus {
 }
 
 .media-value {
-  font-size: 56px;
+  font-size: 3.5rem;
   font-weight: 800;
   color: #ffffff;
   line-height: 1;
 }
 
 .media-sub {
-  font-size: 14px;
+  font-size: 0.9rem;
   color: #b9f6d0;
   margin-top: 6px;
 }
@@ -557,14 +1115,14 @@ textarea:focus {
 
 .chart-title {
   margin: 0 0 4px;
-  font-size: 17px;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--text);
 }
 
 .chart-sub {
   margin: 0 0 12px;
-  font-size: 13px;
+  font-size: 0.9rem;
   color: var(--muted);
 }
 
@@ -573,25 +1131,21 @@ textarea:focus {
   width: 100%;
 }
 
-.chart-wrap--pie {
-  height: 280px;
-}
-
-.chart-wrap--tall {
-  height: 420px;
-}
+.chart-wrap--pie { height: 280px; }
+.chart-wrap--tall { height: 420px; }
 
 .chart-note {
   margin-top: 20px;
-  font-size: 13px;
+  font-size: 0.85rem;
   color: var(--muted);
   text-align: center;
   line-height: 1.4;
 }
 
-/* ============================
-   PAGINA MAPPA
-   ============================ */
+
+/* ============================================================
+   21. MAPPA
+   ============================================================ */
 .mappa-wrap {
   border-radius: var(--radius);
   overflow: hidden;
@@ -615,7 +1169,7 @@ textarea:focus {
 
 .mappa-legenda-title {
   margin: 0 0 12px;
-  font-size: 17px;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--text);
 }
@@ -633,174 +1187,21 @@ textarea:focus {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  font-size: 15px;
+  font-size: 1rem;
   line-height: 1.4;
   color: var(--muted);
 }
 
 .legenda-punto {
   flex: 0 0 22px;
-  font-size: 18px;
+  font-size: 1.1rem;
   line-height: 1;
 }
 
-/* ============================
-   AVVISO ACCREDITAMENTO (HOME)
-   ============================ */
-.alert--accreditamento {
-  margin-top: 0;
-  margin-bottom: 18px;
-  background: #2a1f00;
-  border-left: 4px solid var(--warn);
-  color: #ffe9a8;
-  padding: 14px 16px;
-  border-radius: 10px;
-  font-size: 15px;
-  line-height: 1.5;
-}
 
-.alert--accreditamento strong {
-  color: #ffd45e;
-  display: block;
-  margin-bottom: 4px;
-  font-size: 16px;
-}
-
-/* ============================
-   AVVISO DPI (HOME)
-   ============================ */
-.alert--dpi {
-  margin-top: 0;
-  margin-bottom: 18px;
-  background: #2a1f00;
-  border-left: 4px solid var(--warn);
-  color: #ffe9a8;
-  padding: 14px 16px;
-  border-radius: 10px;
-  font-size: 15px;
-  line-height: 1.5;
-}
-
-.alert--dpi p {
-  margin: 0;
-}
-
-.alert--dpi strong {
-  color: #ffd45e;
-  font-size: 16px;
-}
-
-.alert--dpi em {
-  color: #ffe9a8;
-  font-style: italic;
-}
-
-/* ============================
-   PAGINA RADIO
-   ============================ */
-.regole-list {
-  margin: 0;
-  padding-left: 20px;
-  color: var(--muted);
-  font-size: 15px;
-  line-height: 1.6;
-}
-
-.regole-list li {
-  margin-bottom: 6px;
-}
-
-.regole-list strong {
-  color: var(--text);
-}
-
-/* Input di testo */
-input[type="text"],
-input[type="tel"],
-input[type="number"] {
-  width: 100%;
-  background: #232936;
-  border: 1px solid #2e3543;
-  border-radius: 10px;
-  padding: 14px;
-  color: var(--text);
-  font-size: 16px;
-  font-family: inherit;
-  margin-top: 6px;
-  -webkit-appearance: none;
-}
-
-input[type="text"]:focus,
-input[type="tel"]:focus,
-input[type="number"]:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
-}
-
-/* Menu a tendina (select) */
-select {
-  width: 100%;
-  background: #232936;
-  border: 1px solid #2e3543;
-  border-radius: 10px;
-  padding: 14px;
-  color: var(--text);
-  font-size: 16px;
-  font-family: inherit;
-  margin-top: 6px;
-  -webkit-appearance: none;
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa4b2' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 14px center;
-  background-size: 20px;
-  padding-right: 44px;
-  box-sizing: border-box;
-}
-
-select:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
-}
-
-/* Pagina grazie radio */
-.grazie-nota {
-  font-size: 14px !important;
-  color: var(--warn) !important;
-  margin-top: 14px !important;
-  padding: 10px 14px;
-  background: #2a1f00;
-  border-radius: 10px;
-  border-left: 3px solid var(--warn);
-}
-
-/* Contenitori dei campi dinamici (squadra, ruolo) */
-#campoSquadra,
-#campoRuolo {
-  margin: 0;
-  padding: 0;
-}
-
-#campoRuolo select,
-#campoSquadra input {
-  margin-top: 6px;
-  display: block;
-}
-
-/* ============================
-   ORGANIZZATORE (HOME)
-   ============================ */
-.organizzatore {
-  margin: 8px 0 0;
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.4;
-  font-style: italic;
-}
-
-/* ============================
-   PAGINA FOTO
-   ============================ */
+/* ============================================================
+   22. FOTO
+   ============================================================ */
 .foto-intro {
   background: var(--card);
   border: 1px solid #262c38;
@@ -811,14 +1212,12 @@ select:focus {
 
 .foto-intro p {
   margin: 0 0 10px;
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.5;
   color: var(--text);
 }
 
-.foto-intro p:last-child {
-  margin-bottom: 0;
-}
+.foto-intro p:last-child { margin-bottom: 0; }
 
 .foto-istruzioni {
   background: var(--card);
@@ -831,7 +1230,7 @@ select:focus {
 
 .foto-istruzioni-title {
   margin: 0 0 12px;
-  font-size: 17px;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--accent);
 }
@@ -840,21 +1239,26 @@ select:focus {
   margin: 0;
   padding-left: 22px;
   color: var(--muted);
-  font-size: 15px;
+  font-size: 1rem;
   line-height: 1.6;
 }
 
-.foto-istruzioni-list li {
-  margin-bottom: 8px;
-}
+.foto-istruzioni-list li { margin-bottom: 8px; }
+.foto-istruzioni-list strong { color: var(--text); }
 
-.foto-istruzioni-list strong {
+
+/* ============================================================
+   23. MODULO UAS
+   ============================================================ */
+.uas-text {
+  font-size: 1rem;
+  line-height: 1.55;
   color: var(--text);
+  margin: 0 0 14px;
 }
 
-/* ============================================
-   MODULO UAS
-   ============================================ */
+.uas-text:last-child { margin-bottom: 0; }
+
 .uas-activities {
   list-style: none;
   padding: 0;
@@ -870,7 +1274,7 @@ select:focus {
   border: 1px solid #262c38;
   border-radius: var(--radius);
   margin-bottom: 10px;
-  font-size: 15px;
+  font-size: 1rem;
   line-height: 1.5;
   color: var(--text);
 }
@@ -884,7 +1288,7 @@ select:focus {
   border: 1px solid #1f6f4a;
   color: #b9f6d0;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 0.95rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -898,13 +1302,11 @@ select:focus {
   color: #ffe9a8;
   padding: 14px 16px;
   border-radius: 10px;
-  font-size: 15px;
+  font-size: 1rem;
   line-height: 1.5;
 }
 
-.uas-streaming strong {
-  color: #ffd45e;
-}
+.uas-streaming strong { color: #ffd45e; }
 
 .uas-caps {
   display: flex;
@@ -919,667 +1321,6 @@ select:focus {
   color: #b9f6d0;
   padding: 8px 14px;
   border-radius: 999px;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.uas-text {
-  font-size: 16px;
-  line-height: 1.55;
-  color: var(--text);
-  margin: 0 0 14px;
-}
-
-.uas-text:last-child {
-  margin-bottom: 0;
-}
-
-/* ============================================
-   PARTECIPANTI E STRUTTURE (HOME)
-   ============================================ */
-.partecipanti {
-  margin-top: 26px;
-  padding: 18px 16px;
-  background: var(--card);
-  border: 1px solid #262c38;
-  border-radius: var(--radius);
-}
-
-.partecipanti-title {
-  font-size: 17px;
-  font-weight: 700;
-  margin: 0 0 16px;
-  color: var(--text);
-  letter-spacing: 0.3px;
-}
-
-.partecipanti-sub {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin: 16px 0 10px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid #262c38;
-}
-
-.badge-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.badge-item {
-  display: inline-block;
-  padding: 7px 14px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.3;
-  white-space: nowrap;
-}
-
-.badge-item--ente {
-  background: #14532d;
-  border: 1px solid #1f6f4a;
-  color: #b9f6d0;
-}
-
-.badge-item--volontariato {
-  background: #2a1f00;
-  border: 1px solid #3d2f00;
-  color: #ffe9a8;
-}
-
-/* ============================================
-   AVVISI COMPATTI (HOME)
-   ============================================ */
-#avvisiBox {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.avviso {
-  background: #2a1f00;
-  border-left: 4px solid var(--warn);
-  border-radius: 10px;
-  color: #ffe9a8;
-  overflow: hidden;
-}
-
-.avviso-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 14px;
-  cursor: pointer;
-  user-select: none;
-  font-size: 15px;
-  font-weight: 600;
-  color: #ffd45e;
-  list-style: none;
-}
-
-.avviso-head::-webkit-details-marker { display: none; }
-.avviso-head::marker { display: none; content: ""; }
-
-.avviso-arrow {
-  font-size: 14px;
-  transition: transform 0.2s;
-}
-
-.avviso[open] .avviso-arrow {
-  transform: rotate(180deg);
-}
-
-.avviso-body {
-  padding: 0 14px 14px;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.avviso-body p { margin: 0 0 10px; }
-.avviso-body p:last-child { margin-bottom: 0; }
-
-/* ============================================
-   RENAI 2026 – Patch leggibilità (v2.1)
-   Aumenta le dimensioni dei testi in tutta l'app
-   ============================================ */
-
-/* Base: aumenta la dimensione radice */
-html {
-  font-size: 18px; /* default browser = 16px, ora +12.5% */
-}
-
-body {
-  font-size: 1rem; /* eredita da html */
-  line-height: 1.6;
-}
-
-/* ---------- HEADER ---------- */
-.app-header h1 {
-  font-size: 1.7rem; /* ~30px */
-  line-height: 1.25;
-}
-.app-header .subtitle {
-  font-size: 1.05rem;
-}
-.app-header .date {
-  font-size: 1rem;
-}
-.app-header .organizzatore {
-  font-size: 0.95rem;
-}
-.badge {
-  font-size: 0.8rem;
-  padding: 5px 10px;
-}
-.status {
-  font-size: 0.8rem;
-  padding: 5px 10px;
-}
-
-/* ---------- AVVISI ---------- */
-.avviso-head {
-  font-size: 1.05rem;
-  padding: 14px 16px;
-}
-.avviso-body {
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
-/* ---------- GRIGLIA / CARD ---------- */
-.card {
-  padding: 18px 16px;
-}
-.card-icon {
-  font-size: 1.9rem;
-}
-.card-title {
-  font-size: 1.05rem;
-  font-weight: 700;
-}
-
-/* ---------- SELEZIONE STRUTTURA / ISOLA / SQUADRA ---------- */
-.struttura-selector label,
-.isola-selector label,
-.team-selector label {
-  font-size: 1rem;
-}
-.struttura-selector select,
-.isola-selector select,
-.team-selector select {
-  font-size: 1.05rem;
-  padding: 16px;
-}
-
-/* ---------- CONTENUTI STRUTTURA / ISOLA ---------- */
-.struttura-title,
-.isola-title,
-.team-name {
-  font-size: 1.5rem;
-  line-height: 1.25;
-}
-.struttura-sub,
-.isola-sub,
-.team-sub {
-  font-size: 1rem;
-}
-.isola-description {
-  font-size: 1.05rem;
-  line-height: 1.6;
-}
-.isola-meta-row {
-  font-size: 1rem;
-}
-.isola-meta-label {
-  flex: 0 0 100px;
-}
-.sezione-title {
-  font-size: 0.95rem;
-}
-.isola-nome {
-  font-size: 1.1rem;
-}
-.isola-argomento {
-  font-size: 1rem;
-  line-height: 1.55;
-}
-.isola-formatori {
-  font-size: 0.95rem;
-}
-.isola-badge {
-  font-size: 0.85rem;
-  padding: 4px 10px;
-}
-
-/* ---------- FASCE ORARIE ---------- */
-.fascia-time {
-  font-size: 1rem;
-  flex: 0 0 130px;
-}
-.fascia-squadre {
-  font-size: 1.05rem;
-}
-
-/* ---------- TIMELINE / SLOT ---------- */
-.slot-time {
-  font-size: 1rem;
-  flex: 0 0 135px;
-}
-.slot-title {
-  font-size: 1.05rem;
-}
-.slot-sub {
-  font-size: 0.95rem;
-}
-.badge-isola {
-  font-size: 0.85rem;
-}
-
-/* ---------- MODULI PARALLELI (programma) ---------- */
-.parallel-block .block-time {
-  font-size: 1.05rem;
-}
-.mini-slot {
-  font-size: 0.95rem;
-}
-.mini-slot .mini-title {
-  font-size: 1rem;
-}
-.mini-slot .mini-sub {
   font-size: 0.9rem;
-}
-.info-note {
-  font-size: 0.95rem;
-}
-
-/* ---------- PARTECIPANTI ---------- */
-.partecipanti-title {
-  font-size: 1.25rem;
-}
-.partecipanti-sub {
-  font-size: 1.05rem;
-}
-.badge-item {
-  font-size: 0.95rem;
-  padding: 8px 12px;
-}
-
-/* ---------- FOOTER ---------- */
-.app-footer {
-  font-size: 0.9rem;
-}
-
-/* ---------- LOCANDINA – link in fondo ---------- */
-.app-footer a {
-  font-size: 1.05rem !important;
-  font-weight: 600;
-  padding: 8px 0;
-  display: inline-block;
-}
-.app-footer a:hover {
-  text-decoration: underline;
-}
-
-/* ---------- BOTTONE HOME / BACK ---------- */
-.back-link {
-  font-size: 1rem;
-  padding: 6px 0;
-}
-/* ============================================================
-   RENAI 2026 – Stili unificati (v2.2)
-   Da appendere in fondo a style.css
-   ============================================================ */
-
-/* ---------- Leggibilità: aumento dimensione base ---------- */
-html { font-size: 18px; }
-body { font-size: 1rem; line-height: 1.6; }
-
-/* ---------- HEADER (comune alle pagine interne) ---------- */
-.app-header h1 { font-size: 1.7rem; line-height: 1.25; }
-.app-header .subtitle { font-size: 1.05rem; }
-.app-header .date { font-size: 1rem; }
-.back-link { font-size: 1rem; padding: 6px 0; }
-
-/* ---------- SELEZIONI (struttura / isola / squadra) ---------- */
-.struttura-selector,
-.isola-selector,
-.team-selector {
-  background: var(--card);
-  border: 1px solid #262c38;
-  border-radius: var(--radius);
-  padding: 16px;
-  margin-bottom: 18px;
-}
-.struttura-selector label,
-.isola-selector label,
-.team-selector label {
-  display: block;
-  font-size: 1rem;
-  color: var(--muted);
-  margin-bottom: 8px;
-  font-weight: 600;
-}
-.struttura-selector select,
-.isola-selector select,
-.team-selector select {
-  width: 100%;
-  background: #232936;
-  border: 1px solid #2e3543;
-  border-radius: 10px;
-  padding: 16px;
-  color: var(--text);
-  font-size: 1.05rem;
-  font-family: inherit;
-  -webkit-appearance: none;
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa4b2' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 14px center;
-  background-size: 20px;
-  padding-right: 44px;
-}
-.struttura-selector select:focus,
-.isola-selector select:focus,
-.team-selector select:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
-}
-
-/* ---------- EMPTY STATE ---------- */
-.empty-state {
-  text-align: center;
-  padding: 40px 20px;
-  color: var(--muted);
-  font-size: 1.05rem;
-  line-height: 1.6;
-}
-
-/* ---------- TITOLI PAGINE ---------- */
-.isola-title,
-.struttura-title,
-.team-name {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--accent);
-  margin: 0 0 4px;
-  letter-spacing: 0.3px;
-  line-height: 1.25;
-}
-.isola-sub,
-.struttura-sub,
-.team-sub {
-  font-size: 1rem;
-  color: var(--muted);
-  margin: 0 0 16px;
-}
-
-/* ---------- DESCRIZIONE ISOLA ---------- */
-.isola-description {
-  font-size: 1.05rem;
-  color: var(--text);
-  line-height: 1.6;
-  margin: 0 0 14px;
-  padding: 12px 14px;
-  background: #14532d;
-  border-left: 4px solid var(--accent);
-  border-radius: 10px;
-}
-
-/* ---------- META (struttura, formatori) ---------- */
-.isola-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 18px;
-  padding: 14px;
-  background: var(--card);
-  border: 1px solid #262c38;
-  border-radius: var(--radius);
-}
-.isola-meta-row {
-  display: flex;
-  gap: 10px;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-.isola-meta-label {
-  flex: 0 0 100px;
-  color: var(--muted);
-  font-weight: 600;
-}
-.isola-meta-value {
-  flex: 1;
-  color: var(--text);
-}
-
-/* ---------- FASCE ORARIE (isole) ---------- */
-.fasce-list { list-style: none; margin: 0; padding: 0; }
-.fascia {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 12px 14px;
-  background: var(--card);
-  border: 1px solid #262c38;
-  border-radius: var(--radius);
-  margin-bottom: 10px;
-}
-.fascia-time {
-  flex: 0 0 130px;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--accent);
-  letter-spacing: 0.3px;
-}
-.fascia-squadre {
-  flex: 1;
-  font-size: 1.05rem;
-  color: var(--text);
-  line-height: 1.55;
-}
-.fascia--pausa {
-  background: #2a1f00;
-  border-color: #3d2f00;
-}
-.fascia--pausa .fascia-squadre { color: #ffe9a8; }
-.fascia--pranzo {
-  background: #2e1a00;
-  border-color: #4a2a00;
-}
-.fascia--pranzo .fascia-squadre { color: #ffb86b; }
-.fascia-empty {
-  color: var(--muted);
-  font-style: italic;
-}
-
-/* ---------- STRUTTURE (isola-item) ---------- */
-.sezione-title {
-  font-size: 0.95rem;
-  font-weight: 800;
-  color: var(--muted);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin: 20px 0 10px;
-}
-.sezione-title:first-of-type { margin-top: 0; }
-.isola-item {
-  background: var(--card);
-  border: 1px solid #262c38;
-  border-radius: var(--radius);
-  padding: 14px 16px;
-  margin-bottom: 12px;
-}
-.isola-item--servizio {
-  border-color: #1f6f4a;
-  background: #0f2419;
-}
-.isola-item-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 6px;
-  flex-wrap: wrap;
-}
-.isola-badge {
-  display: inline-block;
-  background: #14532d;
-  border: 1px solid #1f6f4a;
-  color: #b9f6d0;
-  font-size: 0.85rem;
-  font-weight: 800;
-  padding: 4px 10px;
-  border-radius: 8px;
-  letter-spacing: 0.3px;
-}
-.isola-badge--servizio {
-  background: #0b3d2e;
-  border-color: #4ade80;
-  color: #b9f6d0;
-}
-.isola-nome {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text);
-}
-.isola-argomento {
-  font-size: 1rem;
-  color: #b9f6d0;
-  margin-top: 6px;
-  line-height: 1.55;
-}
-.isola-formatori {
-  font-size: 0.95rem;
-  color: var(--muted);
-  margin-top: 6px;
-  line-height: 1.5;
-}
-
-/* ---------- TIMELINE SQUADRE / PROGRAMMA ---------- */
-.timeline { list-style: none; margin: 0; padding: 0; }
-.slot {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 12px 14px;
-  background: var(--card);
-  border: 1px solid #262c38;
-  border-radius: var(--radius);
-  margin-bottom: 10px;
-}
-.slot-time {
-  flex: 0 0 135px;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--accent);
-  letter-spacing: 0.3px;
-}
-.slot-title {
-  flex: 1;
-  font-size: 1.05rem;
-  color: var(--text);
-  line-height: 1.5;
-}
-.slot-sub {
-  font-size: 0.95rem;
-  color: var(--muted);
-  margin-top: 3px;
-}
-.badge-isola {
-  display: inline-block;
-  background: #14532d;
-  border: 1px solid #1f6f4a;
-  color: #b9f6d0;
-  font-size: 0.85rem;
-  font-weight: 700;
-  padding: 3px 9px;
-  border-radius: 6px;
-  margin-right: 8px;
-  vertical-align: middle;
-}
-.slot--pausa {
-  background: #2a1f00;
-  border-color: #3d2f00;
-}
-.slot--pausa .slot-title { color: #ffe9a8; }
-.slot--istituzionale {
-  background: #14283a;
-  border-color: #1f3d55;
-}
-.slot--istituzionale .slot-title { color: #b8dcff; }
-.slot--registrazione {
-  background: #0b3d2e;
-  border-color: #1f6f4a;
-}
-.slot--registrazione .slot-title { color: #b9f6d0; }
-
-/* ---------- BLOCCHI PARALLELI (programma) ---------- */
-.parallel-block {
-  background: var(--card);
-  border: 1px solid #262c38;
-  border-radius: var(--radius);
-  padding: 14px;
-  margin-bottom: 14px;
-}
-.parallel-block .block-time {
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: var(--accent);
-  margin-bottom: 12px;
-  letter-spacing: 0.3px;
-}
-.parallel-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-@media (max-width: 480px) {
-  .parallel-grid { grid-template-columns: 1fr; }
-}
-.mini-slot {
-  padding: 10px 12px;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  line-height: 1.45;
-}
-.mini-slot .mini-title {
-  font-weight: 800;
-  font-size: 1rem;
-  margin-bottom: 4px;
-  display: block;
-}
-.mini-slot .mini-sub { font-size: 0.9rem; opacity: 0.85; }
-.mini-slot--pranzo {
-  background: #2a1f00;
-  border: 1px solid #3d2f00;
-  color: #ffe9a8;
-}
-.mini-slot--formazione {
-  background: #14532d;
-  border: 1px solid #1f6f4a;
-  color: #b9f6d0;
-}
-.info-note {
-  background: #14283a;
-  border-left: 4px solid #4ade80;
-  border-radius: 10px;
-  padding: 12px 14px;
-  font-size: 0.95rem;
-  color: #b8dcff;
-  margin-bottom: 18px;
-  line-height: 1.55;
-}
-
-/* ---------- LOCANDINA (footer index) ---------- */
-.app-footer a {
-  font-size: 1.05rem !important;
-  font-weight: 600;
-  padding: 6px 0;
-  display: inline-block;
+  font-weight: 500;
 }
