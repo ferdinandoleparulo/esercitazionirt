@@ -970,14 +970,14 @@ select {
   border-color: #ef4444;
 }
 
-.diretta-box--imminente {
-  background: linear-gradient(135deg, #78350f, #92400e);
-  border-color: #f59e0b;
+.diretta-box--prossima {
+  background: linear-gradient(135deg, #0b3d2e, #14532d);
+  border-color: #4ade80;
 }
 
 .diretta-box--conclusa {
-  background: linear-gradient(135deg, #0b3d2e, #14532d);
-  border-color: #4ade80;
+  background: linear-gradient(135deg, #1e293b, #334155);
+  border-color: #64748b;
 }
 
 .diretta-badge {
@@ -1016,12 +1016,19 @@ select {
 }
 
 .diretta-countdown {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #fff;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 12px 20px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 14px 22px;
   border-radius: 12px;
   display: inline-block;
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+.diretta-countdown strong {
+  font-size: 1.3rem;
+  display: block;
   margin-top: 4px;
 }
 
@@ -1038,9 +1045,7 @@ select {
   transition: transform 0.1s ease;
 }
 
-.diretta-btn:active {
-  transform: scale(0.97);
-}
+.diretta-btn:active { transform: scale(0.97); }
 
 .diretta-btn--live {
   animation: pulse-btn 2s ease-in-out infinite;
@@ -1051,7 +1056,7 @@ select {
   50%      { box-shadow: 0 0 0 12px rgba(255, 255, 255, 0); }
 }
 
-/* Pulsante in Home */
+/* Pulsante in Home — sempre visibile */
 .diretta-home-btn {
   display: flex;
   align-items: center;
@@ -1059,26 +1064,17 @@ select {
   gap: 12px;
   margin-top: 18px;
   padding: 18px 20px;
-  background: linear-gradient(135deg, #dc2626, #991b1b);
-  border: 1px solid #ef4444;
+  background: linear-gradient(135deg, #0b3d2e, #14532d);
+  border: 1px solid #4ade80;
   border-radius: var(--radius);
   color: #fff;
   text-decoration: none;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 800;
-  animation: pulse-home 2s ease-in-out infinite;
+  transition: transform 0.1s ease;
 }
 
-.diretta-home-btn:active {
-  transform: scale(0.98);
-}
+.diretta-home-btn:active { transform: scale(0.98); }
 
-@keyframes pulse-home {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
-  50%      { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-}
-
-.diretta-home-icon {
-  font-size: 1.3rem;
-  line-height: 1;
-}
+.diretta-home-icon { font-size: 1.3rem; line-height: 1; }
+.diretta-home-text { line-height: 1.2; }
