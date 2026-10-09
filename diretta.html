@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b3d2e">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Diretta – RENAI 2026</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <a href="index.html" class="back-link">← Home</a>
+    <h1>Diretta dall'esercitazione</h1>
+    <p class="subtitle">Trasmissione in tempo reale</p>
+    <p class="date">Parco dei Renai · Signa</p>
+  </header>
+
+  <main class="app-main">
+    <div id="direttaContainer">
+      <div class="empty-state">Caricamento informazioni sulla diretta…</div>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <p>Regione Toscana · Protezione Civile</p>
+    <p class="version">RENAI 2026 · v1.0</p>
+  </footer>
+
+  <script>
+    // ============================================
+    // CONFIGURAZIONE
+    // Sostituisci con l'URL CSV del tuo foglio Google
+    // ============================================
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSufBIn2BxlN69-jNeTcrAqrKO0va_nNYCnOmnu0YjvBgtPgmpH12AlZy3TunkFZjGhu8WXxS5QP_3W/pub?gid=0&single=true&output=tsv";
+
+    const MARGINE_IMMINENTE_MIN = 30; // mostra "in arrivo" fino a 30 min prima
+
+    // ============================================
+    // PARSER CSV (gestisce virgolette e newline)
+    // ============================================
+    function parseCSV(text) {
+      const rows = [];
+      let cur = [];
+      let field = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        const next = text[i + 1];
+
+        if (inQuotes) {
+          if (c === '"' && next === '"') { field += '"'; i++; }
+          else if (c === '"') { inQuotes = false; }
+          else { field += c; }
+        } else {
+          if (c === '"') { inQuotes = true; }
+          else if (c === ',') { cur.push(field); field = ""; }
+          else if (c === '\n') { cur.push(field); rows.push(cur); cur = []; field = ""; }
+          else if (c === '\r') { /* skip */ }
+          else { field += c; }
+        }
+      }
+      if (field.length > 0 || cur.length > 0) { cur.push(field); rows.push(cur); }
+      return rows;
+    }
+
+    // ============================================
+    // CARICA E ANALIZZA
+    // ============================================
+    async function loadDirette() {
+      const res = await fetch(CSV_URL, { cache: "no-store" });
+      const text = await res.text();
+      const rows = parseCSV(text);
+
+      if (rows.length < 2) return [];
+
+      const headers = rows[0].map(h => h.trim().toLowerCase());
+      const idx = {
+        titolo:  headers.indexOf("titolo"),
+        link:    headers.indexOf("link"),
+        inizio:  headers.indexOf("inizio"),
+        fine:    headers.indexOf("fine"),
+        attesa:  headers.indexOf("messaggio_attesa"),
+        concluso: headers.indexOf("messaggio_concluso")
+      };
+
+      return rows.slice(1)
+        .filter(r => r.length > 1 && r[idx.inizio])
+        .map(r => ({
+          titolo:   idx.titolo   >= 0 ? (r[idx.titolo] || "").trim() : "",
+          link:     idx.link     >= 0 ? (r[idx.link] || "").trim() : "",
+          inizio:   new Date((r[idx.inizio] || "").trim()),
+          fine:     new Date((r[idx.fine] || "").trim()),
+          attesa:   idx.attesa   >= 0 ? (r[idx.attesa] || "").trim() : "",
+          concluso: idx.concluso >= 0 ? (r[idx.concluso] || "").trim() : ""
+        }))
+        .filter(d => !isNaN(d.inizio) && !isNaN(d.fine))
+        .sort((a, b) => a.inizio - b.inizio);
+    }
+
+    // ============================================
+    // LOGICA DI SELEZIONE
+    // ============================================
+    function trovaDiretta(dirette) {
+      const now = new Date();
+      const margineMs = MARGINE_IMMINENTE_MIN * 60 * 1000;
+
+      // 1. In corso
+      const inCorso = dirette.find(d => now >= d.inizio && now <= d.fine);
+      if (inCorso) return { stato: "live", data: inCorso };
+
+      // 2. Imminente (entro 30 min dall'inizio)
+      const imminente = dirette.find(d =>
+        now < d.inizio && (d.inizio - now) <= margineMs
+      );
+      if (imminente) return { stato: "imminente", data: imminente };
+
+      // 3. Ultima conclusa
+      const concluse = dirette.filter(d => now > d.fine);
+      if (concluse.length > 0) {
+        const ultima = concluse[concluse.length - 1];
+        return { stato: "conclusa", data: ultima };
+      }
+
+      // 4. Nessuna
+      return { stato: "nessuna", data: null };
+    }
+
+    // ============================================
+    // RENDER
+    // ============================================
+    const container = document.getElementById("direttaContainer");
+
+    function formattaOrario(date) {
+      const h = String(date.getHours()).padStart(2, "0");
+      const m = String(date.getMinutes()).padStart(2, "0");
+      return h + ":" + m;
+    }
+
+    function render(result) {
+      const { stato, data } = result;
+
+      if (stato === "live") {
+        container.innerHTML = `
+          <div class="diretta-box diretta-box--live">
+            <div class="diretta-badge">🔴 IN CORSO</div>
+            <h2 class="diretta-title">${data.titolo || "Diretta dall'esercitazione"}</h2>
+            <p class="diretta-sub">Fino alle ${formattaOrario(data.fine)}</p>
+            <a href="${data.link}" target="_blank" rel="noopener" class="diretta-btn diretta-btn--live">
+              ▶️ GUARDA LA DIRETTA
+            </a>
+          </div>
+        `;
+        return;
+      }
+
+      if (stato === "imminente") {
+        const diffMs = data.inizio - new Date();
+        const min = Math.max(0, Math.round(diffMs / 60000));
+        container.innerHTML = `
+          <div class="diretta-box diretta-box--imminente">
+            <div class="diretta-badge">⏱️ IN ARRIVO</div>
+            <h2 class="diretta-title">${data.titolo || "Diretta dall'esercitazione"}</h2>
+            <p class="diretta-sub">${data.attesa || ("Inizia alle " + formattaOrario(data.inizio))}</p>
+            <div class="diretta-countdown">Tra <strong>${min}</strong> ${min === 1 ? "minuto" : "minuti"}</div>
+          </div>
+        `;
+        // Aggiorna il countdown ogni 30 secondi
+        setTimeout(aggiorna, 30000);
+        return;
+      }
+
+      if (stato === "conclusa") {
+        container.innerHTML = `
+          <div class="diretta-box diretta-box--conclusa">
+            <div class="diretta-badge">✅ CONCLUSA</div>
+            <h2 class="diretta-title">${data.titolo || "Diretta dall'esercitazione"}</h2>
+            <p class="diretta-sub">${data.concluso || "La diretta è terminata"}</p>
+            ${data.link ? `
+              <a href="${data.link}" target="_blank" rel="noopener" class="diretta-btn diretta-btn--conclusa">
+                ▶️ Rivedi la diretta
+              </a>
+            ` : ""}
+          </div>
+        `;
+        return;
+      }
+
+      // stato "nessuna"
+      container.innerHTML = `
+        <div class="empty-state">
+          <p>Nessuna diretta al momento.</p>
+          <p style="margin-top: 8px; font-size: 0.9rem;">Torna il 10 ottobre 2026 per seguire l'esercitazione in tempo reale.</p>
+        </div>
+      `;
+    }
+
+    // ============================================
+    // AGGIORNAMENTO AUTOMATICO
+    // ============================================
+    let diretteCache = [];
+
+    async function aggiorna() {
+      const result = trovaDiretta(diretteCache);
+      render(result);
+    }
+
+    async function init() {
+      try {
+        diretteCache = await loadDirette();
+        aggiorna();
+        // Ricontrolla ogni minuto
+        setInterval(aggiorna, 60000);
+      } catch (err) {
+        console.error(err);
+        container.innerHTML = `<div class="empty-state">Impossibile caricare le informazioni sulla diretta.</div>`;
+      }
+    }
+
+    init();
+  </script>
+
+</body>
+</html>
