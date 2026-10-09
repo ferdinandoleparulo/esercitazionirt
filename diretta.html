@@ -31,25 +31,16 @@
   <script>
     // ============================================
     // CONFIGURAZIONE
-    // Sostituisci con l'URL CSV del tuo foglio Google
     // ============================================
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSufBIn2BxlN69-jNeTcrAqrKO0va_nNYCnOmnu0YjvBgtPgmpH12AlZy3TunkFZjGhu8WXxS5QP_3W/pub?gid=0&single=true&output=csv";
 
-    const MARGINE_IMMINENTE_MIN = 30; // mostra "in arrivo" fino a 30 min prima
-
     // ============================================
-    // PARSER CSV (gestisce virgolette e newline)
+    // PARSER CSV
     // ============================================
     function parseCSV(text) {
-      const rows = [];
-      let cur = [];
-      let field = "";
-      let inQuotes = false;
-
+      const rows = []; let cur = []; let field = ""; let inQuotes = false;
       for (let i = 0; i < text.length; i++) {
-        const c = text[i];
-        const next = text[i + 1];
-
+        const c = text[i], next = text[i + 1];
         if (inQuotes) {
           if (c === '"' && next === '"') { field += '"'; i++; }
           else if (c === '"') { inQuotes = false; }
@@ -73,16 +64,15 @@
       const res = await fetch(CSV_URL, { cache: "no-store" });
       const text = await res.text();
       const rows = parseCSV(text);
-
       if (rows.length < 2) return [];
 
       const headers = rows[0].map(h => h.trim().toLowerCase());
       const idx = {
-        titolo:  headers.indexOf("titolo"),
-        link:    headers.indexOf("link"),
-        inizio:  headers.indexOf("inizio"),
-        fine:    headers.indexOf("fine"),
-        attesa:  headers.indexOf("messaggio_attesa"),
+        titolo:   headers.indexOf("titolo"),
+        link:     headers.indexOf("link"),
+        inizio:   headers.indexOf("inizio"),
+        fine:     headers.indexOf("fine"),
+        attesa:   headers.indexOf("messaggio_attesa"),
         concluso: headers.indexOf("messaggio_concluso")
       };
 
@@ -105,23 +95,21 @@
     // ============================================
     function trovaDiretta(dirette) {
       const now = new Date();
-      const margineMs = MARGINE_IMMINENTE_MIN * 60 * 1000;
 
       // 1. In corso
       const inCorso = dirette.find(d => now >= d.inizio && now <= d.fine);
       if (inCorso) return { stato: "live", data: inCorso };
 
-      // 2. Imminente (entro 30 min dall'inizio)
-      const imminente = dirette.find(d =>
-        now < d.inizio && (d.inizio - now) <= margineMs
-      );
-      if (imminente) return { stato: "imminente", data: imminente };
+      // 2. Prossima futura (anche se mancano giorni)
+      const future = dirette.filter(d => now < d.inizio);
+      if (future.length > 0) {
+        return { stato: "prossima", data: future[0] };
+      }
 
       // 3. Ultima conclusa
       const concluse = dirette.filter(d => now > d.fine);
       if (concluse.length > 0) {
-        const ultima = concluse[concluse.length - 1];
-        return { stato: "conclusa", data: ultima };
+        return { stato: "conclusa", data: concluse[concluse.length - 1] };
       }
 
       // 4. Nessuna
@@ -139,39 +127,67 @@
       return h + ":" + m;
     }
 
+    function formattaData(date) {
+      const giorni = ["domenica","lunedì","martedì","mercoledì","giovedì","venerdì","sabato"];
+      const mesi = ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
+      return giorni[date.getDay()] + " " + date.getDate() + " " + mesi[date.getMonth()];
+    }
+
+    // Countdown "X giorni, Y ore, Z minuti" / "Y ore, Z minuti" / "Z minuti"
+    function formattaCountdown(diffMs) {
+      const totMin = Math.max(0, Math.round(diffMs / 60000));
+      const giorni = Math.floor(totMin / (60 * 24));
+      const ore   = Math.floor((totMin % (60 * 24)) / 60);
+      const min   = totMin % 60;
+
+      const parti = [];
+      if (giorni > 0) parti.push(giorni + (giorni === 1 ? " giorno" : " giorni"));
+      if (ore > 0)    parti.push(ore   + (ore === 1 ? " ora" : " ore"));
+      if (min > 0 || parti.length === 0) parti.push(min + (min === 1 ? " minuto" : " minuti"));
+
+      return parti.join(", ");
+    }
+
     function render(result) {
       const { stato, data } = result;
 
+      // ----- IN CORSO -----
       if (stato === "live") {
         container.innerHTML = `
           <div class="diretta-box diretta-box--live">
             <div class="diretta-badge">🔴 IN CORSO</div>
             <h2 class="diretta-title">${data.titolo || "Diretta dall'esercitazione"}</h2>
             <p class="diretta-sub">Fino alle ${formattaOrario(data.fine)}</p>
-            <a href="${data.link}" target="_blank" rel="noopener" class="diretta-btn diretta-btn--live">
-              ▶️ GUARDA LA DIRETTA
-            </a>
+            ${data.link ? `
+              <a href="${data.link}" target="_blank" rel="noopener" class="diretta-btn diretta-btn--live">
+                ▶️ GUARDA LA DIRETTA
+              </a>
+            ` : ""}
           </div>
         `;
         return;
       }
 
-      if (stato === "imminente") {
+      // ----- PROSSIMA (anche se mancano giorni) -----
+      if (stato === "prossima") {
         const diffMs = data.inizio - new Date();
-        const min = Math.max(0, Math.round(diffMs / 60000));
         container.innerHTML = `
-          <div class="diretta-box diretta-box--imminente">
-            <div class="diretta-badge">⏱️ IN ARRIVO</div>
+          <div class="diretta-box diretta-box--prossima">
+            <div class="diretta-badge">📡 PROSSIMA DIRETTA</div>
             <h2 class="diretta-title">${data.titolo || "Diretta dall'esercitazione"}</h2>
-            <p class="diretta-sub">${data.attesa || ("Inizia alle " + formattaOrario(data.inizio))}</p>
-            <div class="diretta-countdown">Tra <strong>${min}</strong> ${min === 1 ? "minuto" : "minuti"}</div>
+            <p class="diretta-sub">${formattaData(data.inizio)} · ore ${formattaOrario(data.inizio)}</p>
+            <div class="diretta-countdown">
+              Inizia tra<br>
+              <strong>${formattaCountdown(diffMs)}</strong>
+            </div>
           </div>
         `;
-        // Aggiorna il countdown ogni 30 secondi
+        // Aggiorna ogni 30 secondi
         setTimeout(aggiorna, 30000);
         return;
       }
 
+      // ----- CONCLUSA -----
       if (stato === "conclusa") {
         container.innerHTML = `
           <div class="diretta-box diretta-box--conclusa">
@@ -188,10 +204,10 @@
         return;
       }
 
-      // stato "nessuna"
+      // ----- NESSUNA -----
       container.innerHTML = `
         <div class="empty-state">
-          <p>Nessuna diretta al momento.</p>
+          <p>Nessuna diretta in programma.</p>
           <p style="margin-top: 8px; font-size: 0.9rem;">Torna il 10 ottobre 2026 per seguire l'esercitazione in tempo reale.</p>
         </div>
       `;
@@ -211,8 +227,7 @@
       try {
         diretteCache = await loadDirette();
         aggiorna();
-        // Ricontrolla ogni minuto
-        setInterval(aggiorna, 60000);
+        setInterval(aggiorna, 60000); // ricontrolla ogni minuto
       } catch (err) {
         console.error(err);
         container.innerHTML = `<div class="empty-state">Impossibile caricare le informazioni sulla diretta.</div>`;
