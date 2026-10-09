@@ -13,7 +13,7 @@
   <header class="app-header">
     <a href="index.html" class="back-link">← Home</a>
     <h1>Diretta dall'esercitazione</h1>
-    <p class="subtitle">Trasmissione in tempo reale</p>
+    <p class="subtitle">Trasmissione in tempo reale · Archivio</p>
     <p class="date">Parco dei Renai · Signa</p>
   </header>
 
@@ -25,7 +25,7 @@
 
   <footer class="app-footer">
     <p>Regione Toscana · Protezione Civile</p>
-    <p class="version">RENAI 2026 · v1.0</p>
+    <p class="version">RENAI 2026 · v2.0</p>
   </footer>
 
   <script>
@@ -33,6 +33,7 @@
     // CONFIGURAZIONE
     // ============================================
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSufBIn2BxlN69-jNeTcrAqrKO0va_nNYCnOmnu0YjvBgtPgmpH12AlZy3TunkFZjGhu8WXxS5QP_3W/pub?gid=0&single=true&output=csv";
+    const MARGINE_IMMINENTE_MIN = 30; // minuti prima dell'inizio
 
     // ============================================
     // PARSER CSV
@@ -55,6 +56,17 @@
       }
       if (field.length > 0 || cur.length > 0) { cur.push(field); rows.push(cur); }
       return rows;
+    }
+
+    // ============================================
+    // ESTRAZIONE VIDEO ID DA URL YOUTUBE
+    // Supporta: youtube.com/live/ID, youtube.com/watch?v=ID,
+    //           youtu.be/ID, youtube.com/embed/ID
+    // ============================================
+    function estraiVideoId(url) {
+      if (!url) return null;
+      const m = url.match(/(?:youtube\.com\/(?:live|watch\?v=|embed)\/|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+      return m ? m[1] : null;
     }
 
     // ============================================
@@ -93,34 +105,32 @@
     // ============================================
     // LOGICA DI SELEZIONE
     // ============================================
-    function trovaDiretta(dirette) {
+    function classifica(dirette) {
       const now = new Date();
+      const margineMs = MARGINE_IMMINENTE_MIN * 60 * 1000;
 
-      // 1. In corso
-      const inCorso = dirette.find(d => now >= d.inizio && now <= d.fine);
-      if (inCorso) return { stato: "live", data: inCorso };
+      const inCorso = dirette.find(d => now >= d.inizio && now <= d.fine) || null;
 
-      // 2. Prossima futura (anche se mancano giorni)
-      const future = dirette.filter(d => now < d.inizio);
-      if (future.length > 0) {
-        return { stato: "prossima", data: future[0] };
-      }
+      const imminenti = dirette
+        .filter(d => now < d.inizio && (d.inizio - now) <= margineMs)
+        .sort((a, b) => a.inizio - b.inizio);
+      const imminente = imminenti[0] || null;
 
-      // 3. Ultima conclusa
-      const concluse = dirette.filter(d => now > d.fine);
-      if (concluse.length > 0) {
-        return { stato: "conclusa", data: concluse[concluse.length - 1] };
-      }
+      const prossime = dirette
+        .filter(d => now < d.inizio && (d.inizio - now) > margineMs)
+        .sort((a, b) => a.inizio - b.inizio);
+      const prossima = prossime[0] || null;
 
-      // 4. Nessuna
-      return { stato: "nessuna", data: null };
+      const archivio = dirette
+        .filter(d => now > d.fine)
+        .sort((a, b) => b.fine - a.fine); // più recenti prima
+
+      return { inCorso, imminente, prossima, archivio };
     }
 
     // ============================================
-    // RENDER
+    // UTILITY DI FORMATTAZIONE
     // ============================================
-    const container = document.getElementById("direttaContainer");
-
     function formattaOrario(date) {
       const h = String(date.getHours()).padStart(2, "0");
       const m = String(date.getMinutes()).padStart(2, "0");
@@ -130,108 +140,183 @@
     function formattaData(date) {
       const giorni = ["domenica","lunedì","martedì","mercoledì","giovedì","venerdì","sabato"];
       const mesi = ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
-      return giorni[date.getDay()] + " " + date.getDate() + " " + mesi[date.getMonth()];
+      return giorni[date.getDay()] + " " + date.getDate() + " " + mesi[date.getMonth()] + " " + date.getFullYear();
     }
 
-    // Countdown "X giorni, Y ore, Z minuti" / "Y ore, Z minuti" / "Z minuti"
     function formattaCountdown(diffMs) {
       const totMin = Math.max(0, Math.round(diffMs / 60000));
-      const giorni = Math.floor(totMin / (60 * 24));
-      const ore   = Math.floor((totMin % (60 * 24)) / 60);
-      const min   = totMin % 60;
-
+      const g = Math.floor(totMin / (60 * 24));
+      const h = Math.floor((totMin % (60 * 24)) / 60);
+      const m = totMin % 60;
       const parti = [];
-      if (giorni > 0) parti.push(giorni + (giorni === 1 ? " giorno" : " giorni"));
-      if (ore > 0)    parti.push(ore   + (ore === 1 ? " ora" : " ore"));
-      if (min > 0 || parti.length === 0) parti.push(min + (min === 1 ? " minuto" : " minuti"));
-
+      if (g > 0) parti.push(g + (g === 1 ? " giorno" : " giorni"));
+      if (h > 0) parti.push(h + (h === 1 ? " ora" : " ore"));
+      if (m > 0 || parti.length === 0) parti.push(m + (m === 1 ? " minuto" : " minuti"));
       return parti.join(", ");
     }
 
-    function render(result) {
-      const { stato, data } = result;
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[c]));
+    }
 
-      // ----- IN CORSO -----
-     if (stato === "live") {
-  // Estrae l'ID del video YouTube dall'URL, se possibile
-  let videoId = null;
-  const m = (data.link || "").match(/(?:youtube\.com\/(?:live|watch\?v=|embed)\/|youtu\.be\/)([A-Za-z0-9_-]{11})/);
-  if (m) videoId = m[1];
+    // ============================================
+    // RENDER
+    // ============================================
+    const container = document.getElementById("direttaContainer");
 
-  container.innerHTML = `
-    <div class="diretta-box diretta-box--live">
-      <div class="diretta-badge">🔴 IN CORSO</div>
-      <h2 class="diretta-title">${data.titolo || "Diretta dall'esercitazione"}</h2>
-      <p class="diretta-sub">Fino alle ${formattaOrario(data.fine)}</p>
+    function renderBloccoLive(data) {
+      const videoId = estraiVideoId(data.link);
+      let playerHtml = "";
+      let linkHtml = "";
 
-      ${videoId ? `
-        <div class="diretta-player">
-          <iframe
-            src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0"
-            title="${data.titolo || 'Diretta'}"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-            loading="lazy">
-          </iframe>
-        </div>
-        <a href="${data.link}" target="_blank" rel="noopener" class="diretta-btn diretta-btn--live" style="margin-top: 16px;">
-          ▶️ Apri su YouTube
-        </a>
-      ` : data.link ? `
-        <a href="${data.link}" target="_blank" rel="noopener" class="diretta-btn diretta-btn--live">
-          ▶️ GUARDA LA DIRETTA
-        </a>
-      ` : ""}
-    </div>
-  `;
-  return;
-}
-      }
-
-      // ----- PROSSIMA (anche se mancano giorni) -----
-      if (stato === "prossima") {
-        const diffMs = data.inizio - new Date();
-        container.innerHTML = `
-          <div class="diretta-box diretta-box--prossima">
-            <div class="diretta-badge">📡 PROSSIMA DIRETTA</div>
-            <h2 class="diretta-title">${data.titolo || "Diretta dall'esercitazione"}</h2>
-            <p class="diretta-sub">${formattaData(data.inizio)} · ore ${formattaOrario(data.inizio)}</p>
-            <div class="diretta-countdown">
-              Inizia tra<br>
-              <strong>${formattaCountdown(diffMs)}</strong>
-            </div>
+      if (videoId) {
+        playerHtml = `
+          <div class="diretta-player">
+            <iframe
+              src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0"
+              title="${escapeHtml(data.titolo || "Diretta")}"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              referrerpolicy="strict-origin-when-cross-origin">
+            </iframe>
           </div>
         `;
-        // Aggiorna ogni 30 secondi
-        setTimeout(aggiorna, 30000);
-        return;
       }
 
-      // ----- CONCLUSA -----
-      if (stato === "conclusa") {
-        container.innerHTML = `
-          <div class="diretta-box diretta-box--conclusa">
-            <div class="diretta-badge">✅ CONCLUSA</div>
-            <h2 class="diretta-title">${data.titolo || "Diretta dall'esercitazione"}</h2>
-            <p class="diretta-sub">${data.concluso || "La diretta è terminata"}</p>
-            ${data.link ? `
-              <a href="${data.link}" target="_blank" rel="noopener" class="diretta-btn diretta-btn--conclusa">
-                ▶️ Rivedi la diretta
-              </a>
-            ` : ""}
-          </div>
+      if (data.link) {
+        linkHtml = `
+          <a href="${escapeHtml(data.link)}" target="_blank" rel="noopener" class="diretta-btn diretta-btn--live" style="margin-top: 16px;">
+            ▶️ Apri su YouTube
+          </a>
         `;
-        return;
       }
 
-      // ----- NESSUNA -----
-      container.innerHTML = `
-        <div class="empty-state">
-          <p>Nessuna diretta in programma.</p>
-          <p style="margin-top: 8px; font-size: 0.9rem;">Torna il 10 ottobre 2026 per seguire l'esercitazione in tempo reale.</p>
+      return `
+        <div class="diretta-box diretta-box--live">
+          <div class="diretta-badge">🔴 IN CORSO</div>
+          <h2 class="diretta-title">${escapeHtml(data.titolo || "Diretta dall'esercitazione")}</h2>
+          <p class="diretta-sub">Fino alle ${formattaOrario(data.fine)}</p>
+          ${playerHtml}
+          ${!videoId && data.link ? `
+            <a href="${escapeHtml(data.link)}" target="_blank" rel="noopener" class="diretta-btn diretta-btn--live">
+              ▶️ GUARDA LA DIRETTA
+            </a>
+          ` : ""}
+          ${linkHtml}
         </div>
       `;
+    }
+
+    function renderBloccoImminente(data) {
+      const diffMs = data.inizio - new Date();
+      const videoId = estraiVideoId(data.link);
+      let playerHtml = "";
+
+      if (videoId) {
+        playerHtml = `
+          <div class="diretta-player" style="margin-top: 16px;">
+            <iframe
+              src="https://www.youtube.com/embed/${videoId}?rel=0"
+              title="${escapeHtml(data.titolo || "Diretta")}"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              referrerpolicy="strict-origin-when-cross-origin">
+            </iframe>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="diretta-box diretta-box--imminente">
+          <div class="diretta-badge">⏱️ IN ARRIVO</div>
+          <h2 class="diretta-title">${escapeHtml(data.titolo || "Diretta dall'esercitazione")}</h2>
+          <p class="diretta-sub">${escapeHtml(data.attesa || ("Inizia alle " + formattaOrario(data.inizio)))}</p>
+          <div class="diretta-countdown">
+            Inizia tra<br>
+            <strong>${formattaCountdown(diffMs)}</strong>
+          </div>
+          ${playerHtml}
+        </div>
+      `;
+    }
+
+    function renderBloccoProssima(data) {
+      const diffMs = data.inizio - new Date();
+      return `
+        <div class="diretta-box diretta-box--prossima">
+          <div class="diretta-badge">📡 PROSSIMA DIRETTA</div>
+          <h2 class="diretta-title">${escapeHtml(data.titolo || "Diretta dall'esercitazione")}</h2>
+          <p class="diretta-sub">${formattaData(data.inizio)} · ore ${formattaOrario(data.inizio)}</p>
+          <div class="diretta-countdown">
+            Inizia tra<br>
+            <strong>${formattaCountdown(diffMs)}</strong>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderArchivio(archivio) {
+      if (!archivio || archivio.length === 0) return "";
+
+      const items = archivio.map(d => {
+        const videoId = estraiVideoId(d.link);
+        const thumb = videoId
+          ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
+          : "";
+        return `
+          <a href="${escapeHtml(d.link || "#")}" target="_blank" rel="noopener" class="diretta-archivio-item">
+            <div class="diretta-archivio-thumb" style="${thumb ? `background-image: url('${thumb}');` : ""}">
+              ${!thumb ? '<span class="diretta-archivio-thumb-fallback">📺</span>' : ""}
+              <span class="diretta-archivio-play">▶️</span>
+            </div>
+            <div class="diretta-archivio-body">
+              <div class="diretta-archivio-title">${escapeHtml(d.titolo || "Diretta")}</div>
+              <div class="diretta-archivio-date">${formattaData(d.inizio)}</div>
+              <div class="diretta-archivio-label">▶️ Rivedi la registrazione</div>
+            </div>
+          </a>
+        `;
+      }).join("");
+
+      return `
+        <section class="diretta-archivio">
+          <h3 class="diretta-archivio-heading">📼 Dirette passate</h3>
+          <div class="diretta-archivio-list">
+            ${items}
+          </div>
+        </section>
+      `;
+    }
+
+    function render(classi) {
+      const { inCorso, imminente, prossima, archivio } = classi;
+
+      let html = "";
+
+      // Blocco principale
+      if (inCorso) {
+        html += renderBloccoLive(inCorso);
+      } else if (imminente) {
+        html += renderBloccoImminente(imminente);
+      } else if (prossima) {
+        html += renderBloccoProssima(prossima);
+      } else if (archivio.length === 0) {
+        html += `
+          <div class="empty-state">
+            <p>Nessuna diretta in programma.</p>
+            <p style="margin-top: 8px; font-size: 0.9rem;">Torna il 10 ottobre 2026 per seguire l'esercitazione in tempo reale.</p>
+          </div>
+        `;
+      }
+
+      // Archivio (sempre in fondo, se c'è)
+      html += renderArchivio(archivio);
+
+      container.innerHTML = html;
     }
 
     // ============================================
@@ -239,16 +324,17 @@
     // ============================================
     let diretteCache = [];
 
-    async function aggiorna() {
-      const result = trovaDiretta(diretteCache);
-      render(result);
+    function aggiorna() {
+      const classi = classifica(diretteCache);
+      render(classi);
     }
 
     async function init() {
       try {
         diretteCache = await loadDirette();
         aggiorna();
-        setInterval(aggiorna, 60000); // ricontrolla ogni minuto
+        // Ricontrolla ogni minuto
+        setInterval(aggiorna, 60000);
       } catch (err) {
         console.error(err);
         container.innerHTML = `<div class="empty-state">Impossibile caricare le informazioni sulla diretta.</div>`;
