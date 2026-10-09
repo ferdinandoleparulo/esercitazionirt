@@ -50,6 +50,15 @@
 
     </div>
 
+    <!-- AVVISO DIRETTA (dinamico: verde quando live) -->
+    <div id="direttaHomeBtn" class="diretta-home-alert diretta-home-alert--off">
+      <span class="diretta-home-alert__icon" id="direttaHomeIcon">📡</span>
+      <span class="diretta-home-alert__body">
+        <span class="diretta-home-alert__title" id="direttaHomeTitle">Diretta dall'esercitazione</span>
+        <span class="diretta-home-alert__sub" id="direttaHomeSub">Nessuna diretta in corso</span>
+      </span>
+    </div>
+
     <!-- GRIGLIA SEZIONI -->
     <section class="grid">
 
@@ -104,12 +113,6 @@
       </a>
 
     </section>
-
-    <!-- Pulsante Diretta (sempre visibile) -->
-    <a href="diretta.html" class="diretta-home-btn">
-      <span class="diretta-home-icon">📡</span>
-      <span class="diretta-home-text">Diretta dall'esercitazione</span>
-    </a>
 
     <!-- PARTECIPANTI ALL'ESERCITAZIONE -->
     <section class="partecipanti">
@@ -180,6 +183,177 @@
 
       controllaCutoff();
       setInterval(controllaCutoff, 15000);
+    })();
+  </script>
+
+  <!-- ============================================
+       AVVISO DIRETTA (verde + cliccabile quando live)
+       ============================================ -->
+  <script>
+    (function () {
+      const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSufBIn2BxlN69-jNeTcrAqrKO0va_nNYCnOmnu0YjvBgtPgmpH12AlZy3TunkFZjGhu8WXxS5QP_3W/pub?gid=0&single=true&output=csv";
+
+      const MARGINE_IMMINENTE_MIN = 30;
+
+      function parseCSV(text) {
+        const rows = []; let cur = []; let field = ""; let inQuotes = false;
+        for (let i = 0; i < text.length; i++) {
+          const c = text[i], next = text[i + 1];
+          if (inQuotes) {
+            if (c === '"' && next === '"') { field += '"'; i++; }
+            else if (c === '"') { inQuotes = false; }
+            else { field += c; }
+          } else {
+            if (c === '"') { inQuotes = true; }
+            else if (c === ',') { cur.push(field); field = ""; }
+            else if (c === '\n') { cur.push(field); rows.push(cur); cur = []; field = ""; }
+            else if (c === '\r') { /* skip */ }
+            else { field += c; }
+          }
+        }
+        if (field.length > 0 || cur.length > 0) { cur.push(field); rows.push(cur); }
+        return rows;
+      }
+
+      function formattaCountdown(diffMs) {
+        const totMin = Math.max(0, Math.round(diffMs / 60000));
+        const g = Math.floor(totMin / (60 * 24));
+        const h = Math.floor((totMin % (60 * 24)) / 60);
+        const m = totMin % 60;
+        const parti = [];
+        if (g > 0) parti.push(g + (g === 1 ? " giorno" : " giorni"));
+        if (h > 0) parti.push(h + (h === 1 ? " ora" : " ore"));
+        if (m > 0 || parti.length === 0) parti.push(m + (m === 1 ? " minuto" : " minuti"));
+        return parti.join(", ");
+      }
+
+      const btn   = document.getElementById("direttaHomeBtn");
+      const icon  = document.getElementById("direttaHomeIcon");
+      const title = document.getElementById("direttaHomeTitle");
+      const sub   = document.getElementById("direttaHomeSub");
+
+      function setStato(stato, data) {
+        // Reset classi
+        btn.classList.remove(
+          "diretta-home-alert--off",
+          "diretta-home-alert--live",
+          "diretta-home-alert--prossima",
+          "diretta-home-alert--conclusa"
+        );
+
+        if (stato === "live") {
+          btn.classList.add("diretta-home-alert--live");
+          icon.textContent  = "🔴";
+          title.textContent = "Diretta in corso";
+          sub.textContent   = "Tocca per guardare ora";
+          btn.setAttribute("role", "link");
+          btn.setAttribute("tabindex", "0");
+          btn.style.cursor = "pointer";
+          btn.dataset.link = data.link || "";
+        } else if (stato === "imminente") {
+          btn.classList.add("diretta-home-alert--prossima");
+          icon.textContent  = "⏱️";
+          title.textContent = "Diretta in arrivo";
+          sub.textContent   = "Inizia tra " + formattaCountdown(data.inizio - new Date());
+          btn.removeAttribute("role");
+          btn.removeAttribute("tabindex");
+          btn.style.cursor = "default";
+          btn.dataset.link = "";
+        } else if (stato === "prossima") {
+          btn.classList.add("diretta-home-alert--off");
+          icon.textContent  = "📡";
+          title.textContent = "Diretta dall'esercitazione";
+          sub.textContent   = "Inizia " + data.inizio.toLocaleDateString("it-IT", { day: "numeric", month: "long" }) + " alle " + String(data.inizio.getHours()).padStart(2,"0") + ":" + String(data.inizio.getMinutes()).padStart(2,"0");
+          btn.removeAttribute("role");
+          btn.removeAttribute("tabindex");
+          btn.style.cursor = "default";
+          btn.dataset.link = "";
+        } else if (stato === "conclusa") {
+          btn.classList.add("diretta-home-alert--conclusa");
+          icon.textContent  = "✅";
+          title.textContent = "Diretta conclusa";
+          sub.textContent   = data.concluso || "Rivedi la registrazione";
+          btn.setAttribute("role", "link");
+          btn.setAttribute("tabindex", "0");
+          btn.style.cursor = "pointer";
+          btn.dataset.link = data.link || "";
+        } else {
+          btn.classList.add("diretta-home-alert--off");
+          icon.textContent  = "📡";
+          title.textContent = "Diretta dall'esercitazione";
+          sub.textContent   = "Nessuna diretta in programma";
+          btn.removeAttribute("role");
+          btn.removeAttribute("tabindex");
+          btn.style.cursor = "default";
+          btn.dataset.link = "";
+        }
+      }
+
+      async function checkDiretta() {
+        if (!btn) return;
+        try {
+          const res = await fetch(CSV_URL, { cache: "no-store" });
+          const text = await res.text();
+          const rows = parseCSV(text);
+
+          if (rows.length < 2) { setStato("nessuna"); return; }
+
+          const headers = rows[0].map(h => h.trim().toLowerCase());
+          const iLink   = headers.indexOf("link");
+          const iInizio = headers.indexOf("inizio");
+          const iFine   = headers.indexOf("fine");
+          const iConcl  = headers.indexOf("messaggio_concluso");
+          if (iInizio < 0 || iFine < 0) { setStato("nessuna"); return; }
+
+          const now = new Date();
+          const margineMs = MARGINE_IMMINENTE_MIN * 60 * 1000;
+
+          let live = null, imminente = null, prossima = null, conclusa = null;
+
+          rows.slice(1).forEach(r => {
+            const link   = iLink   >= 0 ? (r[iLink]   || "").trim() : "";
+            const inizio = new Date((r[iInizio] || "").trim());
+            const fine   = new Date((r[iFine]   || "").trim());
+            const concl  = iConcl  >= 0 ? (r[iConcl]  || "").trim() : "";
+            if (isNaN(inizio) || isNaN(fine)) return;
+
+            if (now >= inizio && now <= fine) {
+              live = { link, inizio, fine };
+            } else if (now < inizio && (inizio - now) <= margineMs) {
+              if (!imminente || inizio < imminente.inizio) imminente = { link, inizio, fine };
+            } else if (now < inizio) {
+              if (!prossima || inizio < prossima.inizio) prossima = { link, inizio, fine };
+            } else {
+              if (!conclusa || fine > conclusa.fine) conclusa = { link, inizio, fine, concluso: concl };
+            }
+          });
+
+          if (live)            setStato("live", live);
+          else if (imminente)  setStato("imminente", imminente);
+          else if (prossima)   setStato("prossima", prossima);
+          else if (conclusa)   setStato("conclusa", conclusa);
+          else                 setStato("nessuna");
+
+        } catch (err) {
+          console.error("Errore caricamento diretta:", err);
+          setStato("nessuna");
+        }
+      }
+
+      // Click / tap → apre YouTube se lo stato è live o conclusa
+      btn.addEventListener("click", function () {
+        const link = btn.dataset.link;
+        if (link) window.open(link, "_blank", "noopener");
+      });
+      btn.addEventListener("keydown", function (e) {
+        if ((e.key === "Enter" || e.key === " ") && btn.dataset.link) {
+          e.preventDefault();
+          window.open(btn.dataset.link, "_blank", "noopener");
+        }
+      });
+
+      checkDiretta();
+      setInterval(checkDiretta, 60000); // ogni minuto
     })();
   </script>
 
