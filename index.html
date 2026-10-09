@@ -342,17 +342,16 @@
         }
       }
 
-      // Click / tap → apre YouTube se lo stato è live o conclusa
-      btn.addEventListener("click", function () {
-        const link = btn.dataset.link;
-        if (link) window.open(link, "_blank", "noopener");
-      });
-      btn.addEventListener("keydown", function (e) {
-        if ((e.key === "Enter" || e.key === " ") && btn.dataset.link) {
+      // Click / tap → apre la pagina diretta.html
+          btn.addEventListener("click", function () {
+          window.location.href = "diretta.html";
+          });
+        btn.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          window.open(btn.dataset.link, "_blank", "noopener");
-        }
-      });
+          window.location.href = "diretta.html";
+          }
+});
 
       checkDiretta();
       setInterval(checkDiretta, 60000); // ogni minuto
