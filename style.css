@@ -1096,3 +1096,201 @@ select {
   background: rgba(255, 255, 255, 0.06);
 }
 .diretta-home-alert--off .diretta-home-alert__arrow { display: none; }
+/* ============================================================
+   23. DIRETTA (diretta.html)
+   ============================================================ */
+
+/* --- Container generico --- */
+.diretta-box {
+  background: var(--card);
+  border: 1px solid #262c38;
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+/* --- Varianti colore --- */
+.diretta-box--live {
+  background: linear-gradient(135deg, #7f1d1d, #991b1b);
+  border-color: #ef4444;
+}
+.diretta-box--imminente {
+  background: linear-gradient(135deg, #78350f, #92400e);
+  border-color: #f59e0b;
+}
+.diretta-box--prossima {
+  background: linear-gradient(135deg, #0b3d2e, #14532d);
+  border-color: #4ade80;
+}
+
+/* --- Badge in alto --- */
+.diretta-badge {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  margin-bottom: 14px;
+}
+.diretta-box--live .diretta-badge {
+  animation: pulse-badge 1.5s ease-in-out infinite;
+}
+@keyframes pulse-badge {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.55; }
+}
+
+/* --- Titolo e sottotitolo --- */
+.diretta-title {
+  font-size: clamp(1.3rem, 1rem + 1.5vw, 1.8rem);
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 8px;
+  line-height: 1.25;
+}
+.diretta-sub {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.88);
+  margin: 0 0 18px;
+}
+
+/* --- Countdown --- */
+.diretta-countdown {
+  font-size: 1rem;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 14px 22px;
+  border-radius: 12px;
+  display: inline-block;
+  margin-top: 4px;
+  line-height: 1.5;
+}
+.diretta-countdown strong {
+  font-size: 1.35rem;
+  display: block;
+  margin-top: 4px;
+}
+
+/* --- Player YouTube incorporato --- */
+.diretta-player {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin-top: 18px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+}
+.diretta-player iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* --- Pulsanti --- */
+.diretta-btn {
+  display: inline-block;
+  padding: 16px 26px;
+  border-radius: var(--radius);
+  font-size: 1.05rem;
+  font-weight: 800;
+  text-decoration: none;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.35);
+  border: 2px solid #fff;
+  transition: transform 0.1s ease;
+}
+.diretta-btn:active { transform: scale(0.97); }
+.diretta-btn--live {
+  animation: pulse-btn 2s ease-in-out infinite;
+}
+@keyframes pulse-btn {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+  50%      { box-shadow: 0 0 0 12px rgba(255, 255, 255, 0); }
+}
+
+/* --- Archivio dirette passate --- */
+.diretta-archivio {
+  margin-top: 30px;
+}
+.diretta-archivio-heading {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 14px;
+  letter-spacing: 0.3px;
+}
+.diretta-archivio-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.diretta-archivio-item {
+  display: flex;
+  align-items: stretch;
+  gap: 14px;
+  background: var(--card);
+  border: 1px solid #262c38;
+  border-radius: var(--radius);
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--text);
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+.diretta-archivio-item:active {
+  background: var(--card-hi);
+  transform: scale(0.99);
+}
+.diretta-archivio-thumb {
+  flex: 0 0 130px;
+  min-height: 82px;
+  background-color: #000;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.diretta-archivio-thumb-fallback {
+  font-size: 2rem;
+  opacity: 0.5;
+}
+.diretta-archivio-play {
+  position: absolute;
+  font-size: 1.6rem;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+}
+.diretta-archivio-body {
+  flex: 1;
+  padding: 12px 14px 12px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+}
+.diretta-archivio-title {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.diretta-archivio-date {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.diretta-archivio-label {
+  font-size: 0.82rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin-top: 3px;
+}
+
+/* Mobile molto stretto: thumbnail ridotta */
+@media (max-width: 380px) {
+  .diretta-archivio-thumb { flex: 0 0 100px; min-height: 70px; }
+}
