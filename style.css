@@ -954,142 +954,91 @@ select {
   font-weight: 500;
 }
 /* ============================================================
-   23. DIRETTA (diretta.html + pulsante in Home)
+   23. AVVISO DIRETTA in Home (dinamico)
    ============================================================ */
-.diretta-box {
-  background: var(--card);
-  border: 1px solid #262c38;
+.diretta-home-alert {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
   border-radius: var(--radius);
-  padding: 28px 22px;
-  text-align: center;
-  margin-top: 20px;
+  border: 1px solid #262c38;
+  background: var(--card);
+  margin-bottom: 18px;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  color: var(--text);
+  user-select: none;
 }
 
-.diretta-box--live {
-  background: linear-gradient(135deg, #7f1d1d, #991b1b);
-  border-color: #ef4444;
+.diretta-home-alert__icon {
+  font-size: 1.6rem;
+  line-height: 1;
+  flex: 0 0 auto;
 }
 
-.diretta-box--prossima {
-  background: linear-gradient(135deg, #0b3d2e, #14532d);
-  border-color: #4ade80;
+.diretta-home-alert__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
 }
 
-.diretta-box--conclusa {
-  background: linear-gradient(135deg, #1e293b, #334155);
-  border-color: #64748b;
-}
-
-.diretta-badge {
-  display: inline-block;
-  font-size: 0.85rem;
+.diretta-home-alert__title {
+  font-size: 1.05rem;
   font-weight: 800;
-  letter-spacing: 1px;
-  padding: 6px 14px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-  margin-bottom: 14px;
-}
-
-.diretta-box--live .diretta-badge {
-  animation: pulse-badge 1.5s ease-in-out infinite;
-}
-
-@keyframes pulse-badge {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0.55; }
-}
-
-.diretta-title {
-  font-size: clamp(1.3rem, 1rem + 1.5vw, 1.8rem);
-  font-weight: 800;
-  color: #fff;
-  margin: 0 0 8px;
   line-height: 1.25;
 }
 
-.diretta-sub {
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.85);
-  margin: 0 0 20px;
+.diretta-home-alert__sub {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.3;
 }
 
-.diretta-countdown {
-  font-size: 1rem;
+/* --- LIVE: verde acceso, animato, cliccabile --- */
+.diretta-home-alert--live {
+  background: linear-gradient(135deg, #15803d, #166534);
+  border-color: #22c55e;
   color: #fff;
-  background: rgba(0, 0, 0, 0.25);
-  padding: 14px 22px;
-  border-radius: 12px;
-  display: inline-block;
-  margin-top: 4px;
-  line-height: 1.5;
+  cursor: pointer;
+  animation: pulse-diretta 2s ease-in-out infinite;
+}
+.diretta-home-alert--live .diretta-home-alert__title { color: #fff; }
+.diretta-home-alert--live .diretta-home-alert__sub   { color: rgba(255,255,255,0.85); }
+.diretta-home-alert--live:active { transform: scale(0.98); }
+
+@keyframes pulse-diretta {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5); }
+  50%      { box-shadow: 0 0 0 12px rgba(34, 197, 94, 0); }
 }
 
-.diretta-countdown strong {
-  font-size: 1.3rem;
-  display: block;
-  margin-top: 4px;
-}
-
-.diretta-btn {
-  display: inline-block;
-  padding: 18px 28px;
-  border-radius: var(--radius);
-  font-size: 1.1rem;
-  font-weight: 800;
-  text-decoration: none;
+/* --- PROSSIMA (imminente): giallo/ambra, non cliccabile --- */
+.diretta-home-alert--prossima {
+  background: linear-gradient(135deg, #78350f, #92400e);
+  border-color: #f59e0b;
   color: #fff;
-  background: rgba(0, 0, 0, 0.35);
-  border: 2px solid #fff;
-  transition: transform 0.1s ease;
 }
+.diretta-home-alert--prossima .diretta-home-alert__title { color: #fff; }
+.diretta-home-alert--prossima .diretta-home-alert__sub   { color: rgba(255,255,255,0.85); }
 
-.diretta-btn:active { transform: scale(0.97); }
-
-.diretta-btn--live {
-  animation: pulse-btn 2s ease-in-out infinite;
-}
-
-@keyframes pulse-btn {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
-  50%      { box-shadow: 0 0 0 12px rgba(255, 255, 255, 0); }
-}
-
-/* Pulsante in Home — sempre visibile */
-.diretta-home-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 18px;
-  padding: 18px 20px;
-  background: linear-gradient(135deg, #0b3d2e, #14532d);
-  border: 1px solid #4ade80;
-  border-radius: var(--radius);
+/* --- CONCLUSA: grigio scuro, cliccabile per rivedere --- */
+.diretta-home-alert--conclusa {
+  background: linear-gradient(135deg, #1e293b, #334155);
+  border-color: #64748b;
   color: #fff;
-  text-decoration: none;
-  font-size: 1.05rem;
-  font-weight: 800;
-  transition: transform 0.1s ease;
+  cursor: pointer;
 }
+.diretta-home-alert--conclusa .diretta-home-alert__title { color: #fff; }
+.diretta-home-alert--conclusa .diretta-home-alert__sub   { color: rgba(255,255,255,0.75); }
+.diretta-home-alert--conclusa:active { transform: scale(0.98); }
 
-.diretta-home-btn:active { transform: scale(0.98); }
-
-.diretta-home-icon { font-size: 1.3rem; line-height: 1; }
-.diretta-home-text { line-height: 1.2; }
-.diretta-player {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  margin-top: 16px;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #000;
+/* --- OFF: neutro, non cliccabile --- */
+.diretta-home-alert--off {
+  background: var(--card);
+  border-color: #262c38;
+  color: var(--text);
 }
-
-.diretta-player iframe {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
+.diretta-home-alert--off .diretta-home-alert__title { color: var(--text); }
+.diretta-home-alert--off .diretta-home-alert__sub   { color: var(--muted); }
