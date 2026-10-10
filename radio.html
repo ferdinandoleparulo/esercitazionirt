@@ -63,8 +63,9 @@
 
         <!-- Campo squadra (visibile solo se "squadra" selezionato) -->
         <div id="campoSquadra" style="display:none;">
-          <p class="form-question">Numero squadra (001 – 100) <span class="required">*</span></p>
-          <input type="number" name="squadra" id="inputSquadra" min="1" max="100" inputmode="numeric" placeholder="Es. 12">
+          <p class="form-question">Numero o lettera della squadra <span class="required">*</span></p>
+          <input type="text" name="squadra" id="inputSquadra" maxlength="5" placeholder="Es. 12 oppure C" autocomplete="off">
+          <p class="form-hint">Squadre numeriche: 1 – 80. Squadre istituzionali: lettere A – T.</p>
         </div>
 
         <!-- Campo ruolo (visibile solo se "individuale" selezionato) -->
@@ -175,7 +176,8 @@
       // Prepara il valore da mettere nella colonna "Squadra" del foglio
       let squadra = "";
       if (tipo === "squadra") {
-        squadra = formData.get("squadra");
+        // Normalizza: maiuscolo per le lettere, così "c" diventa "C"
+        squadra = (formData.get("squadra") || "").trim().toUpperCase();
       } else {
         const ruolo = formData.get("ruolo");
         if (ruolo === "Altro") {
